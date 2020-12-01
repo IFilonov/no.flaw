@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from '../noflaw/components/staff/staff.vue'
+import '../noflaw/quasar'
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

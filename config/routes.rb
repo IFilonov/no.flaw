@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   authenticated :females do
     root 'females#index', as: :authenticated_female
   end
+  authenticated :staff do
+    root 'staffs#index', as: :authenticated_staff
+  end
+
   root to: "application#index"
+
   get '/males/*slug', to: 'males#index'
   get '/staffs/*slug', to: 'staffs#index'
   get '/females/*slug', to: 'females#index'
