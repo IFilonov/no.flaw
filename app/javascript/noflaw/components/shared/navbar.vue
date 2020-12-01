@@ -6,6 +6,10 @@
           b NoFlaw
           q-avatar
             img(src="https://cdn.quasar.dev/img/boy-avatar.png")
+        q-breadcrumbs(active-color="white" style="font-size: 16px")
+          q-breadcrumbs-el(label="Home" icon="home")
+          q-breadcrumbs-el(label="Components" icon="widgets")
+          q-breadcrumbs-el(label="Toolbar")
         div(class="q-pa-md")
           q-btn-dropdown(class="glossy" color="purple" label="Account Settings")
             div(class="row no-wrap q-pa-md")
