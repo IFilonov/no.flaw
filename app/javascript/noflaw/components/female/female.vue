@@ -1,11 +1,15 @@
 <template lang="pug">
   div
     q-layout
-      h1 Female vue
+      navbar
 </template>
 
 <script>
+import navbar from '../shared/navbar';
 export default {
+  components: {
+    'navbar': navbar
+  },
   data: function () {
     return {
     }
