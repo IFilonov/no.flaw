@@ -6,7 +6,6 @@ class Females::SessionsController < Devise::SessionsController
   # GET /resource/sign_in
   def new
     session_resources
-    @user = Female.new
     super
   end
 

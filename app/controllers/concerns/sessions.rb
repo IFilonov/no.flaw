@@ -3,7 +3,8 @@ module Sessions
 
   included do
     def session_resources
-      @resource_names = ["staff", "male", "female"] - [resource_name.to_s]
+      @user = resource_name.to_s.capitalize.constantize.first
+      @resource_names = %w[staff male female] - [resource_name.to_s]
     end
   end
 end

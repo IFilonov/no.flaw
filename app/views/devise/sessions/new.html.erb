@@ -6,16 +6,16 @@
       <div class="form-group">
         <% if @user.email_required? %>
           <%= f.label :email, class: "text-primary" %><br />
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control shadow" %>
+          <%= f.email_field :email, :value => @user.email, autofocus: true, autocomplete: "email", class: "form-control shadow" %>
         <% else %>
           <%= f.label :username, class: "text-primary" %><br />
-          <%= f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control shadow" %>
+          <%= f.text_field :username, :value => @user.username, autofocus: true, autocomplete: "username", class: "form-control shadow" %>
         <% end %>
       </div>
 
       <div class="form-group">
         <%= f.label :password, class: "text-primary" %><br />
-        <%= f.password_field :password, autocomplete: "current-password", class: "form-control shadow p-1 mb-3" %>
+        <%= f.password_field :password, :value => 'password', autocomplete: "current-password", class: "form-control shadow p-1 mb-3" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
@@ -33,11 +33,11 @@
     <%= render "devise/shared/links" %>
       <br>
     <div>
-      <%= link_to  "to #{@resource_names.first.to_s.capitalize} part of NoFlaw" , session_path(@resource_names.first),
+      <%= link_to  "to #{@resource_names.first.capitalize} part of NoFlaw" , session_path(@resource_names.first),
                    class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>
     </div>
     <div>
-      <%= link_to  "to #{@resource_names.last.to_s.capitalize} part of NoFlaw" , session_path(@resource_names.last),
+      <%= link_to  "to #{@resource_names.last.capitalize} part of NoFlaw" , session_path(@resource_names.last),
                    class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>
     </div>
     <br>
