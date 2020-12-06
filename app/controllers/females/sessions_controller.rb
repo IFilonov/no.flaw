@@ -6,6 +6,10 @@ class Females::SessionsController < Devise::SessionsController
   # GET /resource/sign_in
   def new
     @user = Female.new
+    @link_one = new_staff_session_path
+    @link_name_one = "Staffs"
+    @link_two = new_male_session_path
+    @link_name_two = "Males"
     super
   end
 
