@@ -2,14 +2,11 @@
 
 class Staffs::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-
+  include Sessions
   # GET /resource/sign_in
   def new
+    session_resources
     @user = Staff.new
-    @link_one = new_male_session_path
-    @link_name_one = "Males"
-    @link_two = new_female_session_path
-    @link_name_two = "Females"
     super
   end
 

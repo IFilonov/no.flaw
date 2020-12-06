@@ -1,20 +1,20 @@
 <div class="row justify-content-md-center">
   <div class="col-md-auto justify-content-md-center">
-    <h2 >Welcome</h2>
     <br>
+    <h3 class="text-primary">Glad to welcome you</h3>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="form-group">
         <% if @user.email_required? %>
-          <%= f.label :email %><br />
+          <%= f.label :email, class: "text-primary" %><br />
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control shadow" %>
         <% else %>
-          <%= f.label :username %><br />
+          <%= f.label :username, class: "text-primary" %><br />
           <%= f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control shadow" %>
         <% end %>
       </div>
 
       <div class="form-group">
-        <%= f.label :password %><br />
+        <%= f.label :password, class: "text-primary" %><br />
         <%= f.password_field :password, autocomplete: "current-password", class: "form-control shadow p-1 mb-3" %>
       </div>
 
@@ -33,10 +33,12 @@
     <%= render "devise/shared/links" %>
       <br>
     <div>
-      <%= link_to  "to #{@link_name_one} part of NoFlaw" , @link_one, class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>
+      <%= link_to  "to #{@resource_names.first.to_s.capitalize} part of NoFlaw" , session_path(@resource_names.first),
+                   class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>
     </div>
     <div>
-      <%= link_to  "to #{@link_name_two} part of NoFlaw" , @link_two, class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>
+      <%= link_to  "to #{@resource_names.last.to_s.capitalize} part of NoFlaw" , session_path(@resource_names.last),
+                   class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>
     </div>
     <br>
     <br>
