@@ -15,6 +15,14 @@ Rails.application.routes.draw do
 
   root to: "application#index"
 
+  get '/staffs/logout', to: 'staffs#logout'
+  get '/male/logout', to: 'males#logout'
+  get '/female/logout', to: 'females#logout'
+
+  constraints ->(req) { req.format == :json } do
+    get '/staffs/user', to: 'staffs#user'
+  end
+
   get '/males/*slug', to: 'males#index'
   get '/staffs/*slug', to: 'staffs#index'
   get '/females/*slug', to: 'females#index'

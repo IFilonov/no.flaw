@@ -6,10 +6,6 @@
           b NoFlaw
           q-avatar
             img(src="https://cdn.quasar.dev/img/boy-avatar.png")
-        q-breadcrumbs(active-color="white" style="font-size: 16px")
-          q-breadcrumbs-el(label="Home" icon="home")
-          q-breadcrumbs-el(label="Components" icon="widgets")
-          q-breadcrumbs-el(label="Toolbar")
         div(class="q-pa-md")
           q-btn-dropdown(class="glossy" color="purple" label="Account Settings")
             div(class="row no-wrap q-pa-md")
@@ -21,7 +17,7 @@
               div(class="column items-center")
                 q-avatar(size="72px")
                   img(src="https://cdn.quasar.dev/img/boy-avatar.png")
-                div(class="text-subtitle1 q-mt-md q-mb-xs") username
+                div(class="text-subtitle1 q-mt-md q-mb-xs") {{ user }}
 
                 q-btn(:href="user_logout_path" type="a" color="primary" label="Logout" push size="sm" v-close-popup)
 </template>
@@ -31,6 +27,7 @@ export default {
   data: function () {
     return {
     }
-  }
+  },
+  props: ['user', 'user_logout_path']
 }
 </script>
