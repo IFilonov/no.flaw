@@ -29,9 +29,18 @@
         <%= f.submit "Enter", class: "shadow-lg p-2 mb-4", style: "background-color: #407CDA; color: white" %>
       </div>
     <% end %>
-
+    <%= @resource_names %>
+    <br>
+    <%= @resource_names.first %>
+    <br>
+    <%= @resource_names.last %>
+    <br>
+    <%= session_path(@resource_names.first) %>
+    <br>
+    <%= session_path(@resource_names.last) %>
+    <br>
     <%= render "devise/shared/links" %>
-      <br>
+    <br>
     <div>
       <%= link_to  "to #{@resource_names.first.capitalize} part of NoFlaw" , session_path(@resource_names.first),
                    class: 'btn shadow-lg p-2 mb-4', style: "background-color: #407CDA; color: white"%>

@@ -2,6 +2,7 @@
   "name": "no_flaw",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "@quasar/extras": "^1.9.10",
     "@rails/actioncable": "^6.0.0",
     "@rails/ujs": "^6.0.0",

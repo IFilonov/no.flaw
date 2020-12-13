@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   authenticated :male do
     root 'males#index', as: :authenticated_male
   end
-  authenticated :females do
+  authenticated :female do
     root 'females#index', as: :authenticated_female
   end
   authenticated :staff do
@@ -16,11 +16,13 @@ Rails.application.routes.draw do
   root to: "application#index"
 
   get '/staffs/logout', to: 'staffs#logout'
-  get '/male/logout', to: 'males#logout'
-  get '/female/logout', to: 'females#logout'
+  get '/males/logout', to: 'males#logout'
+  get '/females/logout', to: 'females#logout'
 
   constraints ->(req) { req.format == :json } do
     get '/staffs/user', to: 'staffs#user'
+    get '/males/user', to: 'males#user'
+    get '/females/user', to: 'females#user'
   end
 
   get '/males/*slug', to: 'males#index'

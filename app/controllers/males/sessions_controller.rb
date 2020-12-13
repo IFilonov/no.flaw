@@ -10,9 +10,10 @@ class Males::SessionsController < Devise::SessionsController
   end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super
+    flash.clear
+  end
 
   # DELETE /resource/sign_out
   # def destroy

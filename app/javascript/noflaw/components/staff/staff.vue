@@ -1,14 +1,17 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:user = "user" :user_logout_path="$api.staff.logout")
+      navbar(:user = "user" :logout_path="$api.staff.logout")
+      dashboard
 </template>
 
 <script>
 import navbar from '../shared/navbar';
+import dashboard from './dashboard';
 export default {
   components: {
-    'navbar': navbar
+    'navbar': navbar,
+    'dashboard': dashboard
   },
   data: function () {
     return {
