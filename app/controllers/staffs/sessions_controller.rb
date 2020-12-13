@@ -2,17 +2,18 @@
 
 class Staffs::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
-
+  include Sessions
   # GET /resource/sign_in
   def new
-    @user = Staff.new
+    session_resources
     super
   end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super
+    flash.clear
+  end
 
   # DELETE /resource/sign_out
   # def destroy

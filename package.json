@@ -2,10 +2,12 @@
   "name": "no_flaw",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
     "@quasar/extras": "^1.9.10",
     "@rails/actioncable": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.3.0",
+    "axios": "^0.21.0",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
     "quasar": "^1.14.5",

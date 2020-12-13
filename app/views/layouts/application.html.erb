@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>NoFlaw</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= stylesheet_pack_tag 'application', media: 'all' %>
-</head>
-<body>
-  <%= render 'shared/flash' %>
-  <%= yield %>
-</body>
+    <title>NoFlaw</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <body>
+    <%= render 'shared/flash' %>
+    <%= yield %>
+  </body>
 </html>
