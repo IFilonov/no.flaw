@@ -2,9 +2,8 @@
   q-header(elevated class="bg-light-blue-8 text-white")
     q-toolbar(class="glossy")
       q-toolbar-title
-        b NoFlaw
         q-avatar
-          img(src="https://cdn.quasar.dev/img/boy-avatar.png")
+          img(:src="src")
       div(class="q-pa-md")
         q-btn-dropdown(class="glossy" color="purple" label="Account Settings")
           div(class="row no-wrap q-pa-md")
@@ -13,8 +12,8 @@
             q-separator(vertical inset class="q-mx-lg")
             div(class="column items-center")
               q-avatar(size="72px")
-                img(src="https://cdn.quasar.dev/img/boy-avatar.png")
-              div(class="text-subtitle1 q-mt-md q-mb-xs") {{ user }}
+                img(:src="src")
+              div(class="text-subtitle1 q-mt-md q-mb-xs") {{ name }}
               q-btn(:href="logout_path" type="a" color="primary" label="Logout" push size="sm" v-close-popup)
 </template>
 
@@ -22,8 +21,9 @@
 export default {
   data: function () {
     return {
+      src: "https://cdn.quasar.dev/img/avatar4.jpg"
     }
   },
-  props: ['user', 'logout_path']
+  props: ['name', 'logout_path']
 }
 </script>

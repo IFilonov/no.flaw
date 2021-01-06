@@ -1,20 +1,33 @@
 <template lang="pug">
   span
     q-drawer(show-if-above bordered side="left" behavior="desktop" elevated)
-      q-list(dense bordered padding class="rounded-borders text-primary text-h6 text-light-blue-8 bold text-weight-bolder")
-        q-item(dense clickable v-ripple active-class="my-menu-link" :to="{ name: 'Dates'}")
+      q-list(bordered padding class="text-light-blue-9 text-subtitle2")
+        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings1'}")
           q-item-section(avatar)
             q-icon(name="fas fa-users-cog")
-          q-item-section Dates
-        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Events'}")
+          q-item-section
+            q-item-label Dates
+        q-separator(inset)
+        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings2'}")
           q-item-section(avatar)
             q-icon(name="fas fa-globe")
-          q-item-section Events
-        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Wishes'}")
+          q-item-section
+            q-item-label Events
+          q-item-section(side top)
+            q-item-label(caption) >5 min ago
+              q-icon(name="star" color="green")
+        q-separator(inset)
+        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings3'}")
           q-item-section(avatar)
             q-icon(name="fas fa-cubes")
-          q-item-section Wishes
+          q-item-section
+            q-item-label Wishes
+        q-separator(inset)
+        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings'}")
+          q-item-section(avatar)
+            q-icon(name="fas fa-cubes")
+          q-item-section
+            q-item-label Female
     q-page-container
-      q-card
-        router-view
+      router-view
 </template>

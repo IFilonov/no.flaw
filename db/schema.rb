@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_28_172906) do
+ActiveRecord::Schema.define(version: 2021_01_06_200920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,15 @@ ActiveRecord::Schema.define(version: 2020_11_28_172906) do
     t.index ["username"], name: "index_males_on_username", unique: true
   end
 
+  create_table "pairs", force: :cascade do |t|
+    t.bigint "male_id", null: false
+    t.bigint "female_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["female_id"], name: "index_pairs_on_female_id"
+    t.index ["male_id"], name: "index_pairs_on_male_id"
+  end
+
   create_table "staffs", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -62,4 +71,6 @@ ActiveRecord::Schema.define(version: 2020_11_28_172906) do
     t.index ["reset_password_token"], name: "index_staffs_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "pairs", "females"
+  add_foreign_key "pairs", "males"
 end

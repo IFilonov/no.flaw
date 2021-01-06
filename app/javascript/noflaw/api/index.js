@@ -13,15 +13,17 @@ const adapter = axios.create({
 const api = {
   staff: {
     logout: '/staffs/logout',
-    user: () => adapter.get('/staffs/user')
+    info: () => adapter.get('/staffs/info')
   },
   male: {
     logout: '/males/logout',
-    user: () => adapter.get('/males/user')
+    info: () => adapter.get('/males/info'),
+    addFemale: (female) => adapter.post('/females/create', female),
+    delFemale: () => adapter.get('/females/delete')
   },
   female: {
     logout: '/females/logout',
-    user: () => adapter.get('/females/user')
+    info: () => adapter.get('/females/info')
   }
 }
 

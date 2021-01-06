@@ -4,8 +4,9 @@ class MalesController < ApplicationController
   def index
   end
 
-  def user
-    render :json => {:user => current_male.username }
+  def info
+    female_name = current_male.pairs.first.female.username if current_male.pairs.first
+    render :json => {:name => current_male.username, female_name: female_name }
   end
 
   def logout

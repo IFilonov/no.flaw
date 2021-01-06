@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:user = "user" :logout_path="$api.female.logout")
+      navbar(:user = "name" :logout_path="$api.female.logout")
       dashboard
 </template>
 
@@ -15,13 +15,13 @@ export default {
   },
   data: function () {
     return {
-      user: null
+      name: null
     }
   },
   methods: {
     async getUser() {
-      const response = await this.$api.female.user();
-      this.user = response.data.user;
+      const response = await this.$api.female.info();
+      this.name = response.data.name;
     }
   },
   mounted() {
