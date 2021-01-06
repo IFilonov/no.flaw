@@ -1,12 +1,13 @@
 class FemalesController < ApplicationController
-  before_action :authenticate_female!, except: [:create]
+  before_action :authenticate_female!, except: [:create, :delete]
   before_action :authenticate_male!, only: [:create, :delete]
 
   def index
   end
 
   def info
-    render :json => {:user => current_female.username }
+    male_name = current_female.pairs.first.male.username if current_female.pairs.first
+    render :json => {:name => current_female.username, male_name: male_name }
   end
 
   def logout

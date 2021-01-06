@@ -23,7 +23,10 @@ const api = {
   },
   female: {
     logout: '/females/logout',
-    info: () => adapter.get('/females/info')
+    info: () => adapter.get('/females/info'),
+    addMale: (male) => adapter.post('/males/create', male),
+    delMale: () => adapter.get('/males/delete')
+
   }
 }
 

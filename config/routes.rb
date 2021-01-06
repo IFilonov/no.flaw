@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get '/males/info', to: 'males#info'
     get '/females/info', to: 'females#info'
     post '/females/create', to: 'females#create'
+    post '/males/create', to: 'males#create'
     get '/females/delete', to: 'females#delete'
   end
 

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from '../noflaw/components/male/male.vue'
 import '../noflaw/quasar'
 import '../noflaw/api'
-import router from '../noflaw/router'
+import router from '../noflaw/router/male'
 import store from '../noflaw/store/male'
 
 document.addEventListener('DOMContentLoaded', () => {
