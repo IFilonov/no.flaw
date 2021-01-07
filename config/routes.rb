@@ -20,9 +20,13 @@ Rails.application.routes.draw do
   get '/females/logout', to: 'females#logout'
 
   constraints ->(req) { req.format == :json } do
-    get '/staffs/user', to: 'staffs#user'
-    get '/males/user', to: 'males#user'
-    get '/females/user', to: 'females#user'
+    get '/staffs/info', to: 'staffs#info'
+    get '/males/info', to: 'males#info'
+    get '/females/info', to: 'females#info'
+    post '/females/create', to: 'females#create'
+    post '/males/create', to: 'males#create'
+    get '/females/delete', to: 'females#delete'
+    get '/males/delete', to: 'males#delete'
   end
 
   get '/males/*slug', to: 'males#index'

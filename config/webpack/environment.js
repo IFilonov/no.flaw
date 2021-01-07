@@ -6,4 +6,8 @@ const pugLoader = require('./loaders/pug')
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin())
 environment.loaders.prepend('vue', vue)
 environment.loaders.prepend('pug', pugLoader)
+
+const customConfig = require('./custom/aliases')
+environment.config.merge(customConfig)
+
 module.exports = environment

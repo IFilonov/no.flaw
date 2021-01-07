@@ -4,7 +4,7 @@ class StaffsController < ApplicationController
   def index
   end
 
-  def user
+  def info
     render :json => {:user => current_staff.email }
   end
 

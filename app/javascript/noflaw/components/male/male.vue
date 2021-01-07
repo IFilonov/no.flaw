@@ -1,13 +1,15 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:user = "user" :logout_path="$api.male.logout")
+      navbar(:name = "name" :logout_path="$api.male.logout" :img="img")
       dashboard
 </template>
 
 <script>
 import navbar from '../shared/navbar';
 import dashboard from './dashboard';
+import { mapActions } from 'vuex'
+
 export default {
   components: {
     'navbar': navbar,
@@ -15,13 +17,16 @@ export default {
   },
   data: function () {
     return {
-      user: null
+      name: '',
+      img: "https://cdn.quasar.dev/img/avatar4.jpg"
     }
   },
   methods: {
+    ...mapActions(['setFemaleName']),
     async getUser() {
-      const response = await this.$api.male.user();
-      this.user = response.data.user;
+      const response = await this.$api.male.info();
+      this.name = response.data.name;
+      this.setFemaleName(response.data.female_name);
     }
   },
   mounted() {
