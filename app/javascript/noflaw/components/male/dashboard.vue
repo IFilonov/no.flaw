@@ -1,7 +1,7 @@
 <template lang="pug">
   span
     q-drawer(show-if-above bordered side="left" behavior="desktop" elevated)
-      q-list(bordered padding class="text-light-blue-9 text-subtitle2")
+      q-list(bordered padding class="text-light-blue-9 text-h6")
         q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings1'}")
           q-item-section(avatar)
             q-icon(name="fas fa-users-cog")

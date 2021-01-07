@@ -1,8 +1,9 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
     q-btn(v-if="!female_name" class="glossy" no-caps color="blue" @click="showAddFemaleDlg" label="Add female")
-    q-chip(v-if="female_name" removable @remove="showRemoveFemaleDlg" text-color="white" color="light-blue-8" class="glossy")
-      q-avatar
+    q-chip(v-if="female_name" removable @remove="showRemoveFemaleDlg" text-color="white" color="light-blue-8"
+      class="glossy" size="lg")
+      q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar2.jpg")
       b {{ female_name }}
     q-dialog(v-model="addFemaleDlg" persistent)
@@ -11,10 +12,10 @@
           q-form(class="q-gutter-md" @submit="addFemale" @reset="female=''")
             q-input(filled label="Female name *" hint="Name"
               v-model="female.username"
-              lazy-rules :rules="[ val => val && val.length > 5 || 'Please type Fullname > 5 chars']")
+              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type female name']")
             q-input(filled label="Password" hint="password" type="password"
               v-model="female.password"
-              lazy-rules :rules="[ val => val && val.length > 5 || 'Please type password > 5 chars']")
+              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type password']")
             div
               q-btn(label="Submit" type="submit" color="primary")
               q-btn(label="Reset" type="reset" color="primary" flat class="q-ml-sm")

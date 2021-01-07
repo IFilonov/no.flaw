@@ -2,8 +2,9 @@
   q-header(elevated class="bg-light-blue-8 text-white")
     q-toolbar(class="glossy")
       q-toolbar-title
-        q-avatar
+        q-avatar(size="48px")
           img(:src="img")
+        span {{ name }}
       div(class="q-pa-md")
         q-btn-dropdown(class="glossy" color="purple" label="Account Settings")
           div(class="row no-wrap q-pa-md")
