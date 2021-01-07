@@ -60,12 +60,11 @@ export default {
         this.addFemaleDlg = false;
         const response = await this.$api.male.addFemale({ female: this.female });
         if(response.data.username) {
-          this.setFemaleName(response.data.female_name);
+          this.setFemaleName(response.data.username);
           this.showNotif(`${response.data.username} created`);
         }
         else
         {
-          console.log(response.data[0]);
           this.showErrNotif(response.data[0]);
         }
       } catch(err)  {
@@ -74,16 +73,12 @@ export default {
     async deleteFemale() {
       try {
         this.delFemaleDlg = false;
-        const response = await this.$api.male.delFemale({ female: this.female });
-        if(response.data.username) {
-          this.setFemaleName('');
-          this.showNotif(`${response.data.username} created`);
-        }
-        else
-        {
-          this.showErrNotif(response.data[0]);
-        }
+        await this.$api.male.delFemale();
+        this.showNotif(`${this.female_name} deleted`);
+        this.setFemaleName(null);
+
       } catch(err)  {
+        this.showErrNotif(`${this.female_name} not deleted`);
       }
     }
   },

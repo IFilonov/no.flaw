@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     post '/females/create', to: 'females#create'
     post '/males/create', to: 'males#create'
     get '/females/delete', to: 'females#delete'
+    get '/males/delete', to: 'males#delete'
   end
 
   get '/males/*slug', to: 'males#index'

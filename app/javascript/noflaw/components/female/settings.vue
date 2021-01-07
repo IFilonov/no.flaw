@@ -60,7 +60,7 @@ export default {
         this.addMaleDlg = false;
         const response = await this.$api.female.addMale({ male: this.male });
         if(response.data.username) {
-          this.setMaleName(response.data.male_name);
+          this.setMaleName(response.data.username);
           this.showNotif(`${response.data.username} created`);
         }
         else
@@ -74,16 +74,12 @@ export default {
     async deleteMale() {
       try {
         this.delMaleDlg = false;
-        const response = await this.$api.female.delMale({ male: this.male });
-        if(response.data.username) {
-          this.setMaleName('');
-          this.showNotif(`${response.data.username} created`);
-        }
-        else
-        {
-          this.showErrNotif(response.data[0]);
-        }
+        await this.$api.female.delMale();
+        this.showNotif(`${this.male_name} deleted`);
+        this.setMaleName(null);
+
       } catch(err)  {
+        this.showErrNotif(`${this.male_name} not deleted`);
       }
     }
   },

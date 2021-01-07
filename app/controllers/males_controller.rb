@@ -7,7 +7,7 @@ class MalesController < ApplicationController
 
   def info
     female_name = current_male.pairs.first.female.username if current_male.pairs.first
-    render :json => {:name => current_male.username, female_name: female_name }
+    render :json => { name: current_male.username, female_name: female_name }
   end
 
   def create
@@ -19,6 +19,11 @@ class MalesController < ApplicationController
     else
       render :json => male.errors.full_messages
     end
+  end
+
+  def delete
+    current_female.pairs.first.delete
+    render :json => { count: current_female.pairs.count }
   end
 
   def logout
