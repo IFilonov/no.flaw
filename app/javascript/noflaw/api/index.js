@@ -25,8 +25,8 @@ const api = {
     logout: '/females/logout',
     info: () => adapter.get('/females/info'),
     addMale: (male) => adapter.post('/males/create', male),
-    delMale: () => adapter.get('/males/delete')
-
+    delMale: () => adapter.get('/males/delete'),
+    setBadDates: (dates) => adapter.post('/female/bad_dates', dates),
   }
 }
 
