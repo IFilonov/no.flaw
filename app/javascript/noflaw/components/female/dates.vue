@@ -5,7 +5,7 @@
       q-date(v-model="dates" mask="DDMMYYYY" multiple today-btn first-day-of-week="1" range color="purple" @input="onInput")
       q-time(v-model="dates" mask="DD-MM-YYYY HH:mm" color="purple")
     div(class="q-pa-md")
-      q-btn(glossy label="Send" @click="sendDates" color="purple" disable v-close-popup)
+      q-btn(class="glossy" label="Send" @click="sendDates" color="primary" :disable="disableSaveButton" v-close-popup icon="card_giftcard")
       p(v-for="date in dates")
         q-badge(color="teal") {{ JSON.stringify(date) }}
 </template>
@@ -19,35 +19,34 @@ export default {
   name: "settings",
   data: function () {
     return {
-      dates: []
+      dates: [],
+      disableSaveButton: true
     }
   },
   methods: {
     ...mapActions(['setMaleName','setBadDates']),
     onInput(dates, reason, details){
-      let datesObj, datesStr;
-      if(dates) {
-        datesStr = dates.map(date => JSON.stringify(date));
-        datesObj = datesStr.map(date => JSON.parse(date));
-        this.setBadDates(datesStr);
-        console.log(this.bad_dates)
-        //console.log(datesStr)
-        //console.log(datesObj)
-      }
-      // console.log(value)
-      // console.log(reason)
-      // console.log(details)
+      this.disableSaveButton = false;
+      this.setBadDates(dates);
     },
-    sendDates() {
-
+    async sendDates() {
+      let datesStr = JSON.stringify(this.dates.map(date => JSON.stringify(date)));
+      await this.$api.female.setBadDates(datesStr);
+    },
+    async getBadDates() {
+      return '';
     }
   },
   computed: {
     ...mapState(['male_name', 'bad_dates'])
   },
   mounted() {
-    // this.getBadDates();
-    this.dates = this.bad_dates.map(date => JSON.parse(date));
+    let bad_dates = '';
+    bad_dates = this.getBadDates();
+    if (bad_dates.length > 0) {
+      this.setBadDates(JSON.parse(bad_dates).map(date => JSON.parse(date)));
+    }
+    this.dates = this.bad_dates
   }
 }
 </script>
