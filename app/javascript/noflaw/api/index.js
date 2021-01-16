@@ -26,7 +26,8 @@ const api = {
     info: () => adapter.get('/females/info'),
     addMale: (male) => adapter.post('/males/create', male),
     delMale: () => adapter.get('/males/delete'),
-    setBadDates: (dates) => adapter.post('/female/bad_dates', dates),
+    setTabooDates: (taboo_date) => adapter.post('/females/set_taboo_dates', taboo_date),
+    tabooDates: () => adapter.get('/females/taboo_dates'),
   }
 }
 

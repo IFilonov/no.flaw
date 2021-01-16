@@ -31,6 +31,14 @@ class FemalesController < ApplicationController
     render :json => { count: current_male.pairs.count }
   end
 
+  def taboo_dates
+    render :json => { taboo_dates: current_female.lifetimes.last&.taboo_date }
+  end
+
+  def set_taboo_dates
+    Lifetime.create( taboo_date: params[:taboo_dates], dateable: current_female)
+  end
+
   private
   def female_params
     params.require(:female).permit(:username, :password)
