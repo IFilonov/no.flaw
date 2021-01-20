@@ -66,7 +66,6 @@ export default {
         }
         else
         {
-          console.log(response.data[0]);
           this.showErrNotif(response.data[0]);
         }
       } catch(err)  {

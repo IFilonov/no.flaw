@@ -31,12 +31,26 @@ class FemalesController < ApplicationController
     render :json => { count: current_male.pairs.count }
   end
 
-  def taboo_dates
-    render :json => { taboo_dates: current_female.lifetimes.last&.taboo_date }
+  def dates
+    render :json => { taboo_dates: current_female.lifetimes.last&.taboo_date, fire_dates: current_female.lifetimes.last&.fire_date }
   end
 
-  def set_taboo_dates
-    Lifetime.create( taboo_date: params[:taboo_dates], dateable: current_female)
+  def set_taboo_date
+    lifetime = Lifetime.create( fire_date: current_female.lifetimes.last&.fire_date, taboo_date: params[:taboo_dates], dateable: current_female)
+    if lifetime
+      render :json => { created_at:  current_female.lifetimes.last.created_at }
+    else
+      render :json => lifetime.errors.full_messages
+    end
+  end
+
+  def set_fire_date
+    lifetime = Lifetime.create( taboo_date: current_female.lifetimes.last&.taboo_date, fire_date: params[:fire_dates], dateable: current_female)
+    if lifetime
+      render :json => { created_at:  current_female.lifetimes.last.created_at }
+    else
+      render :json => lifetime.errors.full_messages
+    end
   end
 
   private
