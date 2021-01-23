@@ -4,17 +4,32 @@
       q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Taboo dates")
         q-badge(color="purple" floating) {{ taboo_dates ? taboo_dates.length : 0 }}
       div(class="q-gutter-md row items-start")
-        q-date(v-model="taboo" mask="DDMMYYYY" multiple today-btn first-day-of-week="1" range color="purple" @input="onTabooChange")
+        q-date(v-model="taboo" :options="tabooOptionsFn" multiple today-btn first-day-of-week="1" color="purple" @input="onTabooChange")
       br
       q-btn(class="glossy" label="Send" @click="sendTabooDate" color="purple" :disable="disableSaveTaboo" v-close-popup icon="card_giftcard")
     span(class="q-pa-md")
       q-btn(push color="white" text-color="deep-orange" class="text-bold" disable flat label="Fire dates")
         q-badge(color="deep-orange" floating) {{ fire_dates ? fire_dates.length : 0 }}
       div(class="q-gutter-md row items-start")
-        q-date(v-model="fire" mask="DDMMYYYY" multiple today-btn first-day-of-week="1" range color="deep-orange" @input="onFireChange")
-        q-time(v-model="times" mask="DD-MM-YYYY HH:mm" color="deep-orange" @input="onTimeChange")
+        q-date(v-model="fire" :options="fireOptionsFn" multiple today-btn first-day-of-week="1" color="deep-orange" @input="onFireChange")
       br
       q-btn(class="glossy" label="Send" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
+    span(class="q-pa-md" style="vertical-align: top;")
+      q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Fire time")
+      q-range(v-model="model"
+        class="q-range"
+        left-label-color="deep-orange"
+        right-label-color="deep-orange"
+        :left-label-value="model.min + 'h'"
+        :right-label-value="model.max + 'h'"
+        :min="range.min"
+        :max="range.max"
+        :step="range.step"
+        label-always
+        vertical
+        markers
+        drag-range
+        color="purple")
 </template>
 
 <script>
@@ -30,7 +45,16 @@ export default {
       fire: [],
       times: [],
       disableSaveTaboo: true,
-      disableSaveFire: true
+      disableSaveFire: true,
+      range: {
+        min: 0,
+        max: 24,
+        step: 1
+      },
+      model: {
+        min: 5,
+        max: 7
+      }
     }
   },
   methods: {
@@ -43,10 +67,8 @@ export default {
       this.disableSaveFire = false;
       this.setFireDate(dates);
     },
-    onTimeChange(times, reason, details){
-      console.log(times);
-    },
     async sendTabooDate() {
+      console.log(this.taboo);
       let tabooDate = this.taboo_dates ? JSON.stringify(this.taboo_dates.map(date => JSON.stringify(date))) : null;
       const response = await this.$api.female.setTabooDate({ taboo_dates: tabooDate } );
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`)
@@ -57,6 +79,12 @@ export default {
       const response = await this.$api.female.setFireDate({ fire_dates: fireDate } );
       response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`)
           : this.showErrNotif(response.data[0]);
+    },
+    fireOptionsFn(date) {
+      return !this.taboo?.includes(date);
+    },
+    tabooOptionsFn(date) {
+      return !this.fire?.includes(date);
     }
   },
   computed: {
@@ -73,5 +101,11 @@ export default {
 <style scoped>
   span {
     display: inline-block;
+    height: 200px;
+  }
+  .q-range {
+    height: 378px;
+    background-size: 100% 2px, 100% 2px, var(--tick-bg-size);
+    border: 5px solid;
   }
 </style>

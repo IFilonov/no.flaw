@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store(  {
   state: {
     male_name: '',
-    taboo_dates: []
+    taboo_dates: [],
+    fire_dates: []
   },
   mutations: {
     CHANGE_MALE_NAME: (state, male_name) => {
