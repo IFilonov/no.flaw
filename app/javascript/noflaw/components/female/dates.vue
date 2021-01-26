@@ -15,30 +15,38 @@
       br
       q-btn(class="glossy" label="Send" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
     span(class="q-pa-md" style="vertical-align: top;")
-      q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Fire time")
-      q-range(v-model="model"
+      range
+      range
+      range
+      q-btn(push color="white" text-color="deep-orange" class="text-bold" disable flat label="Fire time")
+      div(class="q-gutter-sm")
+        q-checkbox(keep-color v-model="saveTime" label="Time" color="deep-orange")
+      q-range(v-model="time"
         class="q-range"
         left-label-color="deep-orange"
         right-label-color="deep-orange"
-        :left-label-value="model.min + 'h'"
-        :right-label-value="model.max + 'h'"
+        :left-label-value="time.min + 'h'"
+        :right-label-value="time.max + 'h'"
         :min="range.min"
         :max="range.max"
         :step="range.step"
         label-always
         vertical
         markers
+        :disable="!saveTime"
         drag-range
-        color="purple")
+        color="deep-orange")
 </template>
 
 <script>
 import notifications from 'notifications';
 import {mapActions, mapState} from 'vuex'
+import range from './range'
 
 export default {
   mixins: [notifications],
   name: "settings",
+  components: {'range': range},
   data: function () {
     return {
       taboo: [],
@@ -51,10 +59,11 @@ export default {
         max: 24,
         step: 1
       },
-      model: {
+      time: {
         min: 5,
         max: 7
-      }
+      },
+      saveTime: false
     }
   },
   methods: {
@@ -65,6 +74,7 @@ export default {
     },
     onFireChange(dates, reason, details){
       this.disableSaveFire = false;
+      console.log(this.time);
       this.setFireDate(dates);
     },
     async sendTabooDate() {
@@ -104,8 +114,8 @@ export default {
     height: 200px;
   }
   .q-range {
-    height: 378px;
+    height: 338px;
     background-size: 100% 2px, 100% 2px, var(--tick-bg-size);
-    border: 5px solid;
+    border: 4px solid;
   }
 </style>
