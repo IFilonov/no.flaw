@@ -28,8 +28,8 @@ export default {
         step: 1
       },
       time: {
-        min: 5,
-        max: 7
+        min: 20,
+        max: 22
       },
       saveTime: false,
       nextNum: 10
@@ -42,9 +42,10 @@ export default {
 .q-range {
   width: 400px;
   border: 3px solid;
+  height: 30px;
 }
 .range {
-  height: 64px;
+  height: 56px;
 }
 .list-item {
   display: inline-block;

@@ -27,6 +27,7 @@ import {mapActions, mapState} from 'vuex'
 import range from './range'
 
 export default {
+  C_MAX_FIRE_DATES: 6,
   mixins: [notifications],
   name: "settings",
   components: {'range': range},
@@ -35,18 +36,9 @@ export default {
       taboo: [],
       fire: [],
       times: [],
+      currentDate: new Date(new Date().valueOf() - 86400000),
       disableSaveTaboo: true,
-      disableSaveFire: true,
-      range: {
-        min: 0,
-        max: 24,
-        step: 1
-      },
-      time: {
-        min: 5,
-        max: 7
-      },
-      saveTime: false
+      disableSaveFire: true
     }
   },
   methods: {
@@ -57,11 +49,9 @@ export default {
     },
     onFireChange(dates, reason, details){
       this.disableSaveFire = false;
-      console.log(this.fire);
       this.setFireDate(dates);
     },
     async sendTabooDate() {
-      console.log(this.taboo);
       let tabooDate = this.taboo_dates ? JSON.stringify(this.taboo_dates.map(date => JSON.stringify(date))) : null;
       const response = await this.$api.female.setTabooDate({ taboo_dates: tabooDate } );
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
@@ -74,13 +64,16 @@ export default {
           : this.showErrNotif(response.data[0]);
     },
     clearFireDate() {
-      this.fire = null
+      this.fire = null;
+      this.disableSaveFire = false;
     },
     clearTabooDate() {
       this.taboo = null
+      this.disableSaveTaboo = false;
     },
     fireOptionsFn(date) {
-      return !this.taboo?.includes(date);
+      return ((this.fire?.length > 5  || new Date(date) < this.currentDate)
+          && !this.fire?.includes(date)) ? false : !this.taboo?.includes(date);
     },
     tabooOptionsFn(date) {
       return !this.fire?.includes(date);
