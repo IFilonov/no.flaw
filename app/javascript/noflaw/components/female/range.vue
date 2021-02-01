@@ -14,10 +14,12 @@
         markers
         :disable="!saveTime"
         drag-range
+        @change="onRangeChange"
         color="deep-orange")
 </template>
 
 <script>
+import {mapActions, mapState} from 'vuex'
 export default {
   props: ['date'],
   data: function () {
@@ -35,6 +37,19 @@ export default {
       nextNum: 10
     }
   },
+  methods: {
+    ...mapActions(['setFireTimes']),
+    onRangeChange(value) {
+      let range = {};
+      range.date = this.date;
+      range.value = value
+      this.setFireTimes(range);
+      console.log(this.fire_times);
+    }
+  },
+  computed: {
+    ...mapState(['fire_times'])
+  }
 }
 </script>
 

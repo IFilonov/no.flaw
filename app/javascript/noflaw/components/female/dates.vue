@@ -55,13 +55,13 @@ export default {
       let tabooDate = this.taboo_dates ? JSON.stringify(this.taboo_dates.map(date => JSON.stringify(date))) : null;
       const response = await this.$api.female.setTabooDate({ taboo_dates: tabooDate } );
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
-          : this.showErrNotif(response.data[0]);
+          : this.showErrNotif(response.data.join());
     },
     async sendFireDate() {
       let fireDate = this.fire_dates ? JSON.stringify(this.fire_dates.map(date => JSON.stringify(date))) : null;
       const response = await this.$api.female.setFireDate({ fire_dates: fireDate } );
       response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
-          : this.showErrNotif(response.data[0]);
+          : this.showErrNotif(response.data.join());
     },
     clearFireDate() {
       this.fire = null;

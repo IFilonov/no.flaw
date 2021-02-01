@@ -8,7 +8,8 @@ export default new Vuex.Store(  {
   state: {
     male_name: '',
     taboo_dates: [],
-    fire_dates: []
+    fire_dates: [],
+    fire_times: [1,2]
   },
   mutations: {
     CHANGE_MALE_NAME: (state, male_name) => {
@@ -23,6 +24,13 @@ export default new Vuex.Store(  {
     },
     CHANGE_FIRE_DATES: (state, fire_dates) => {
       state.fire_dates  = fire_dates;
+    },
+    CHANGE_FIRE_TIME: (state, fire_time) => {
+      console.log(state.fire_times)
+      console.log(state.fire_time)
+      let fire_times = state.fire_times.filter(time => { time.date !== fire_time.date });
+      fire_times.push(fire_time);
+      state.fire_times = fire_times;
     }
   },
   actions: {
@@ -38,6 +46,9 @@ export default new Vuex.Store(  {
     dates: (context) => {
       return Vue.prototype.$api.female.dates()
         .then(({data}) => (context.commit('CHANGE_DATES_SER', data)));
+    },
+    setFireTimes: (context, fire_time) => {
+      context.commit('CHANGE_FIRE_TIME', fire_time);
     }
   },
   modules: {},
