@@ -9,7 +9,7 @@ export default new Vuex.Store(  {
     male_name: '',
     taboo_dates: [],
     fire_dates: [],
-    fire_times: [1,2]
+    fire_times: []
   },
   mutations: {
     CHANGE_MALE_NAME: (state, male_name) => {
@@ -26,11 +26,9 @@ export default new Vuex.Store(  {
       state.fire_dates  = fire_dates;
     },
     CHANGE_FIRE_TIME: (state, fire_time) => {
-      console.log(state.fire_times)
-      console.log(state.fire_time)
-      let fire_times = state.fire_times.filter(time => { time.date !== fire_time.date });
-      fire_times.push(fire_time);
-      state.fire_times = fire_times;
+      let new_fire_times = state.fire_times.filter(el => el.date !== fire_time.date);
+      if(fire_time.time) { new_fire_times.push(fire_time) }
+      state.fire_times = new_fire_times;
     }
   },
   actions: {

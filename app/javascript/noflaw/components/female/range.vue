@@ -1,6 +1,7 @@
 <template lang="pug">
   span(class="range")
-    q-checkbox(keep-color v-model="saveTime" :label="date" color="deep-orange" text-color="deep-orange" style="align: left;")
+    q-checkbox(keep-color v-model="saveTime" :label="date" color="deep-orange"
+      new_fire_times @input="onCheckbox" text-color="deep-orange" style="align: left;")
       q-range(v-model="time"
         class="q-range"
         left-label-color="deep-orange"
@@ -40,11 +41,10 @@ export default {
   methods: {
     ...mapActions(['setFireTimes']),
     onRangeChange(value) {
-      let range = {};
-      range.date = this.date;
-      range.value = value
-      this.setFireTimes(range);
-      console.log(this.fire_times);
+      this.setFireTimes({ date: this.date, time: value })
+    },
+    onCheckbox(value) {
+      this.setFireTimes({ date: this.date, time: value ? this.time : null })
     }
   },
   computed: {
