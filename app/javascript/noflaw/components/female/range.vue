@@ -22,7 +22,7 @@
 <script>
 import {mapActions, mapState} from 'vuex'
 export default {
-  props: ['fire_date'],
+  props: ['fire_date','fire_date_index'],
   data: function () {
     return {
       range: {
@@ -51,7 +51,6 @@ export default {
     ...mapState(['fire_times'])
   },
   mounted() {
-    console.log(this.fire_times)
     if(this.fire_times.length > 0) {
       //this.time = this.fire_times.find(fire_time => fire_time.date === this.fire_date);
       console.log(this.time)

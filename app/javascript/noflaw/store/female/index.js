@@ -27,8 +27,8 @@ export default new Vuex.Store(  {
       state.taboo_dates  = taboo_dates;
     },
     CHANGE_DATES_SER: (state, data) => {
-      state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates).map(date => JSON.parse(date)) : null;
-      state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates).map(date => JSON.parse(date)): null;
+      state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : null;
+      state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : null;
     },
     CHANGE_FIRE_DATES: (state, fire_dates) => {
       state.fire_dates  = fire_dates;
@@ -43,10 +43,10 @@ export default new Vuex.Store(  {
     setMaleName: (context, data) => {
       context.commit('CHANGE_MALE_NAME', data);
     },
-    setTabooDate: (context, taboo_dates) => {
+    setTabooDates: (context, taboo_dates) => {
       context.commit('CHANGE_TABOO_DATES', taboo_dates);
     },
-    setFireDate: (context, fire_dates) => {
+    setFireDates: (context, fire_dates) => {
       context.commit('CHANGE_FIRE_DATES', fire_dates);
     },
     dates: (context) => {

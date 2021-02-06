@@ -17,8 +17,8 @@
       q-btn(class="glossy" label="Send" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
       q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_dates)" v-close-popup icon="card_giftcard")
     span(class="q-pa-md" style="vertical-align: top;")
-      div(v-for="(fire_date) in fire_dates")
-        range(:fire_date = "fire_date")
+      div(v-for="(fire_date, index) in fire_dates")
+        range(:fire_date = "fire_date", :fire_date_index = "index" )
 </template>
 
 <script>
@@ -45,20 +45,20 @@ export default {
     ...mapActions(['setMaleName','setTabooDate','dates','setFireDate']),
     onTabooChange(taboo_dates, reason, details){
       this.disableSaveTaboo = false;
-      this.setTabooDate(taboo_dates);
+      this.setTabooDates(taboo_dates);
     },
     onFireChange(fire_dates, reason, details){
       this.disableSaveFire = false;
-      this.setFireDate(fire_dates);
+      this.setFireDates(fire_dates);
     },
     async sendTabooDate() {
-      let str_taboo_dates = this.taboo_dates ? JSON.stringify(this.taboo_dates.map(date => JSON.stringify(date))) : null;
+      let str_taboo_dates = this.taboo_dates ? JSON.stringify(this.taboo_dates) : null;
       const response = await this.$api.female.setTabooDate({ taboo_dates: str_taboo_dates } );
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
           : this.showErrNotif(response.data.join());
     },
     async sendFireDate() {
-      let fireDate = this.fire_dates ? JSON.stringify(this.fire_dates.map(date => JSON.stringify(date))) : null;
+      let fireDate = this.fire_dates ? JSON.stringify(this.fire_dates) : null;
       const response = await this.$api.female.setFireDate({ fire_dates: fireDate } );
       response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
           : this.showErrNotif(response.data.join());
