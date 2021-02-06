@@ -11,6 +11,14 @@ export default new Vuex.Store(  {
     fire_dates: [],
     fire_times: []
   },
+  getters: {
+    fireDates: state => {
+      return state.fire_dates
+    },
+    tabooDates: state => {
+      return state.taboo_dates
+    }
+  },
   mutations: {
     CHANGE_MALE_NAME: (state, male_name) => {
       state.male_name  = male_name;
