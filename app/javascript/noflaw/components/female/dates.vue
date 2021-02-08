@@ -17,8 +17,8 @@
       q-btn(class="glossy" label="Send" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
       q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_dates)" v-close-popup icon="card_giftcard")
     span(class="q-pa-md" style="vertical-align: top;")
-      div(v-for="(fire_date, index) in fire_dates")
-        range(:fire_date = "fire_date", :fire_date_index = "index" )
+      div(v-for="(fire_date, index) in fireDates")
+        range(:fire_date = "fire_date", :fire_date_index = "index")
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setMaleName','setTabooDate','dates','setFireDate']),
+    ...mapActions(['setMaleName','setTabooDates','getDates','setFireDates']),
     onTabooChange(taboo_dates, reason, details){
       this.disableSaveTaboo = false;
       this.setTabooDates(taboo_dates);
@@ -52,14 +52,12 @@ export default {
       this.setFireDates(fire_dates);
     },
     async sendTabooDate() {
-      let str_taboo_dates = this.taboo_dates ? JSON.stringify(this.taboo_dates) : null;
-      const response = await this.$api.female.setTabooDate({ taboo_dates: str_taboo_dates } );
+      const response = await this.$api.female.setTabooDate({ taboo_dates: this.tabooDatesSer } );
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
           : this.showErrNotif(response.data.join());
     },
     async sendFireDate() {
-      let fireDate = this.fire_dates ? JSON.stringify(this.fire_dates) : null;
-      const response = await this.$api.female.setFireDate({ fire_dates: fireDate } );
+      const response = await this.$api.female.setFireDate({ fire_dates: this.fireDatesSer } );
       response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
           : this.showErrNotif(response.data.join());
     },
@@ -78,18 +76,17 @@ export default {
     tabooOptionsFn(taboo_date) {
       return ((new Date(taboo_date) < this.currentDate) && !this.taboo_dates?.includes(taboo_date))
           ? false : !this.fire_dates?.includes(taboo_date);
-
-      //return !this.fire_dates?.includes(taboo_date);
     }
   },
   computed: {
     ...mapState(['male_name']),
-    ...mapGetters(['fireDates','tabooDates'])
+    ...mapGetters(['fireDates','tabooDates','fireDatesSer','tabooDatesSer'])
   },
   mounted() {
-    this.dates();
+    this.getDates();
     this.taboo_dates = this.tabooDates;
-    this.fire_dates = this.fireDates;
+    this.fire_dates = this.fireDates ? this.fireDates.map(fire_date => fire_date.date) : [];
+    console.log(this.fireDates)
   }
 }
 </script>
