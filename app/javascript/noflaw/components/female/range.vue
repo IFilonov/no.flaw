@@ -1,6 +1,6 @@
 <template lang="pug">
   span(class="range")
-    q-checkbox(keep-color v-model="saveTime" :label="fire_date.date" color="deep-orange"
+    q-checkbox(keep-color v-model="checkTime" :label="fire_day" color="deep-orange"
       @input="onCheckbox" text-color="deep-orange" style="align: left;")
       q-range(v-model="time"
         class="q-range"
@@ -13,16 +13,16 @@
         :step="range.step"
         label-always
         markers
-        :disable="!saveTime"
+        :disable="!checkTime"
         drag-range
         @change="onRangeChange"
         color="deep-orange")
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapGetters, mapState} from 'vuex'
 export default {
-  props: ['fire_date', 'fire_date_index'],
+  props: ['fire_day'],
   data: function () {
     return {
       range: {
@@ -34,22 +34,26 @@ export default {
         min: 20,
         max: 22
       },
-      saveTime: false,
+      checkTime: false,
       nextNum: 10
     }
   },
   methods: {
     ...mapActions(['setFireTime']),
     onRangeChange(value) {
-      this.setFireTime({ index: this.fire_date_index, time: value })
+      this.setFireTime({ day: this.fire_day, time: value })
     },
     onCheckbox(value) {
-      this.setFireTime({ index: this.fire_date_index, time: value ? this.time : null })
+      this.onRangeChange(value ? this.time : null )
     }
   },
+  computed: {
+    ...mapGetters(['fireDayTime'])
+  },
   mounted() {
-    this.time = this.fire_date.time || this.time
-    this.saveTime = !!this.fire_date.time
+    let time = this.fireDayTime(this.fire_day)
+    this.time = !!time.min ? time : this.time
+    this.checkTime = !!time.min
   }
 }
 </script>
