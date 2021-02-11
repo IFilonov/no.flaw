@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     post '/males/create', to: 'males#create'
     get '/females/delete', to: 'females#delete'
     get '/males/delete', to: 'males#delete'
+    get '/females/dates', to: 'females#dates'
+    post '/females/set_taboo_date', to: 'females#set_taboo_date'
+    post '/females/set_fire_date', to: 'females#set_fire_date'
   end
 
   get '/males/*slug', to: 'males#index'

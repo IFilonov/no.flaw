@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_06_200920) do
+ActiveRecord::Schema.define(version: 2021_01_16_185813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,16 @@ ActiveRecord::Schema.define(version: 2021_01_06_200920) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["reset_password_token"], name: "index_females_on_reset_password_token", unique: true
     t.index ["username"], name: "index_females_on_username", unique: true
+  end
+
+  create_table "lifetimes", force: :cascade do |t|
+    t.string "taboo_date"
+    t.string "fire_date"
+    t.string "dateable_type", null: false
+    t.bigint "dateable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dateable_type", "dateable_id"], name: "index_lifetimes_on_dateable_type_and_dateable_id"
   end
 
   create_table "males", force: :cascade do |t|

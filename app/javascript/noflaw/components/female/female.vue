@@ -1,14 +1,14 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:user = "name" :logout_path="$api.female.logout" :img="img")
+      navbar(:name = "name" :logout_path="$api.female.logout" :img="img")
       dashboard
 </template>
 
 <script>
 import navbar from '../shared/navbar';
 import dashboard from './dashboard';
-import { mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 export default {
   components: {
@@ -28,6 +28,9 @@ export default {
       this.name = response.data.name;
       this.setMaleName(response.data.male_name);
     }
+  },
+  computed: {
+    ...mapState(['male_name']),
   },
   mounted() {
     this.getUser();

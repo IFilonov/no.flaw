@@ -5,10 +5,10 @@ export default {
     }
   },
   methods: {
-    showNotif (message) {
+    showNotif (message, color) {
       this.$q.notify({
         message: message,
-        color: 'purple'
+        color: color
       })
     },
     showErrNotif (message) {

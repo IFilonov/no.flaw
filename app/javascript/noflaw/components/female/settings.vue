@@ -1,20 +1,21 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
     q-btn(v-if="!male_name" class="glossy" no-caps color="blue" @click="showAddMaleDlg" label="Add male")
-    q-chip(v-if="male_name" removable @remove="showRemoveMaleDlg" text-color="white" color="light-blue-8" class="glossy")
-      q-avatar
+    q-chip(v-if="male_name" removable @remove="showRemoveMaleDlg" text-color="white"
+        color="light-blue-8" class="glossy" size="lg")
+      q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar4.jpg")
-      b {{ male_name }}
+      span {{ male_name }}
     q-dialog(v-model="addMaleDlg" persistent)
       q-card
         q-card-section(class="row items-center")
           q-form(class="q-gutter-md" @submit="addMale" @reset="male=''")
             q-input(filled label="Male name *" hint="Name"
               v-model="male.username"
-              lazy-rules :rules="[ val => val && val.length > 5 || 'Please type Fullname > 5 chars']")
+              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type male name']")
             q-input(filled label="Password" hint="password" type="password"
               v-model="male.password"
-              lazy-rules :rules="[ val => val && val.length > 5 || 'Please type password > 5 chars']")
+              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type password']")
             div
               q-btn(label="Submit" type="submit" color="primary")
               q-btn(label="Reset" type="reset" color="primary" flat class="q-ml-sm")
@@ -65,7 +66,6 @@ export default {
         }
         else
         {
-          console.log(response.data[0]);
           this.showErrNotif(response.data[0]);
         }
       } catch(err)  {
