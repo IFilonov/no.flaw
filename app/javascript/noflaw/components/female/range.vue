@@ -31,7 +31,7 @@ export default {
         step: 1
       },
       time: {
-        min: 20,
+        min: 18,
         max: 22
       },
       checkTime: false,

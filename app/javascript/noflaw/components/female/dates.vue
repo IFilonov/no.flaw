@@ -67,11 +67,13 @@ export default {
           : this.showErrNotif(response.data.join());
     },
     clearFireDate() {
-      this.fire_days = null;
+      this.fire_days = []
+      this.setFireDays(this.fire_days);
       this.disableSaveFire = false;
     },
     clearTabooDate() {
-      this.taboo_days = null
+      this.taboo_days = []
+      this.setTabooDates(this.taboo_days);
       this.disableSaveTaboo = false;
     },
     fireOptionsFn(fire_date) {
