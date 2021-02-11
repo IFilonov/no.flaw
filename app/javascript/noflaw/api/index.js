@@ -26,8 +26,8 @@ const api = {
     info: () => adapter.get('/females/info'),
     addMale: (male) => adapter.post('/males/create', male),
     delMale: () => adapter.get('/males/delete'),
-    setTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
-    setFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
+    saveTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
+    saveFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
     dates: () => adapter.get('/females/dates'),
   }
 }

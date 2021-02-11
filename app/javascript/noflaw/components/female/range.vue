@@ -42,9 +42,11 @@ export default {
     ...mapActions(['setFireTime']),
     onRangeChange(value) {
       this.setFireTime({ day: this.fire_day, time: value })
+      this.$emit('onRangeChange')
     },
-    onCheckbox(value) {
-      this.onRangeChange(value ? this.time : null )
+    onCheckbox(checked) {
+      this.onRangeChange(checked ? this.time : {} )
+      this.$emit('onRangeChange')
     }
   },
   computed: {
@@ -52,8 +54,8 @@ export default {
   },
   mounted() {
     let time = this.fireDayTime(this.fire_day)
-    this.time = !!time.min ? time : this.time
-    this.checkTime = !!time.min
+    this.checkTime = Object.keys(time).length > 0
+    this.time = this.checkTime ? time : this.time
   }
 }
 </script>

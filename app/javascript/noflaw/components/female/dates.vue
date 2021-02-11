@@ -18,7 +18,7 @@
       q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_days)" v-close-popup icon="card_giftcard")
     span(class="q-pa-md" style="vertical-align: top;")
       div(v-for="(fire_day) in fireDays")
-        range(:fire_day = "fire_day")
+        range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
 </template>
 
 <script>
@@ -51,13 +51,18 @@ export default {
       this.disableSaveFire = false;
       this.setFireDays(fire_days);
     },
+    onRangeChange(){
+      this.disableSaveFire = false;
+    },
     async sendTabooDate() {
-      const response = await this.$api.female.setTabooDate({ taboo_dates: this.tabooDatesSer } );
+      const response = await this.$api.female.saveTabooDate({ taboo_dates: this.tabooDatesSer } );
+      this.disableSaveTaboo = true;
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
           : this.showErrNotif(response.data.join());
     },
     async sendFireDate() {
-      const response = await this.$api.female.setFireDate({ fire_dates: this.fireDatesSer } );
+      const response = await this.$api.female.saveFireDate({ fire_dates: this.fireDatesSer } );
+      this.disableSaveFire = true;
       response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
           : this.showErrNotif(response.data.join());
     },
