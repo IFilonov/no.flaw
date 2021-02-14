@@ -1,36 +1,29 @@
 <template lang="pug">
-  span(class="q-pa-md")
-    span(class="q-pa-md q-gutter-sm")
-      q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Taboo dates")
-        q-badge(color="purple" floating) {{ taboo_days ? taboo_days.length : 0 }}
-      div(class="q-gutter-md row items-start")
-        q-date(v-model="taboo_days" :options="tabooOptionsFn" multiple today-btn first-day-of-week="1" color="purple" @input="onTabooChange")
-      br
-      q-btn(class="glossy" label="Save" @click="sendTabooDate" color="purple" :disable="disableSaveTaboo" v-close-popup icon="card_giftcard")
-      q-btn(class="glossy" label="Clear" @click="clearTabooDate" color="purple" :disable="!Array.isArray(taboo_days)" v-close-popup icon="card_giftcard")
-    span(class="q-gutter-sm")
-      q-btn(push color="white" text-color="deep-orange" class="text-bold" disable flat label="Fire dates")
-        q-badge(color="deep-orange" floating) {{ fire_days ? fire_days.length : 0 }}
-      div(class="q-gutter-md row items-start")
-        q-date(v-model="fire_days" :options="fireOptionsFn" multiple today-btn first-day-of-week="1" color="deep-orange" @input="onFireChange")
-      br
-      q-btn(class="glossy" label="Save" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
-      q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_days)" v-close-popup icon="card_giftcard")
-    span(class="q-pa-md" style="vertical-align: top;")
-      div(v-for="(fire_day) in fireDays")
-        range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
+  div
+    div(class="row q-pa-sm q-gutter-sm")
+      div(class="q-pa-sm q-gutter-sm")
+        q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Taboo dates")
+          q-badge(color="purple" floating) {{ taboo_days ? taboo_days.length : 0 }}
+        div
+          q-date(v-model="taboo_days" :options="tabooOptionsFn" disable multiple today-btn first-day-of-week="1" color="purple" @input="onTabooChange")
+      div(class="q-pa-sm q-gutter-sm")
+        q-btn(push color="white" text-color="deep-orange" class="text-bold" disable flat label="Fire dates")
+          q-badge(color="deep-orange" floating) {{ fire_days ? fire_days.length : 0 }}
+        div
+          q-date(v-model="fire_days" :options="fireOptionsFn" multiple today-btn first-day-of-week="1" color="deep-orange" @input="onFireChange")
+          div(class="q-pa-md q-gutter-sm")
+            q-btn(class="glossy" label="Save" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
+            q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_days)" v-close-popup icon="card_giftcard")
 </template>
 
 <script>
 import notifications from 'notifications';
 import {mapActions, mapState, mapGetters} from 'vuex'
-import range from './range'
 
 export default {
   C_MAX_FIRE_DATES: 6,
   mixins: [notifications],
-  name: "dates",
-  components: {'range': range},
+  name: "settings",
   data: function () {
     return {
       taboo_days: [],
@@ -91,8 +84,10 @@ export default {
   },
   mounted() {
     this.getDates()
+    console.log(this.tabooDays)
+    console.log(this.fireDays)
     this.taboo_days = this.tabooDays
-    this.fire_days = this.fireDays
+    //this.fire_days = this.fireDays
   }
 }
 </script>

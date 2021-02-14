@@ -6,7 +6,7 @@ class MalesController < ApplicationController
   end
 
   def info
-    female_name = current_male.pairs.first.female.username if current_male.pairs.first
+    female_name = current_male.pairs.includes(:female).order(id: :desc).pluck(:username).last
     render :json => { name: current_male.username, female_name: female_name }
   end
 
@@ -29,6 +29,11 @@ class MalesController < ApplicationController
   def logout
     sign_out current_male
     redirect_to new_male_session_path
+  end
+
+  def dates
+    render :json => { taboo_dates: "[]",#current_male.pairs.last.female.lifetimes.last&.taboo_date,
+                      fire_dates: "{}" } # current_male.pairs.last.female.lifetimes.last&.fire_date }
   end
 
   private
