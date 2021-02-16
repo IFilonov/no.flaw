@@ -32,8 +32,9 @@ class MalesController < ApplicationController
   end
 
   def dates
-    render :json => { taboo_dates: "[]",#current_male.pairs.last.female.lifetimes.last&.taboo_date,
-                      fire_dates: "{}" } # current_male.pairs.last.female.lifetimes.last&.fire_date }
+    female_lifetime = current_male.pairs.last.female.lifetimes.last
+    render :json => { taboo_dates: female_lifetime&.taboo_date,
+                      fire_dates: female_lifetime&.fire_date } 
   end
 
   private
