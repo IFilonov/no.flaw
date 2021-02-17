@@ -24,12 +24,12 @@ const api = {
   },
   female: {
     logout: '/females/logout',
-    info: () => adapter.get('/females/info'),
     addMale: (male) => adapter.post('/males/create', male),
     delMale: () => adapter.get('/males/delete'),
     saveTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
     saveFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
     dates: () => adapter.get('/females/dates'),
+    names: () => adapter.get('/females/info')
   }
 }
 

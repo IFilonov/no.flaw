@@ -11,19 +11,31 @@ class MalesController < ApplicationController
   end
 
   def create
-    male = Male.new(male_params)
-    if male.save
-      current_female.pairs.create(male: male)
-      current_female.save
-      render :json => male
-    else
-      render :json => male.errors.full_messages
+    begin
+      Male.transaction do
+        male = Male.create!(male_params.merge(female_id: current_female.id))
+        Pair.create!(male_id: male.id, female_id: current_female.id)
+        current_female.male_id = male.id
+        current_female.save!
+        render :json => { male_name: male.username }
+      end
+    rescue => error
+      render :json => { error: error.inspect }
     end
   end
 
   def delete
-    current_female.pairs.first.delete
-    render :json => { count: current_female.pairs.count }
+    begin
+      current_female.transaction do
+        current_female.male.female_id = nil
+        current_female.male.save!
+        current_female.male_id = nil
+        current_female.save!
+        render :json => {}
+      end
+    rescue => error
+      render :json => { error: error.inspect }
+    end
   end
 
   def logout
@@ -34,7 +46,7 @@ class MalesController < ApplicationController
   def dates
     female_lifetime = current_male.pairs.last.female.lifetimes.last
     render :json => { taboo_dates: female_lifetime&.taboo_date,
-                      fire_dates: female_lifetime&.fire_date } 
+                      fire_dates: female_lifetime&.fire_date }
   end
 
   private

@@ -5,7 +5,7 @@ export default {
     }
   },
   methods: {
-    showNotif (message, color) {
+    showNotif (message, color = 'blue') {
       this.$q.notify({
         message: message,
         color: color
@@ -13,7 +13,7 @@ export default {
     },
     showErrNotif (message) {
       this.$q.notify({
-        message: 'Error! ' + message,
+        message: 'Error! ' + message.error,
         color: 'red'
       })
     }

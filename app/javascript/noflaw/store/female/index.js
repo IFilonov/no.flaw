@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
+    name: '',
     male_name: '',
     taboo_dates: [],
     fire_dates: {}
@@ -28,8 +29,12 @@ export default new Vuex.Store(  {
     }
   },
   mutations: {
-    CHANGE_MALE_NAME: (state, male_name) => {
-      state.male_name  = male_name;
+    CHANGE_NAMES: (state, data) => {
+      state.name = data.name;
+      state.male_name  = data.male_name;
+    },
+    CHANGE_MALE_NAME: (state, data) => {
+      state.male_name  = data.male_name;
     },
     CHANGE_TABOO_DATES: (state, taboo_dates) => {
       state.taboo_dates  = taboo_dates;
@@ -59,6 +64,10 @@ export default new Vuex.Store(  {
     getDates: (context) => {
       return Vue.prototype.$api.female.dates()
         .then(({data}) => (context.commit('CHANGE_DATES_SER', data)));
+    },
+    getNames: (context) => {
+      return Vue.prototype.$api.female.names()
+          .then(({data}) => (context.commit('CHANGE_NAMES', data)));
     },
     setFireTime: (context, fire_date) => {
       context.commit('CHANGE_FIRE_TIME', fire_date);

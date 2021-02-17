@@ -6,7 +6,7 @@ class FemalesController < ApplicationController
   end
 
   def info
-    male_name = current_female.pairs.first.male.username if current_female.pairs.first
+    male_name = current_female.male.present? ? current_female.male.username : ''
     render :json => { name: current_female.username, male_name: male_name }
   end
 
@@ -27,8 +27,15 @@ class FemalesController < ApplicationController
   end
 
   def delete
-    current_male.pairs.first.delete
-    render :json => { count: current_male.pairs.count }
+    begin
+      current_male.female.male_id = nil
+      current_male.female.save!
+      current_male.female_id = nil
+      current_male.save!
+      render :json => {}
+    rescue => error
+      render :json => { error: error.inspect }
+    end
   end
 
   def dates
