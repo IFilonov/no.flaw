@@ -55,6 +55,9 @@ export default new Vuex.Store(  {
     setMaleName: (context, data) => {
       context.commit('CHANGE_MALE_NAME', data);
     },
+    setNames: (context, data) => {
+      context.commit('CHANGE_NAMES', data);
+    },
     setTabooDates: (context, taboo_dates) => {
       context.commit('CHANGE_TABOO_DATES', taboo_dates);
     },

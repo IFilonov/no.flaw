@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setMaleName','getNames']),
+    ...mapActions(['setMaleName','getNames','setNames']),
     showAddMaleDlg() {
       this.addMaleDlg = true;
     },
@@ -64,7 +64,7 @@ export default {
       }
       else {
         this.setMaleName(response.data);
-        this.showNotif(`${response.data.male_name} created`);
+        this.showNotif(`${this.male_name} created`);
       }
     },
     async deleteMale() {
@@ -74,8 +74,8 @@ export default {
         this.showErrNotif(response.data);
       }
       else {
-        this.showNotif(`${this.male_name} deleted`);
-        this.getNames();
+        this.showNotif(`${this.male_name} deleted`)
+        this.setNames(response.data)
       }
     }
   },

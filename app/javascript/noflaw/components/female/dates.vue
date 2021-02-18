@@ -77,7 +77,6 @@ export default {
           && !this.fireDays?.includes(fire_date)) ? false : !this.tabooDays?.includes(fire_date);
     },
     tabooOptionsFn(taboo_date) {
-      console.log(taboo_date)
       return ((new Date(taboo_date) < this.currentDate) && !this.tabooDays?.includes(taboo_date))
           ? false : !this.fireDays?.includes(taboo_date);
     }

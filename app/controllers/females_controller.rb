@@ -1,12 +1,11 @@
 class FemalesController < ApplicationController
-  before_action :authenticate_female!, except: [:create, :delete]
-  before_action :authenticate_male!, only: [:create, :delete]
+  before_action :authenticate_female!
 
   def index
   end
 
   def info
-    male_name = current_female.male.present? ? current_female.male.username : ''
+    male_name = current_female.male&.username
     render :json => { name: current_female.username, male_name: male_name }
   end
 
@@ -16,25 +15,23 @@ class FemalesController < ApplicationController
   end
 
   def create
-    female = Female.new(female_params)
-    if female.save
-      current_male.pairs.create(female: female)
-      current_male.save
-      render :json => female
-    else
-      render :json => female.errors.full_messages
+    begin
+      Male.transaction do
+        male = Male.create!(female_params.merge(female_id: current_female.id))
+        male.pairs.create!(female: current_female)
+        render :json => names
+      end
+    rescue => error
+      render :json => helpers.log_details(error)
     end
   end
 
   def delete
     begin
-      current_male.female.male_id = nil
-      current_male.female.save!
-      current_male.female_id = nil
-      current_male.save!
-      render :json => {}
+      current_female.male.update!(female: nil)
+      render :json => names
     rescue => error
-      render :json => { error: error.inspect }
+      render :json => helpers.log_details(error)
     end
   end
 
@@ -62,6 +59,11 @@ class FemalesController < ApplicationController
 
   private
   def female_params
-    params.require(:female).permit(:username, :password)
+    params.require(:male).permit(:username, :password)
+  end
+
+  def names
+    male_name = current_female.reload.male&.username
+    { name: current_female.username, male_name: male_name }
   end
 end

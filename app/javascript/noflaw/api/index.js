@@ -17,15 +17,15 @@ const api = {
   },
   male: {
     logout: '/males/logout',
-    info: () => adapter.get('/males/info'),
-    addFemale: (female) => adapter.post('/females/create', female),
-    delFemale: () => adapter.get('/females/delete'),
+    names: () => adapter.get('/males/info'),
+    addFemale: (female) => adapter.post('/males/create', female),
+    delFemale: () => adapter.get('/males/delete'),
     dates: () => adapter.get('/males/dates')
   },
   female: {
     logout: '/females/logout',
-    addMale: (male) => adapter.post('/males/create', male),
-    delMale: () => adapter.get('/males/delete'),
+    addMale: (male) => adapter.post('/females/create', male),
+    delMale: () => adapter.get('/females/delete'),
     saveTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
     saveFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
     dates: () => adapter.get('/females/dates'),
