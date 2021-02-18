@@ -10,9 +10,12 @@ export default new Vuex.Store(  {
     female_name: '',
     taboo_dates: [],
     fire_dates: {}
-  },
+    },
   getters: {
     fireDays: state => {
+      return Object.keys(state.fire_dates)
+    },
+    femaleEvents: state => {
       return Object.keys(state.fire_dates)
     },
     fireDayTime: state => (day) => {

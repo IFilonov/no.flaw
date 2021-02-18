@@ -5,8 +5,7 @@ class FemalesController < ApplicationController
   end
 
   def info
-    male_name = current_female.male&.username
-    render :json => { name: current_female.username, male_name: male_name }
+    render names
   end
 
   def logout
@@ -36,7 +35,7 @@ class FemalesController < ApplicationController
   end
 
   def dates
-    render :json => { taboo_dates: current_female.lifetimes.last&.taboo_date, fire_dates: current_female.lifetimes.last&.fire_date }
+    render :json => lifetime_dates
   end
 
   def set_taboo_date
@@ -66,4 +65,11 @@ class FemalesController < ApplicationController
     male_name = current_female.reload.male&.username
     { name: current_female.username, male_name: male_name }
   end
+
+  def lifetime_dates
+    lifetime = current_female.lifetimes.last
+    { taboo_dates: lifetime&.taboo_date,
+      fire_dates: lifetime&.fire_date }
+  end
+
 end
