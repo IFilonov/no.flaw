@@ -5,7 +5,7 @@ class FemalesController < ApplicationController
   end
 
   def info
-    render names
+    render :json => names
   end
 
   def logout
@@ -39,7 +39,8 @@ class FemalesController < ApplicationController
   end
 
   def set_taboo_date
-    lifetime = Lifetime.create( fire_date: current_female.lifetimes.last&.fire_date, taboo_date: params[:taboo_dates], dateable: current_female)
+    lifetime = current_female.lifetimes.create(fire_date: current_female.lifetimes.last&.fire_date,
+                                               taboo_date: params[:taboo_dates])
     if lifetime
       render :json => { created_at:  current_female.lifetimes.last.created_at }
     else
@@ -48,7 +49,8 @@ class FemalesController < ApplicationController
   end
 
   def set_fire_date
-    lifetime = Lifetime.create( taboo_date: current_female.lifetimes.last&.taboo_date, fire_date: params[:fire_dates], dateable: current_female)
+    lifetime = current_female.lifetimes.create( taboo_date: current_female.lifetimes.last&.taboo_date,
+                                                fire_date: params[:fire_dates])
     if lifetime
       render :json => { created_at:  current_female.lifetimes.last.created_at }
     else
@@ -67,7 +69,7 @@ class FemalesController < ApplicationController
   end
 
   def lifetime_dates
-    lifetime = current_female.lifetimes.last
+    lifetime = current_female.lifetimes&.last
     { taboo_dates: lifetime&.taboo_date,
       fire_dates: lifetime&.fire_date }
   end
