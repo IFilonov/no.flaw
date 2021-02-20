@@ -15,6 +15,9 @@
           div(class="q-pa-md q-gutter-sm")
             q-btn(class="glossy" label="Save" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
             q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_days)" v-close-popup icon="card_giftcard")
+      div(class="q-pa-sm")
+        div(v-for="(fire_day) in fireDays")
+          range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
 </template>
 
 <script>
@@ -66,9 +69,9 @@ export default {
   },
   computed: {
     ...mapState(['male_name']),
-    ...mapGetters(['fireDays','tabooDays','fireDatesSer','tabooDatesSer','femaleEvents']),
+    ...mapGetters(['femaleFireDays','tabooDays','fireDatesSer','tabooDatesSer','femaleEvents']),
     fireDaysModel: {
-      get: function() { return this.fireDays },
+      get: function() { return {} },
       set: function(newValue) { this.fire_days = newValue }
     },
     tabooDaysModel: {
