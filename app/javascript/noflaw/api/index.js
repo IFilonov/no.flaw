@@ -20,16 +20,17 @@ const api = {
     names: () => adapter.get('/males/info'),
     addFemale: (female) => adapter.post('/males/create', female),
     delFemale: () => adapter.get('/males/delete'),
+    saveFireDate: (fire_date) => adapter.post('/males/set_fire_date', fire_date),
     dates: () => adapter.get('/males/dates')
   },
   female: {
     logout: '/females/logout',
+    names: () => adapter.get('/females/info'),
     addMale: (male) => adapter.post('/females/create', male),
     delMale: () => adapter.get('/females/delete'),
     saveTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
     saveFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
-    dates: () => adapter.get('/females/dates'),
-    names: () => adapter.get('/females/info')
+    dates: () => adapter.get('/females/dates')
   }
 }
 

@@ -16,6 +16,9 @@ export default new Vuex.Store(  {
     femaleFireDays: state => {
       return Object.keys(state.female_fire_dates)
     },
+    fireDays: state => {
+      return Object.keys(state.fire_dates)
+    },
     femaleEvents: state => {
       return Object.keys(state.female_fire_dates)
     },
@@ -43,6 +46,13 @@ export default new Vuex.Store(  {
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
       state.female_fire_dates = data.female_fire_dates ? JSON.parse(data.female_fire_dates) : {}
+    },
+    CHANGE_FIRE_DAYS: (state, fire_days) => {
+      state.fire_dates = fire_days
+          ?  Object.fromEntries(fire_days?.map(fire_day => ([ fire_day, state.fire_dates[fire_day] || {} ] ))) : {}
+    },
+    CHANGE_FIRE_TIME: (state, fire_date) => {
+      state.fire_dates[fire_date.day] = fire_date.time
     }
   },
   actions: {
@@ -59,6 +69,12 @@ export default new Vuex.Store(  {
     getNames: (context) => {
       return Vue.prototype.$api.male.names()
           .then(({data}) => (context.commit('CHANGE_NAMES', data)));
+    },
+    setFireDays: (context, fire_days) => {
+      context.commit('CHANGE_FIRE_DAYS', fire_days);
+    },
+    setFireTime: (context, fire_date) => {
+      context.commit('CHANGE_FIRE_TIME', fire_date);
     }
   },
   modules: {},

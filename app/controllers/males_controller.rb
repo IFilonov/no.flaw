@@ -39,6 +39,11 @@ class MalesController < ApplicationController
                       fire_dates: current_male.lifetimes&.last&.fire_date }
   end
 
+  def set_fire_date
+    lifetime = current_male.lifetimes.create( fire_date: params[:fire_dates])
+    render :json => lifetime ? { created_at:  lifetime.created_at } : lifetime.errors.full_messages
+  end
+
   private
   def male_params
     params.require(:female).permit(:username, :password)

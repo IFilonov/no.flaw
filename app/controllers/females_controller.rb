@@ -47,7 +47,7 @@ class FemalesController < ApplicationController
   def set_fire_date
     lifetime = current_female.lifetimes.create( taboo_date: current_female.lifetimes.last&.taboo_date,
                                                 fire_date: params[:fire_dates])
-    render :json => lifetime ? { created_at:  lifetime.last.created_at } : lifetime.errors.full_messages
+    render :json => lifetime ? { created_at:  lifetime.created_at } : lifetime.errors.full_messages
   end
 
   private

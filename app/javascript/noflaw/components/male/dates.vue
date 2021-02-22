@@ -23,11 +23,13 @@
 <script>
 import notifications from 'notifications';
 import {mapActions, mapState, mapGetters} from 'vuex'
+import range from './range'
 
 export default {
   C_MAX_FIRE_DATES: 6,
   mixins: [notifications],
-  name: "settings",
+  name: "dates",
+  components: {'range': range},
   data: function () {
     return {
       fire_days: [],
@@ -46,14 +48,8 @@ export default {
     onRangeChange(){
       this.disableSaveFire = false;
     },
-    async sendTabooDate() {
-      const response = await this.$api.female.saveTabooDate({ taboo_dates: this.tabooDatesSer } );
-      this.disableSaveTaboo = true;
-      response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
-          : this.showErrNotif(response.data.join());
-    },
     async sendFireDate() {
-      const response = await this.$api.female.saveFireDate({ fire_dates: this.fireDatesSer } );
+      const response = await this.$api.male.saveFireDate({ fire_dates: this.fireDatesSer } );
       this.disableSaveFire = true;
       response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
           : this.showErrNotif(response.data.join());
@@ -69,10 +65,10 @@ export default {
   },
   computed: {
     ...mapState(['male_name']),
-    ...mapGetters(['femaleFireDays','tabooDays','fireDatesSer','tabooDatesSer','femaleEvents']),
+    ...mapGetters(['femaleFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer','femaleEvents']),
     fireDaysModel: {
-      get: function() { return {} },
-      set: function(newValue) { this.fire_days = newValue }
+      get: function() { return this.fireDays },
+      set: function(newValue) {}
     },
     tabooDaysModel: {
       get: function() { return this.tabooDays },
@@ -81,7 +77,6 @@ export default {
   },
   mounted() {
     this.getDates()
-    console.log(this.femaleEvents);
   }
 }
 </script>
