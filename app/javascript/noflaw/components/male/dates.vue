@@ -23,7 +23,7 @@
 <script>
 import notifications from 'notifications';
 import {mapActions, mapState, mapGetters} from 'vuex'
-import range from './range'
+import range from '../shared/range'
 
 export default {
   C_MAX_FIRE_DATES: 6,
