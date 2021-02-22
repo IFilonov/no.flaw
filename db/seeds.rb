@@ -5,10 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-staff = Staff.new(email: 'admin@admin.com', password: 'password', password_confirmation: 'password')
-staff.save!
-male = Male.new(username: 'male', password: 'password', password_confirmation: 'password')
-male.save!
-female = Female.new(username: 'female', password: 'password', password_confirmation: 'password')
-female.save!
+Staff.create!(email: 'admin@admin.com', password: 'password', password_confirmation: 'password')
+female = Female.create!(username: 'female', password: 'password', password_confirmation: 'password')
+Male.create!(username: 'male', password: 'password', password_confirmation: 'password', female: female)
