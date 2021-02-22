@@ -19,9 +19,6 @@ export default new Vuex.Store(  {
     fireDays: state => {
       return Object.keys(state.fire_dates)
     },
-    femaleEvents: state => {
-      return Object.keys(state.female_fire_dates)
-    },
     fireDayTime: state => (day) => {
       return state.fire_dates[day]
     },

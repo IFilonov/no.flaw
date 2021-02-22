@@ -2,19 +2,48 @@
   div
     div(class="row q-pa-sm q-gutter-sm")
       div(class="q-pa-sm q-gutter-sm")
-        q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Female taboo dates")
+        q-btn(push color="white"
+          text-color="purple"
+          class="text-bold"
+          disable flat
+          label="Female taboo dates")
           q-badge(color="purple" floating) {{ tabooDaysModel ? tabooDaysModel.length : 0 }}
         div
-          q-date(v-model="tabooDaysModel" multiple today-btn first-day-of-week="1" color="purple")
+          q-date(v-model="tabooDaysModel"
+            multiple today-btn
+            first-day-of-week="1"
+            color="purple")
       div(class="q-pa-sm q-gutter-sm")
-        q-btn(push color="white" text-color="deep-orange" class="text-bold" disable flat label="Fire dates")
+        q-btn(color="white"
+          text-color="deep-orange"
+          class="text-bold"
+          disable flat push
+          label="Fire dates")
           q-badge(color="deep-orange" floating) {{ fire_days ? fire_days.length : 0 }}
         div
-          q-date(v-model="fireDaysModel" :events="femaleEvents" event-color="light-green-14"
-            :options="fireOptionsFn" multiple today-btn first-day-of-week="1" color="deep-orange" @input="onFireChange")
+          q-date(v-model="fireDaysModel"
+            :events="femaleFireDays"
+            event-color="lime"
+            :options="fireOptionsFn"
+            multiple today-btn
+            first-day-of-week="1"
+            color="deep-orange"
+            @input="onFireChange")
           div(class="q-pa-md q-gutter-sm")
-            q-btn(class="glossy" label="Save" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
-            q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fire_days)" v-close-popup icon="card_giftcard")
+            q-btn(class="glossy"
+              label="Save"
+              @click="sendFireDate"
+              color="deep-orange"
+              :disable="disableSaveFire"
+              v-close-popup
+              icon="card_giftcard")
+            q-btn(class="glossy"
+              label="Clear"
+              @click="clearFireDate"
+              color="deep-orange"
+              :disable="!Array.isArray(fire_days)"
+              v-close-popup
+              icon="card_giftcard")
       div(class="q-pa-sm")
         div(v-for="(fire_day) in fireDays")
           range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
@@ -65,7 +94,7 @@ export default {
   },
   computed: {
     ...mapState(['male_name']),
-    ...mapGetters(['femaleFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer','femaleEvents']),
+    ...mapGetters(['femaleFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
       set: function(newValue) {}
