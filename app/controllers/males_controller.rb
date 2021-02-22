@@ -33,10 +33,7 @@ class MalesController < ApplicationController
   end
 
   def dates
-    female_lifetime = current_male.female&.lifetimes&.last
-    render :json => { taboo_dates: female_lifetime&.taboo_date,
-                      female_fire_dates: female_lifetime&.fire_date,
-                      fire_dates: current_male.lifetimes&.last&.fire_date }
+    render :json => lifetime_dates
   end
 
   def set_fire_date
@@ -59,5 +56,12 @@ class MalesController < ApplicationController
     current_male.update!(female: female)
     female.pairs.create!(male: current_male)
     { female_name: female.username }
+  end
+
+  def lifetime_dates
+    female_lifetime = current_male.female&.lifetimes&.last
+    { taboo_dates: female_lifetime&.taboo_date,
+      female_fire_dates: female_lifetime&.fire_date,
+      fire_dates: current_male.lifetimes&.last&.fire_date }
   end
 end

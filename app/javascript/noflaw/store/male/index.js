@@ -46,6 +46,7 @@ export default new Vuex.Store(  {
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
       state.female_fire_dates = data.female_fire_dates ? JSON.parse(data.female_fire_dates) : {}
+      state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {}
     },
     CHANGE_FIRE_DAYS: (state, fire_days) => {
       state.fire_dates = fire_days
