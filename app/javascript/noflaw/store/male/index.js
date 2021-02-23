@@ -22,6 +22,9 @@ export default new Vuex.Store(  {
     fireDayTime: state => (day) => {
       return state.fire_dates[day]
     },
+    pairFireDayTime: state => (day) => {
+      return state.female_fire_dates[day]
+    },
     fireDatesSer: state => {
       return state.fire_dates ? JSON.stringify(state.fire_dates) : [];
     },

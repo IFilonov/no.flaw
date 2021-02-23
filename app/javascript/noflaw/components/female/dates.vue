@@ -2,21 +2,65 @@
   div
     div(class="row q-pa-sm q-gutter-sm")
       div(class="q-pa-sm q-gutter-sm")
-        q-btn(push color="white" text-color="purple" class="text-bold" disable flat label="Taboo dates")
+        q-btn(push color="white"
+          text-color="purple"
+          class="text-bold"
+          disable flat
+          label="Taboo dates")
           q-badge(color="purple" floating) {{ tabooDays ? tabooDays.length : 0 }}
         div(class="q-gutter-md row items-start")
-          q-date(v-model="tabooDaysModel" :options="tabooOptionsFn" multiple today-btn first-day-of-week="1" color="purple" @input="onTabooChange")
+          q-date(v-model="tabooDaysModel"
+            :options="tabooOptionsFn"
+            multiple today-btn
+            first-day-of-week="1"
+            color="purple"
+            @input="onTabooChange")
         br
-        q-btn(class="glossy" label="Save" @click="sendTabooDate" color="purple" :disable="disableSaveTaboo" v-close-popup icon="card_giftcard")
-        q-btn(class="glossy" label="Clear" @click="clearTabooDate" color="purple" :disable="!Array.isArray(tabooDays)" v-close-popup icon="card_giftcard")
+        q-btn(class="glossy"
+          label="Save"
+          @click="sendTabooDate"
+          color="purple"
+          :disable="disableSaveTaboo"
+          v-close-popup
+          icon="card_giftcard")
+        q-btn(class="glossy"
+          label="Clear"
+          @click="clearTabooDate"
+          color="purple"
+          :disable="!Array.isArray(tabooDays)"
+          v-close-popup
+          icon="card_giftcard")
       div(class="q-pa-sm q-gutter-sm")
-        q-btn(push color="white" text-color="deep-orange" class="text-bold" disable flat label="Fire dates")
+        q-btn(push color="white"
+          text-color="deep-orange"
+          class="text-bold"
+          disable flat
+          label="Fire dates")
           q-badge(color="deep-orange" floating) {{ fireDays ? fireDays.length : 0 }}
         div(class="q-gutter-md row items-start")
-          q-date(v-model="fireDaysModel" :options="fireOptionsFn" multiple today-btn first-day-of-week="1" color="deep-orange" @input="onFireChange")
+          q-date(v-model="fireDaysModel"
+            :events="maleFireDays"
+            event-color="lime"
+            :options="fireOptionsFn"
+            multiple today-btn
+            first-day-of-week="1"
+            color="deep-orange"
+            @input="onFireChange")
         br
-        q-btn(class="glossy" label="Save" @click="sendFireDate" color="deep-orange" :disable="disableSaveFire" v-close-popup icon="card_giftcard")
-        q-btn(class="glossy" label="Clear" @click="clearFireDate" color="deep-orange" :disable="!Array.isArray(fireDays)" v-close-popup icon="card_giftcard")
+        q-btn(class="glossy"
+          label="Save"
+          @click="sendFireDate"
+          color="deep-orange"
+          :disable="disableSaveFire"
+          v-close-popup
+          icon="card_giftcard")
+        q-btn(class="glossy"
+          label="Clear"
+          @click="clearFireDate"
+          color="deep-orange"
+          :disable="!Array.isArray(fireDays)"
+          v-close-popup
+          icon="card_giftcard")
       div(class="q-pa-sm")
         div(v-for="(fire_day) in fireDays")
           range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
@@ -83,7 +127,7 @@ export default {
   },
   computed: {
     ...mapState(['male_name']),
-    ...mapGetters(['fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
+    ...mapGetters(['maleFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
       set: function(newValue) {}

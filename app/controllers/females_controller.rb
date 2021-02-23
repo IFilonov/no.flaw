@@ -63,7 +63,9 @@ class FemalesController < ApplicationController
   def lifetime_dates
     lifetime = current_female.lifetimes&.last
     { taboo_dates: lifetime&.taboo_date,
-      fire_dates: lifetime&.fire_date }
+      fire_dates: lifetime&.fire_date,
+      male_fire_dates: current_female.male&.lifetimes&.last&.fire_date
+    }
   end
 
 end

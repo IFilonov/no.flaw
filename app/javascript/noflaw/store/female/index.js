@@ -9,14 +9,21 @@ export default new Vuex.Store(  {
     name: '',
     male_name: '',
     taboo_dates: [],
-    fire_dates: {}
+    fire_dates: {},
+    male_fire_dates: {}
   },
   getters: {
+    maleFireDays: state => {
+      return Object.keys(state.male_fire_dates)
+    },
     fireDays: state => {
       return Object.keys(state.fire_dates)
     },
     fireDayTime: state => (day) => {
       return state.fire_dates[day]
+    },
+    pairFireDayTime: state => (day) => {
+      return state.male_fire_dates[day]
     },
     fireDatesSer: state => {
       return state.fire_dates ? JSON.stringify(state.fire_dates) : [];
@@ -42,6 +49,7 @@ export default new Vuex.Store(  {
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
       state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {}
+      state.male_fire_dates = data.male_fire_dates ? JSON.parse(data.male_fire_dates) : {}
     },
     CHANGE_FIRE_DAYS: (state, fire_days) => {
       state.fire_dates = fire_days

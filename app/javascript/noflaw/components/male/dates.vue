@@ -12,6 +12,7 @@
           q-date(v-model="tabooDaysModel"
             multiple today-btn
             first-day-of-week="1"
+            @input="onTabooClick"
             color="purple")
       div(class="q-pa-sm q-gutter-sm")
         q-btn(color="white"
@@ -50,11 +51,13 @@
 </template>
 
 <script>
+const C_DEEP_ORANGE = 'deep-orange';
 import notifications from 'notifications';
 import {mapActions, mapState, mapGetters} from 'vuex'
 import range from '../shared/range'
 
 export default {
+
   C_MAX_FIRE_DATES: 6,
   mixins: [notifications],
   name: "dates",
@@ -70,6 +73,9 @@ export default {
   },
   methods: {
     ...mapActions(['setMaleName','setTabooDates','getDates','setFireDays']),
+    onTabooClick(){
+      this.showNotif('Only female can change taboo date. You need observe this days','purple')
+    },
     onFireChange(fire_days, reason, details){
       this.disableSaveFire = false;
       this.setFireDays(fire_days);
@@ -80,7 +86,7 @@ export default {
     async sendFireDate() {
       const response = await this.$api.male.saveFireDate({ fire_dates: this.fireDatesSer } );
       this.disableSaveFire = true;
-      response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
+      response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, C_DEEP_ORANGE)
           : this.showErrNotif(response.data.join());
     },
     clearFireDate() {

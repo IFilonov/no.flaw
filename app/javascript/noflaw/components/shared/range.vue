@@ -17,10 +17,12 @@
         :disable="!checkTime"
         drag-range
         @change="onRangeChange"
-        color="deep-orange")
+        color="purple")
 </template>
 
 <script>
+const C_DEEP_ORANGE = '#FF5722';
+const C_LIME = 'orange';
 import {mapActions, mapGetters, mapState} from 'vuex'
 export default {
   props: ['fire_day'],
@@ -35,13 +37,13 @@ export default {
         min: 18,
         max: 22
       },
-      cross_time: {},
+      pair_time: {},
       checkTime: false,
       nextNum: 10,
       zones: [
-        { color: 'teal', min: 0, max: 6 },
-        { color: 'lime', min: 6, max: 15 },
-        { color: 'teal', min: 15, max: 24 }
+        { color: C_DEEP_ORANGE, min: 0, max: 6 },
+        { color: C_DEEP_ORANGE, min: 6, max: 15 },
+        { color: C_DEEP_ORANGE, min: 15, max: 24 }
       ]
     }
   },
@@ -57,7 +59,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['fireDayTime']),
+    ...mapGetters(['fireDayTime','pairFireDayTime']),
     trackStyle () {
       const colors = []
       const { min, max } = this.range
@@ -91,6 +93,14 @@ export default {
   },
   mounted() {
     let time = this.fireDayTime(this.fire_day)
+    this.pair_time = this.pairFireDayTime(this.fire_day)
+    if(this.pair_time) {
+      this.zones[0].max = this.pair_time.min
+      this.zones[1].min = this.pair_time.min
+      this.zones[1].max = this.pair_time.max
+      this.zones[2].min = this.pair_time.max
+      this.zones[1].color = C_LIME
+    }
     this.checkTime = Object.keys(time).length > 0
     this.time = this.checkTime ? time : this.time
   }
@@ -100,17 +110,16 @@ export default {
 <style lang="stylus">
 .q-range
   width: 400px
-//  border: 6px solid
-//  height: 6px
 .range
   height: 56px
 .custom-colored-range
   .q-slider__track-container--h
     background-image: var(--track-bg)
-    margin-top: -3px
     height: 10px
 .custom-colored-range--inside
   .q-slider__track--h
-    top: 3px
-    bottom: 3px
+    top: 4px
+    bottom: 4px
+  .q-slider__track-markers
+    color: purple
 </style>
