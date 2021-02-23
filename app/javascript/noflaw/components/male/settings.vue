@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setFemaleName']),
+    ...mapActions(['setFemaleName','getNames','setNames']),
     showAddFemaleDlg() {
       this.addFemaleDlg = true;
     },
@@ -57,29 +57,25 @@ export default {
       this.delFemaleDlg = true;
     },
     async addFemale() {
-      try {
-        this.addFemaleDlg = false;
-        const response = await this.$api.male.addFemale({ female: this.female });
-        if(response.data.username) {
-          this.setFemaleName(response.data.username);
-          this.showNotif(`${response.data.username} created`);
-        }
-        else
-        {
-          this.showErrNotif(response.data[0]);
-        }
-      } catch(err)  {
+      this.addFemaleDlg = false;
+      const response = await this.$api.male.addFemale({ female: this.female });
+      if(response.data.error) {
+        this.showErrNotif(response.data);
+      }
+      else {
+        this.setFemaleName(response.data)
+        this.showNotif(`${this.female_name} created`);
       }
     },
     async deleteFemale() {
-      try {
-        this.delFemaleDlg = false;
-        await this.$api.male.delFemale();
+      this.delFemaleDlg = false;
+      const response = await this.$api.male.delFemale();
+      if(response.data.error) {
+        this.showErrNotif(response.data);
+      }
+      else {
         this.showNotif(`${this.female_name} deleted`);
-        this.setFemaleName(null);
-
-      } catch(err)  {
-        this.showErrNotif(`${this.female_name} not deleted`);
+        this.setNames(response.data)
       }
     }
   },
@@ -88,7 +84,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

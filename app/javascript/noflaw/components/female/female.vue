@@ -17,23 +17,17 @@ export default {
   },
   data: function () {
     return {
-      name: '',
       img: "https://cdn.quasar.dev/img/avatar2.jpg"
     }
   },
   methods: {
-    ...mapActions(['setMaleName']),
-    async getUser() {
-      const response = await this.$api.female.info();
-      this.name = response.data.name;
-      this.setMaleName(response.data.male_name);
-    }
+    ...mapActions(['getNames']),
   },
   computed: {
-    ...mapState(['male_name']),
+    ...mapState(['name','male_name']),
   },
   mounted() {
-    this.getUser();
+    this.getNames();
   }
 }
 </script>

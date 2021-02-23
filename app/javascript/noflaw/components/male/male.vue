@@ -8,7 +8,7 @@
 <script>
 import navbar from '../shared/navbar';
 import dashboard from './dashboard';
-import { mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 export default {
   components: {
@@ -17,20 +17,17 @@ export default {
   },
   data: function () {
     return {
-      name: '',
       img: "https://cdn.quasar.dev/img/avatar4.jpg"
     }
   },
   methods: {
-    ...mapActions(['setFemaleName']),
-    async getUser() {
-      const response = await this.$api.male.info();
-      this.name = response.data.name;
-      this.setFemaleName(response.data.female_name);
-    }
+    ...mapActions(['getNames'])
+  },
+  computed: {
+    ...mapState(['name','female_name']),
   },
   mounted() {
-    this.getUser();
+    this.getNames();
   }
 }
 </script>

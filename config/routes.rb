@@ -28,8 +28,10 @@ Rails.application.routes.draw do
     get '/females/delete', to: 'females#delete'
     get '/males/delete', to: 'males#delete'
     get '/females/dates', to: 'females#dates'
+    get '/males/dates', to: 'males#dates'
     post '/females/set_taboo_date', to: 'females#set_taboo_date'
     post '/females/set_fire_date', to: 'females#set_fire_date'
+    post '/males/set_fire_date', to: 'males#set_fire_date'
   end
 
   get '/males/*slug', to: 'males#index'
