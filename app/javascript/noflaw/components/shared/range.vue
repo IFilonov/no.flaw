@@ -95,10 +95,8 @@ export default {
     let time = this.fireDayTime(this.fire_day)
     this.pair_time = this.pairFireDayTime(this.fire_day)
     if(this.pair_time) {
-      this.zones[0].max = this.pair_time.min
-      this.zones[1].min = this.pair_time.min
-      this.zones[1].max = this.pair_time.max
-      this.zones[2].min = this.pair_time.max
+      this.zones[0].max = this.zones[1].min = this.pair_time.min
+      this.zones[1].max = this.zones[2].min = this.pair_time.max
       this.zones[1].color = C_LIME
     }
     this.checkTime = Object.keys(time).length > 0
