@@ -1,8 +1,14 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
     q-btn(v-if="!male_name" class="glossy" no-caps color="blue" @click="showAddMaleDlg" label="Add male")
-    q-chip(v-if="male_name" removable @remove="showRemoveMaleDlg" text-color="white"
-        color="light-blue-8" class="glossy" size="lg")
+    q-chip(v-if="male_name"
+      removable
+      title="Click to change"
+      @remove="showRemoveMaleDlg"
+      text-color="white"
+      color="light-blue-8"
+      class="glossy"
+      size="lg")
       q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar4.jpg")
       span {{ male_name }}

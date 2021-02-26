@@ -1,22 +1,23 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
-    q-btn(v-if="!female_name"
+    q-btn(v-if="!nickName"
       class="glossy"
       no-caps
       color="blue"
-      @click="$router.push({ name: 'Pair' })"
+      @click="onAddPair"
       label="Add female")
-    q-chip(v-if="female_name"
+    q-chip(v-if="nickName"
+      title="Click to change"
       removable clickable
       @remove="showRemoveFemaleDlg"
-      @click="editDlg = true"
+      @click="$router.push({ name: 'PairEdit', params: 'edit' })"
       text-color="white"
       color="light-blue-8"
       class="glossy"
       size="lg")
       q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar2.jpg")
-      b {{ female_name }}
+      b {{ nickName }}
     q-dialog(v-model="delFemaleDlg" persistent)
       q-card
         q-card-section(class="row items-center")
@@ -31,7 +32,7 @@
 
 <script>
 import notifications from 'notifications';
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapGetters, mapState} from 'vuex'
 
 export default {
   mixins: [notifications],
@@ -43,6 +44,16 @@ export default {
   },
   methods: {
     ...mapActions(['setNames']),
+    skipDuplicatePageError(route) {
+      if(this.$route.name !== route)
+      {
+        this.$router.replace({name: route})
+      }
+    },
+    onAddPair(){
+      let name = this.name;
+      this.$router.push({ name: 'PairNew', params: { name }})
+    },
     showRemoveFemaleDlg() {
       this.delFemaleDlg = true;
     },
@@ -60,6 +71,10 @@ export default {
   },
   computed: {
     ...mapState(['female_name']),
+    ...mapGetters(['userName','nickName'])
+  },
+  mounted() {
+    this.skipDuplicatePageError('Settings')
   }
 }
 </script>

@@ -14,7 +14,8 @@ export default new VueRouter( {
     { path: '/', redirect: '/males/settings'},
     { path: '/males/settings', component: Settings, name: 'Settings',
       children: [
-        { path: ':new', component: Pair, name: 'Pair'}
+        { path: 'new', component: Pair, name: 'PairNew'},
+        { path: 'edit', component: Pair, name: 'PairEdit'},
       ]},
     { path: '/males/dates', component: Dates, name: 'Dates'}
   ]

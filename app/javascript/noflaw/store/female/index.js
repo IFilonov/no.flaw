@@ -8,11 +8,15 @@ export default new Vuex.Store(  {
   state: {
     name: '',
     male_name: '',
+    nickname: '',
     taboo_dates: [],
     fire_dates: {},
     male_fire_dates: {}
   },
   getters: {
+    nickName: state => {
+      return state.nickname ? state.nickname : state.female_name
+    },
     maleFireDays: state => {
       return Object.keys(state.male_fire_dates)
     },
@@ -39,6 +43,7 @@ export default new Vuex.Store(  {
     CHANGE_NAMES: (state, data) => {
       state.name = data.name;
       state.male_name  = data.male_name;
+      state.nickname  = data.nickname;
     },
     CHANGE_MALE_NAME: (state, data) => {
       state.male_name  = data.male_name;

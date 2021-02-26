@@ -42,17 +42,17 @@ class MalesController < ApplicationController
   end
 
   private
-  def male_params
-    params.require(:female).permit(:username, :password)
+  def female_params
+    params.require(:female).permit(:username, :password, :nickname)
   end
 
   def names
-    female_name = current_male.reload.female&.username
-    { name: current_male.username, female_name: female_name }
+    female = current_male.reload.female
+    { name: current_male.username, female_name: female&.username, nickname: female&.nickname }
   end
 
   def create_female
-    female = Female.create!(male_params)
+    female = Female.create!(female_params)
     current_male.update!(female: female)
     female.pairs.create!(male: current_male)
     { female_name: female.username }

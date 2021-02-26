@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_18_072608) do
+ActiveRecord::Schema.define(version: 2021_02_26_194640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_072608) do
     t.datetime "locked_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "nickname"
     t.index ["reset_password_token"], name: "index_females_on_reset_password_token", unique: true
     t.index ["username"], name: "index_females_on_username", unique: true
   end
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_072608) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "female_id"
+    t.string "nickname"
     t.index ["female_id"], name: "index_males_on_female_id"
     t.index ["reset_password_token"], name: "index_males_on_reset_password_token", unique: true
     t.index ["username"], name: "index_males_on_username", unique: true
