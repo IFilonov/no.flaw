@@ -7,13 +7,12 @@
         q-card-section(class="row items-center")
           q-form(class="q-gutter-md" @submit="addFemale" @reset="female=''")
             q-input(filled label="Female login *" hint="Login"
-              v-model="female.username"
+              v-model="pair.username"
               lazy-rules :rules="[ val => val && val.length > 0 || 'Please type female login']")
-            q-input(filled label="Female nickname *" hint="Name"
-              v-model="female.nickname"
-              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type female name/nickname']")
+            q-input(filled label="Female nickname *" hint="Nickname"
+              v-model="pair.nickname")
             q-input(filled label="Password" hint="password" type="password"
-              v-model="female.password"
+              v-model="pair.password"
               lazy-rules :rules="[ val => val && val.length > 0 || 'Please type password']")
             div
               q-btn(label="Submit" type="submit" color="primary")
@@ -26,13 +25,13 @@
         q-card-section(class="row items-center")
           q-form(class="q-gutter-md" @submit="editFemale" @reset="female=''")
             q-input(filled label="Female login *" hint="Login"
-              v-model="female.username"
+              v-model="pair.username"
               lazy-rules :rules="[ val => val && val.length > 0 || 'Please type female login']")
             q-input(filled label="Female nickname *" hint="Name"
-              v-model="female.nickname"
+              v-model="pair.nickname"
               lazy-rules :rules="[ val => val && val.length > 0 || 'Please type female name/nickname']")
             q-input(filled label="Password" hint="password" type="password"
-              v-model="female.password"
+              v-model="pair.password"
               lazy-rules :rules="[ val => val && val.length > 0 || 'Please type password']")
             div
               q-btn(label="Submit" type="submit" color="primary")
@@ -49,11 +48,7 @@ export default {
   name: "settings",
   data:function() {
     return {
-      female: {
-        username: '',
-        password: '',
-        nickname: ''
-      },
+      pair: {},
       addPairDlg: false,
       editPairDlg: false
     }
@@ -65,40 +60,38 @@ export default {
     },
     async addFemale() {
       this.addPairDlg = false;
-      const response = await this.$api.male.addFemale({ female: this.female });
+      const response = await this.$api.male.addFemale({ female: this.pair });
       if(response.data.error) {
         this.showErrNotif(response.data);
       }
       else {
         this.setNames(response.data)
-        this.showNotif(`${response.data.female_name} created`);
+        this.showNotif(`${ response.data.pair.nickname } created`);
       }
     },
     async editFemale() {
       this.addPairDlg = false;
-      const response = await this.$api.male.addFemale({ female: this.female });
+      const response = await this.$api.male.addFemale({ female: this.pair });
       if(response.data.error) {
         this.showErrNotif(response.data);
       }
       else {
         this.setFemaleName(response.data)
-        this.showNotif(`${response.data.female_name} created`);
+        this.showNotif(`${ response.data.pair.username } created`);
       }
     }
   },
   computed: {
-    ...mapGetters(['names']),
+    ...mapGetters(['getPair']),
     name() {
       return this.$route.params.name
     }
   },
   created() {
     this.addPairDlg = true
-    this.female.username = this.names.female_name
+    this.pair = { ...this.getPair }
   },
   mounted() {
-    console.log(this.name);
-    console.log(this.$route);
   }
 }
 </script>

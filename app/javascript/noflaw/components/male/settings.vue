@@ -1,29 +1,29 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
-    q-btn(v-if="!names.female_name"
+    q-btn(v-if="!getPair.username"
       class="glossy"
       no-caps
       color="blue"
       @click="onAddPair"
       label="Add female")
-    q-chip(v-if="names.female_name"
-      title="Click to change"
+    q-chip(v-if="getPair.username"
+      title="One click to change or show"
       removable clickable
       @remove="showRemoveFemaleDlg"
-      @click="$router.push({ name: 'PairEdit', params: 'edit' })"
+      @click="$router.push({ name: 'PairEdit' })"
       text-color="white"
       color="light-blue-8"
       class="glossy"
       size="lg")
       q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar2.jpg")
-      b {{ names.nickname }}
+      b {{ getPair.nickname }}
     q-dialog(v-model="delFemaleDlg" persistent)
       q-card
         q-card-section(class="row items-center")
           q-avatar
             img(src="https://cdn.quasar.dev/img/avatar2.jpg")
-          span(class="q-ml-sm") You are sure delete {{ names.female_name }}?
+          span(class="q-ml-sm") You are sure delete {{ getPair.username }}?
         q-card-actions(align="right")
           q-btn(flat label="Cancel" color="primary" v-close-popup)
           q-btn(flat label="Delete" @click="deleteFemale" color="primary" v-close-popup)
@@ -62,13 +62,13 @@ export default {
         this.showErrNotif(response.data);
       }
       else {
-        this.showNotif(`${this.names.female_name} deleted`);
+        this.showNotif(`${this.getPair.nickname} deleted`);
         this.setNames(response.data)
       }
     }
   },
   computed: {
-    ...mapGetters(['names'])
+    ...mapGetters(['getPair'])
   },
   mounted() {
     this.skipDuplicatePageError('Settings')

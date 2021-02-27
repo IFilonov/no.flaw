@@ -48,7 +48,8 @@ class MalesController < ApplicationController
 
   def names(female = nil)
     female ||= current_male.reload.female
-    { username: current_male.username, female_name: female&.username, nickname: female&.nickname }
+    { me: { username: current_male.username },
+      pair: { username: female&.username, nickname: female&.nickname }}
   end
 
   def create_female

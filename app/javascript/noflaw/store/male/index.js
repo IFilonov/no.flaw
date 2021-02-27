@@ -6,20 +6,26 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
-    names: {
+    me: {
+      username: ''
+    },
+    pair: {
       username: '',
-      female_name: '',
-      nickname: ''
+      nickname: '',
+      password: ''
     },
     taboo_dates: [],
     fire_dates: {},
     female_fire_dates: {}
     },
   getters: {
-    names: state => {
-      let names = state.names
-      names.nickname ||= names.female_name
-      return names
+    getPair: state => {
+      let pair = state.pair
+      pair.nickname ||= pair.username
+      return pair
+    },
+    getMe: state => {
+      return state.me
     },
     femaleFireDays: state => {
       return Object.keys(state.female_fire_dates)
@@ -45,10 +51,8 @@ export default new Vuex.Store(  {
   },
   mutations: {
     CHANGE_NAMES: (state, data) => {
-      state.names = data;
-    },
-    CHANGE_FEMALE_NAME: (state, data) => {
-      state.names.female_name  = data.female_name;
+      state.pair = data.pair;
+      state.me = data.me;
     },
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
