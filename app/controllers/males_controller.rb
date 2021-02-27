@@ -16,7 +16,7 @@ class MalesController < ApplicationController
   def create
     begin
       Female.transaction do
-        render :json => create_female
+        render :json => create_update_female
       end
     rescue => error
       render :json => helpers.log_details(error)
@@ -52,10 +52,15 @@ class MalesController < ApplicationController
       pair: { username: female&.username, nickname: female&.nickname }}
   end
 
-  def create_female
-    female = Female.create!(female_params)
-    current_male.update!(female: female)
-    female.pairs.create!(male: current_male)
+  def create_update_female
+    female = current_male.female
+    if(female)
+      female.update!(female_params)
+    else
+      female = Female.create!(female_params)
+      current_male.update!(female: female)
+      female.pairs.create!(male: current_male)
+    end
     names(female)
   end
 
