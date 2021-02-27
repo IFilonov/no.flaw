@@ -6,19 +6,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
-    name: '',
-    female_name: '',
-    nickname: '',
+    names: {
+      username: '',
+      female_name: '',
+      nickname: ''
+    },
     taboo_dates: [],
     fire_dates: {},
     female_fire_dates: {}
     },
   getters: {
-    nickName: state => {
-      return state.nickname ? state.nickname : state.female_name
-    },
-    userName: state => {
-      return state.name
+    names: state => {
+      let names = state.names
+      names.nickname ||= names.female_name
+      return names
     },
     femaleFireDays: state => {
       return Object.keys(state.female_fire_dates)
@@ -44,12 +45,10 @@ export default new Vuex.Store(  {
   },
   mutations: {
     CHANGE_NAMES: (state, data) => {
-      state.name = data.name;
-      state.female_name  = data.female_name;
-      state.nickname  = data.nickname;
+      state.names = data;
     },
     CHANGE_FEMALE_NAME: (state, data) => {
-      state.female_name  = data.female_name;
+      state.names.female_name  = data.female_name;
     },
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
@@ -65,9 +64,6 @@ export default new Vuex.Store(  {
     }
   },
   actions: {
-    setFemaleName: (context, data) => {
-      context.commit('CHANGE_FEMALE_NAME', data);
-    },
     setNames: (context, data) => {
       context.commit('CHANGE_NAMES', data);
     },
@@ -75,7 +71,7 @@ export default new Vuex.Store(  {
       return Vue.prototype.$api.male.dates()
           .then(({data}) => (context.commit('CHANGE_DATES_SER', data)));
     },
-    getNames: (context) => {
+    loadNames: (context) => {
       return Vue.prototype.$api.male.names()
           .then(({data}) => (context.commit('CHANGE_NAMES', data)));
     },

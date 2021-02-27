@@ -72,7 +72,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setMaleName','setTabooDates','getDates','setFireDays']),
+    ...mapActions(['getDates','setFireDays']),
     onTabooClick(){
       this.showNotif('Only female can change taboo date. You need observe this days','purple')
     },
@@ -99,7 +99,6 @@ export default {
     }
   },
   computed: {
-    ...mapState(['male_name']),
     ...mapGetters(['femaleFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
