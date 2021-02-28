@@ -17,7 +17,7 @@
       size="lg")
       q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar2.jpg")
-      b {{ getPair.nickname }}
+      span {{ getPair.nickname }}
     q-dialog(v-model="delFemaleDlg" persistent)
       q-card
         q-card-section(class="row items-center")

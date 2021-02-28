@@ -1,77 +1,59 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
-    q-btn(v-if="!male_name" class="glossy" no-caps color="blue" @click="showAddMaleDlg" label="Add male")
-    q-chip(v-if="male_name"
-      removable
-      title="Click to change"
+    q-btn(v-if="!getPair.username"
+      class="glossy"
+      no-caps
+      color="blue"
+      @click="onAddPair"
+      label="Add male")
+    q-chip(v-if="getPair.username"
+      title="One click to change or show"
+      removable clickable
       @remove="showRemoveMaleDlg"
+      @click="$router.push({ name: 'PairEdit' })"
       text-color="white"
       color="light-blue-8"
       class="glossy"
       size="lg")
       q-avatar(size="40px")
         img(src="https://cdn.quasar.dev/img/avatar4.jpg")
-      span {{ male_name }}
-    q-dialog(v-model="addMaleDlg" persistent)
-      q-card
-        q-card-section(class="row items-center")
-          q-form(class="q-gutter-md" @submit="addMale" @reset="male=''")
-            q-input(filled label="Male name *" hint="Name"
-              v-model="male.username"
-              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type male name']")
-            q-input(filled label="Password" hint="password" type="password"
-              v-model="male.password"
-              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type password']")
-            div
-              q-btn(label="Submit" type="submit" color="primary")
-              q-btn(label="Reset" type="reset" color="primary" flat class="q-ml-sm")
-              q-btn(flat label="Cancel" color="primary" v-close-popup)
+      span {{ getPair.nickname }}
     q-dialog(v-model="delMaleDlg" persistent)
       q-card
         q-card-section(class="row items-center")
           q-avatar
             img(src="https://cdn.quasar.dev/img/avatar4.jpg")
-          span(class="q-ml-sm") You are sure delete {{ male_name }}?
+          span(class="q-ml-sm") You are sure delete {{ getPair.username }}?
         q-card-actions(align="right")
           q-btn(flat label="Cancel" color="primary" v-close-popup)
           q-btn(flat label="Delete" @click="deleteMale" color="primary" v-close-popup)
+    router-view
 </template>
 
 <script>
 import notifications from 'notifications';
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   mixins: [notifications],
   name: "settings",
   data:function() {
     return {
-      male: {
-        username: '',
-        password: ''
-      },
-      addMaleDlg: false,
       delMaleDlg: false
     }
   },
   methods: {
-    ...mapActions(['setMaleName','getNames','setNames']),
-    showAddMaleDlg() {
-      this.addMaleDlg = true;
+    ...mapActions(['setNames']),
+    skipDuplicatePageError(route) {
+      if(this.$route.name !== route) {
+        this.$router.replace({name: route})
+      }
+    },
+    onAddPair(){
+      this.$router.push({ name: 'PairNew'})
     },
     showRemoveMaleDlg() {
       this.delMaleDlg = true;
-    },
-    async addMale() {
-      this.addMaleDlg = false;
-      const response = await this.$api.female.addMale({ male: this.male });
-      if(response.data.error) {
-        this.showErrNotif(response.data);
-      }
-      else {
-        this.setMaleName(response.data);
-        this.showNotif(`${this.male_name} created`);
-      }
     },
     async deleteMale() {
       this.delMaleDlg = false;
@@ -80,17 +62,16 @@ export default {
         this.showErrNotif(response.data);
       }
       else {
-        this.showNotif(`${this.male_name} deleted`)
+        this.showNotif(`${this.getPair.nickname} deleted`)
         this.setNames(response.data)
       }
     }
   },
   computed: {
-    ...mapState(['male_name']),
+    ...mapGetters(['getPair'])
+  },
+  mounted() {
+    this.skipDuplicatePageError('Settings')
   }
 }
 </script>
-
-<style scoped>
-
-</style>

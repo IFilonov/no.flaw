@@ -67,6 +67,9 @@ export default new Vuex.Store(  {
     setNames: (context, data) => {
       context.commit('CHANGE_NAMES', data);
     },
+    setFireDays: (context, fire_days) => {
+      context.commit('CHANGE_FIRE_DAYS', fire_days);
+    },
     getDates: (context) => {
       return Vue.prototype.$api.male.dates()
           .then(({data}) => (context.commit('CHANGE_DATES_SER', data)));
@@ -75,18 +78,15 @@ export default new Vuex.Store(  {
       return Vue.prototype.$api.male.names()
           .then(({data}) => (context.commit('CHANGE_NAMES', data)));
     },
-    setFireDays: (context, fire_days) => {
-      context.commit('CHANGE_FIRE_DAYS', fire_days);
-    },
     setFireTime: (context, fire_date) => {
       context.commit('CHANGE_FIRE_TIME', fire_date);
     },
     addPair: (context, pair) => {
       return Vue.prototype.$api.male.addPair(pair)
-          .then(({data}) => {
-            context.commit('CHANGE_NAMES', data)
-            return data
-          });
+        .then(({data}) => {
+          context.commit('CHANGE_NAMES', data)
+          return data
+        });
     }
   },
   modules: {},

@@ -6,16 +6,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
-    name: '',
-    male_name: '',
-    nickname: '',
+    me: {},
+    pair: {},
     taboo_dates: [],
     fire_dates: {},
     male_fire_dates: {}
   },
   getters: {
-    nickName: state => {
-      return state.nickname ? state.nickname : state.female_name
+    getPair: state => {
+      let pair = state.pair
+      pair.nickname ||= pair.username
+      return pair
+    },
+    getMe: state => {
+      return state.me
     },
     maleFireDays: state => {
       return Object.keys(state.male_fire_dates)
@@ -41,12 +45,10 @@ export default new Vuex.Store(  {
   },
   mutations: {
     CHANGE_NAMES: (state, data) => {
-      state.name = data.name;
-      state.male_name  = data.male_name;
-      state.nickname  = data.nickname;
-    },
-    CHANGE_MALE_NAME: (state, data) => {
-      state.male_name  = data.male_name;
+      if (!data.error) {
+        state.pair = data.pair
+        state.me = data.me
+      }
     },
     CHANGE_TABOO_DATES: (state, taboo_dates) => {
       state.taboo_dates  = taboo_dates;
@@ -65,9 +67,6 @@ export default new Vuex.Store(  {
     }
   },
   actions: {
-    setMaleName: (context, data) => {
-      context.commit('CHANGE_MALE_NAME', data);
-    },
     setNames: (context, data) => {
       context.commit('CHANGE_NAMES', data);
     },
@@ -81,12 +80,19 @@ export default new Vuex.Store(  {
       return Vue.prototype.$api.female.dates()
         .then(({data}) => (context.commit('CHANGE_DATES_SER', data)));
     },
-    getNames: (context) => {
+    loadNames: (context) => {
       return Vue.prototype.$api.female.names()
           .then(({data}) => (context.commit('CHANGE_NAMES', data)));
     },
     setFireTime: (context, fire_date) => {
       context.commit('CHANGE_FIRE_TIME', fire_date);
+    },
+    addPair: (context, pair) => {
+      return Vue.prototype.$api.female.addPair(pair)
+          .then(({data}) => {
+            context.commit('CHANGE_NAMES', data)
+            return data
+          });
     }
   },
   modules: {},

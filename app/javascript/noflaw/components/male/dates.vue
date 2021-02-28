@@ -53,7 +53,7 @@
 <script>
 const C_DEEP_ORANGE = 'deep-orange';
 import notifications from 'notifications';
-import {mapActions, mapState, mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import range from '../shared/range'
 
 export default {

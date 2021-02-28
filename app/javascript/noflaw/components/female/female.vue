@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:name = "nickName" :logout_path="$api.female.logout" :img="img")
+      navbar(:name = "getMe.username" :logout_path="$api.female.logout" :img="img")
       dashboard
 </template>
 
@@ -21,13 +21,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getNames']),
+    ...mapActions(['loadNames'])
   },
   computed: {
-    ...mapGetters(['nickName']),
+    ...mapGetters(['getMe'])
   },
   mounted() {
-    this.getNames();
+    this.loadNames();
   }
 }
 </script>

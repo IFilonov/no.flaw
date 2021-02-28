@@ -16,9 +16,7 @@ class FemalesController < ApplicationController
   def create
     begin
       Male.transaction do
-        male = Male.create!(male_params.merge(female_id: current_female.id))
-        male.pairs.create!(female: current_female)
-        render :json => names
+        render :json => create_update_male
       end
     rescue => error
       render :json => helpers.log_details(error)
@@ -51,13 +49,25 @@ class FemalesController < ApplicationController
   end
 
   private
-  def male_params
-    params.require(:male).permit(:username, :password, :nickname)
+  def pair_params
+    params.require(:pair).permit(:username, :password, :nickname)
   end
 
-  def names
-    male = current_female.reload.male
-    { name: current_female.username, male_name: male&.username, nickname: male&.nickname }
+  def names(male = nil)
+    male ||= current_female.reload.male
+    { me: { username: current_female.username },
+      pair: { username: male&.username, nickname: male&.nickname }}
+  end
+
+  def create_update_male
+    male = current_female.male
+    if(male)
+      male.update!(pair_params)
+    else
+      male = Male.create!(pair_params.merge(female_id: current_female.id))
+      male.pairs.create!(female: current_female)
+    end
+    names(male)
   end
 
   def lifetime_dates
