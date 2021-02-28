@@ -18,7 +18,7 @@ const api = {
   male: {
     logout: '/males/logout',
     names: () => adapter.get('/males/info'),
-    addFemale: (female) => adapter.post('/males/create', female),
+    addPair: (female) => adapter.post('/males/create', female),
     delFemale: () => adapter.get('/males/delete'),
     saveFireDate: (fire_date) => adapter.post('/males/set_fire_date', fire_date),
     dates: () => adapter.get('/males/dates')

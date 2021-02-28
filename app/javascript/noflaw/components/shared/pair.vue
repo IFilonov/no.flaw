@@ -1,19 +1,19 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
-    q-dialog(v-model="addPairDlg"
+    q-dialog(v-model="pairDlg"
       persistent
       @hide="onHide")
       q-card
         q-card-section(class="row items-center")
-          q-form(class="q-gutter-md" @submit="addFemale" @reset="female=''")
-            q-input(filled label="Female login *" hint="Login"
+          q-form(class="q-gutter-md" @submit="setPair" @reset="pair={}")
+            q-input(filled label="Your pair login *" hint="Login"
               v-model="pair.username"
-              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type female login']")
-            q-input(filled label="Female nickname *" hint="Nickname"
+              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type your pair login']")
+            q-input(filled label="Your pair nickname *" hint="Nickname"
               v-model="pair.nickname")
             q-input(filled label="Password" hint="password" type="password"
               v-model="pair.password"
-              lazy-rules :rules="[ val => val && val.length > 0 || 'Please type password']")
+              lazy-rules :rules="[ val => val && val.length > 5 || 'Please type password']")
             div
               q-btn(label="Submit" type="submit" color="primary")
               q-btn(label="Reset" type="reset" color="primary" flat class="q-ml-sm")
@@ -30,35 +30,36 @@ export default {
   data:function() {
     return {
       pair: {},
-      addPairDlg: false
+      pairDlg: false
     }
   },
   methods: {
-    ...mapActions(['setNames']),
+    ...mapActions(['addPair']),
     onHide() {
       this.$router.push({ name: 'Settings' })
     },
-    async addFemale() {
-      this.addPairDlg = false;
-      const response = await this.$api.male.addFemale({ female: this.pair });
-      if(response.data.error) {
-        this.showErrNotif(response.data);
-      }
-      else {
-        this.setNames(response.data)
-        this.showNotif(`${ response.data.pair.nickname } saved`);
-      }
+    setPair() {
+     this.pairDlg = false;
+     let pair = this.pair
+     this.addPair({ pair }).then((data) =>{
+       data.error ?
+         this.showErrNotif(data) : this.showNotif(`${ data.pair.nickname } saved`);
+     })
     }
   },
   computed: {
     ...mapGetters(['getPair']),
-    name() {
-      return this.$route.params.name
-    }
   },
   created() {
-    this.addPairDlg = true
+    this.pairDlg = true
     this.pair = { ...this.getPair }
+
+    //!!!!temporary!!!
+    if(!this.pair.username) {
+      this.pair.username = Math.random().toString(36).substring(3);
+      this.pair.nickname = Math.random().toString(36).substring(3);
+      this.pair.password = Math.random().toString(36).substring(3);
+    }
   },
   mounted() {
   }

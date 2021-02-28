@@ -6,14 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
-    me: {
-      username: ''
-    },
-    pair: {
-      username: '',
-      nickname: '',
-      password: ''
-    },
+    me: {},
+    pair: {},
     taboo_dates: [],
     fire_dates: {},
     female_fire_dates: {}
@@ -51,8 +45,10 @@ export default new Vuex.Store(  {
   },
   mutations: {
     CHANGE_NAMES: (state, data) => {
-      state.pair = data.pair;
-      state.me = data.me;
+      if (!data.error) {
+        state.pair = data.pair;
+        state.me = data.me;
+      }
     },
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
@@ -84,6 +80,13 @@ export default new Vuex.Store(  {
     },
     setFireTime: (context, fire_date) => {
       context.commit('CHANGE_FIRE_TIME', fire_date);
+    },
+    addPair: (context, pair) => {
+      return Vue.prototype.$api.male.addPair(pair)
+          .then(({data}) => {
+            context.commit('CHANGE_NAMES', data)
+            return data
+          });
     }
   },
   modules: {},
