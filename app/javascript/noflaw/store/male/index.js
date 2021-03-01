@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
+import modulePair from '../modules/modulePair'
 
 Vue.use(Vuex)
 
@@ -12,37 +13,6 @@ export default new Vuex.Store(  {
     fire_dates: {},
     pair_fire_dates: {}
     },
-  getters: {
-    getPair: state => {
-      let pair = state.pair
-      pair.nickname ||= pair.username
-      return pair
-    },
-    getMe: state => {
-      return state.me
-    },
-    pairFireDays: state => {
-      return Object.keys(state.pair_fire_dates)
-    },
-    fireDays: state => {
-      return Object.keys(state.fire_dates)
-    },
-    fireDayTime: state => (day) => {
-      return state.fire_dates[day]
-    },
-    pairFireDayTime: state => (day) => {
-      return state.pair_fire_dates[day]
-    },
-    fireDatesSer: state => {
-      return state.fire_dates ? JSON.stringify(state.fire_dates) : [];
-    },
-    tabooDays: state => {
-      return state.taboo_dates
-    },
-    tabooDatesSer: state => {
-      return state.taboo_dates ? JSON.stringify(state.taboo_dates) : [];
-    }
-  },
   mutations: {
     CHANGE_NAMES: (state, data) => {
       if (!data.error) {
@@ -89,6 +59,8 @@ export default new Vuex.Store(  {
         });
     }
   },
-  modules: {},
+  modules: {
+    modulePair: modulePair
+  },
   plugins: [createPersistedState()]
 })

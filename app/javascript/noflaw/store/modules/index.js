@@ -1,8 +1,0 @@
-const modulePair = {
-  state: {
-
-  },
-  getters: {
-
-  }
-}
