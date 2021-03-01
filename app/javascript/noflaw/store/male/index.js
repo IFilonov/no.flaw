@@ -57,7 +57,7 @@ export default new Vuex.Store(  {
     },
     CHANGE_FIRE_DAYS: (state, fire_days) => {
       state.fire_dates = fire_days
-          ?  Object.fromEntries(fire_days?.map(fire_day => ([ fire_day, state.fire_dates[fire_day] || {} ] ))) : {}
+        ?  Object.fromEntries(fire_days?.map(fire_day => ([ fire_day, state.fire_dates[fire_day] || {} ] ))) : {}
     },
     CHANGE_FIRE_TIME: (state, fire_date) => {
       state.fire_dates[fire_date.day] = fire_date.time

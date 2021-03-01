@@ -58,7 +58,7 @@ export default {
     if(!this.pair.username) {
       this.pair.username = Math.random().toString(36).substring(3);
       this.pair.nickname = Math.random().toString(36).substring(3);
-      this.pair.password = Math.random().toString(36).substring(3);
+      this.pair.password = 'password';
     }
   },
   mounted() {

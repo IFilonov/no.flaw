@@ -1,0 +1,8 @@
+const modulePair = {
+  state: {
+
+  },
+  getters: {
+
+  }
+}

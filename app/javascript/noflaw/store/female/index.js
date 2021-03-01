@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate';
+import modulePair from '../modules'
 
 Vue.use(Vuex)
 
@@ -50,9 +51,6 @@ export default new Vuex.Store(  {
         state.me = data.me
       }
     },
-    CHANGE_TABOO_DATES: (state, taboo_dates) => {
-      state.taboo_dates  = taboo_dates;
-    },
     CHANGE_DATES_SER: (state, data) => {
       state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
       state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {}
@@ -64,14 +62,14 @@ export default new Vuex.Store(  {
     },
     CHANGE_FIRE_TIME: (state, fire_date) => {
       state.fire_dates[fire_date.day] = fire_date.time
+    },
+    CHANGE_TABOO_DATES: (state, taboo_dates) => {
+      state.taboo_dates  = taboo_dates;
     }
   },
   actions: {
     setNames: (context, data) => {
       context.commit('CHANGE_NAMES', data);
-    },
-    setTabooDates: (context, taboo_dates) => {
-      context.commit('CHANGE_TABOO_DATES', taboo_dates);
     },
     setFireDays: (context, fire_days) => {
       context.commit('CHANGE_FIRE_DAYS', fire_days);
@@ -93,8 +91,13 @@ export default new Vuex.Store(  {
             context.commit('CHANGE_NAMES', data)
             return data
           });
+    },
+    setTabooDates: (context, taboo_dates) => {
+      context.commit('CHANGE_TABOO_DATES', taboo_dates);
     }
   },
-  modules: {},
+  modules: {
+    pair: modulePair
+  },
   plugins: [createPersistedState()]
 })

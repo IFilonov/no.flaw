@@ -23,7 +23,7 @@
           q-badge(color="deep-orange" floating) {{ fire_days ? fire_days.length : 0 }}
         div
           q-date(v-model="fireDaysModel"
-            :events="femaleFireDays"
+            :events="pairFireDays"
             event-color="lime"
             :options="fireOptionsFn"
             multiple today-btn
