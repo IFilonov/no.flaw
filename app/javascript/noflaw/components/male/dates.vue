@@ -99,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['femaleFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
+    ...mapGetters(['pairFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
       set: function(newValue) {}

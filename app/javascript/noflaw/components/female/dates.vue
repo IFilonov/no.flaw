@@ -39,7 +39,7 @@
           q-badge(color="deep-orange" floating) {{ fireDays ? fireDays.length : 0 }}
         div(class="q-gutter-md row items-start")
           q-date(v-model="fireDaysModel"
-            :events="maleFireDays"
+            :events="pairFireDays"
             event-color="lime"
             :options="fireOptionsFn"
             multiple today-btn
@@ -126,7 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['maleFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
+    ...mapGetters(['pairFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
       set: function(newValue) {}
