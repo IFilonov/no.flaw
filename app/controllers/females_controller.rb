@@ -25,7 +25,7 @@ class FemalesController < ApplicationController
 
   def delete
     begin
-      current_female.male.update!(female: nil)
+      current_female.male&.update!(female: nil)
       render :json => names
     rescue => error
       render :json => helpers.log_details(error)

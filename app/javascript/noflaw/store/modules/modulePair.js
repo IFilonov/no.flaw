@@ -1,35 +1,73 @@
+import Vue from "vue";
+
 export default {
   state: {
+    me: {},
+    pair: {},
+    taboo_dates: [],
+    fire_dates: {},
+    pair_fire_dates: {}
   },
   getters: {
-    getMe(state, getters, root_state) {
-      return root_state.me
+    getMe(state) {
+      return state.me
     },
-    getPair(state, getters, root_state)  {
-      let pair = root_state.pair
+    getPair(state)  {
+      let pair = state.pair
       pair.nickname ||= pair.username
       return pair
     },
-    pairFireDays(state, getters, root_state)  {
-      return Object.keys(root_state.pair_fire_dates)
+    pairFireDays(state)  {
+      return Object.keys(state.pair_fire_dates)
     },
-    fireDays(state, getters, root_state)  {
-      return Object.keys(root_state.fire_dates)
+    fireDays(state)  {
+      return Object.keys(state.fire_dates)
     },
-    fireDayTime: (state, getters, root_state) => (day) => {
-      return root_state.fire_dates[day]
+    fireDayTime: (state) => (day) => {
+      return state.fire_dates[day]
     },
-    pairFireDayTime: (state, getters, root_state) => (day) => {
-      return root_state.pair_fire_dates[day]
+    pairFireDayTime: (state) => (day) => {
+      return state.pair_fire_dates[day]
     },
-    fireDatesSer(state, getters, root_state) {
-      return root_state.fire_dates ? JSON.stringify(root_state.fire_dates) : [];
+    fireDatesSer(state) {
+      return state.fire_dates ? JSON.stringify(state.fire_dates) : [];
     },
-    tabooDays(state, getters, root_state) {
-      return root_state.taboo_dates
+    tabooDays(state) {
+      return state.taboo_dates
     },
-    tabooDatesSer(state, getters, root_state) {
-      return root_state.taboo_dates ? JSON.stringify(root_state.taboo_dates) : [];
+    tabooDatesSer(state) {
+      return state.taboo_dates ? JSON.stringify(state.taboo_dates) : [];
+    }
+  },
+  mutations: {
+    CHANGE_NAMES: ( state, data ) => {
+      if (!data.error) {
+        state.pair = data.pair
+        state.me = data.me
+      }
+    },
+    CHANGE_DATES_SER: (state, data) => {
+      state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
+      state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {}
+      state.pair_fire_dates = data.pair_fire_dates ? JSON.parse(data.pair_fire_dates) : {}
+    },
+    CHANGE_FIRE_DAYS: (state, fire_days) => {
+      state.fire_dates = fire_days
+          ?  Object.fromEntries(fire_days?.map(fire_day => ([ fire_day, state.fire_dates[fire_day] || {} ] ))) : {}
+    },
+    CHANGE_FIRE_TIME: (state, fire_date) => {
+      state.fire_dates[fire_date.day] = fire_date.time
+    }
+  },
+  actions: {
+    setNames: (context, data) => {
+      context.commit('CHANGE_NAMES', data);
+    },
+    setFireDays: (context, fire_days) => {
+      context.commit('CHANGE_FIRE_DAYS', fire_days);
+    },
+    setFireTime: (context, fire_date) => {
+      context.commit('CHANGE_FIRE_TIME', fire_date);
     }
   }
 }
