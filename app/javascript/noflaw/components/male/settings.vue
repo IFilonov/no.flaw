@@ -43,7 +43,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setNames']),
+    ...mapActions(['setNames','pairHistory']),
     skipDuplicatePageError(route) {
       if(this.$route.name !== route) {
         this.$router.replace({name: route})
@@ -68,10 +68,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getPair'])
+    ...mapGetters(['getPair','getPairHistory'])
   },
   mounted() {
     this.skipDuplicatePageError('Settings')
+    this.pairHistory()
   }
 }
 </script>

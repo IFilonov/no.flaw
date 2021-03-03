@@ -21,7 +21,8 @@ const api = {
     addPair: (female) => adapter.post('/males/create', female),
     delFemale: () => adapter.get('/males/delete'),
     saveFireDate: (fire_date) => adapter.post('/males/set_fire_date', fire_date),
-    dates: () => adapter.get('/males/dates')
+    dates: () => adapter.get('/males/dates'),
+    pairHistory: () => adapter.get('/males/pair_history')
   },
   female: {
     logout: '/females/logout',

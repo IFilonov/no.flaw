@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     post '/females/set_taboo_date', to: 'females#set_taboo_date'
     post '/females/set_fire_date', to: 'females#set_fire_date'
     post '/males/set_fire_date', to: 'males#set_fire_date'
+    get '/males/pair_history', to: 'males#pair_history'
   end
 
   get '/males/*slug', to: 'males#index'

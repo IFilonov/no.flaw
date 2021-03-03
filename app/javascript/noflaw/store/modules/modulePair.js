@@ -4,6 +4,7 @@ export default {
   state: {
     me: {},
     pair: {},
+    pair_history: {},
     taboo_dates: [],
     fire_dates: {},
     pair_fire_dates: {}
@@ -16,6 +17,9 @@ export default {
       let pair = state.pair
       pair.nickname ||= pair.username
       return pair
+    },
+    getPairHistory(state) {
+      return state.pair_history
     },
     pairFireDays(state)  {
       return Object.keys(state.pair_fire_dates)
@@ -57,6 +61,11 @@ export default {
     },
     CHANGE_FIRE_TIME: (state, fire_date) => {
       state.fire_dates[fire_date.day] = fire_date.time
+    },
+    CHANGE_PAIR_HISTORY: ( state, data ) => {
+      if (!data.error) {
+        state.pair_history = data.pair
+      }
     }
   },
   actions: {

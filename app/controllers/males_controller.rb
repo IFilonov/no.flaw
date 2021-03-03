@@ -41,6 +41,17 @@ class MalesController < ApplicationController
     render :json => lifetime ? { created_at:  lifetime.created_at } : lifetime.errors.full_messages
   end
 
+  def pair_history
+    pairs = []
+    current_male.pairs.each do |pair|
+      pairs << {
+        pair_username: pair.female.username,
+        pair_nickname: pair.female.username
+      }
+    end
+    render :json => pairs
+  end
+
   private
   def pair_params
     params.require(:pair).permit(:username, :password, :nickname)
