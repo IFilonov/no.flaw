@@ -1,23 +1,38 @@
 <template lang="pug">
-  div(class="q-pa-md q-gutter-sm")
-    q-btn(v-if="!getPair.username"
-      class="glossy"
-      no-caps
-      color="blue"
-      @click="onAddPair"
-      label="Add female")
-    q-chip(v-if="getPair.username"
-      title="One click to change or show"
-      removable clickable
-      @remove="showRemoveFemaleDlg"
-      @click="$router.push({ name: 'PairEdit' })"
-      text-color="white"
-      color="light-blue-8"
-      class="glossy"
-      size="lg")
-      q-avatar(size="40px")
-        img(src="https://cdn.quasar.dev/img/avatar2.jpg")
-      span {{ getPair.nickname }}
+  div(class="q-pa-sm q-gutter-sm")
+    q-card(class="q-pa-sm q-gutter-sm")
+      q-btn(v-if="!getPair.username"
+        class="glossy"
+        no-caps
+        color="blue"
+        @click="onAddPair"
+        label="Add female")
+      q-chip(v-if="getPair.username"
+        title="One click to change or show"
+        removable clickable
+        @remove="showRemoveFemaleDlg"
+        @click="$router.push({ name: 'PairEdit' })"
+        text-color="white"
+        color="light-blue-8"
+        class="glossy"
+        size="lg")
+        q-avatar(size="40px")
+          img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+        span {{ getPair.nickname }}
+    q-card(class="q-pa-sm q-gutter-sm")
+      q-intersection(v-for="(pair) in pairHistory"
+        :key="pair.username"
+        transition="scale")
+        q-chip(v-if="pair.username"
+          title="One click to change or show"
+          clickable
+          text-color="white"
+          color="light-blue-8"
+          class="glossy"
+          size="lg")
+          q-avatar(size="40px")
+            img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+          span {{ pair.nickname }}
     q-dialog(v-model="delFemaleDlg" persistent)
       q-card
         q-card-section(class="row items-center")
@@ -43,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setNames','pairHistory']),
+    ...mapActions(['setNames','getPairHistory']),
     skipDuplicatePageError(route) {
       if(this.$route.name !== route) {
         this.$router.replace({name: route})
@@ -64,15 +79,22 @@ export default {
       else {
         this.showNotif(`${this.getPair.nickname} deleted`);
         this.setNames(response.data)
+        this.getPairHistory()
       }
     }
   },
   computed: {
-    ...mapGetters(['getPair','getPairHistory'])
+    ...mapGetters(['getPair','pairHistory'])
   },
   mounted() {
     this.skipDuplicatePageError('Settings')
-    this.pairHistory()
+    this.getPairHistory()
   }
 }
 </script>
+
+<style lang="stylus">
+.example-item
+  height: 60px
+  width: 60px
+</style>

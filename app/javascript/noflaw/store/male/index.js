@@ -22,7 +22,7 @@ export default new Vuex.Store(  {
           return data
         });
     },
-    pairHistory: (context) => {
+    getPairHistory: (context) => {
       return Vue.prototype.$api.male.pairHistory()
           .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
     }

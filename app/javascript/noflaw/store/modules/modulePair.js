@@ -4,7 +4,7 @@ export default {
   state: {
     me: {},
     pair: {},
-    pair_history: {},
+    pair_history: [],
     taboo_dates: [],
     fire_dates: {},
     pair_fire_dates: {}
@@ -18,7 +18,7 @@ export default {
       pair.nickname ||= pair.username
       return pair
     },
-    getPairHistory(state) {
+    pairHistory(state) {
       return state.pair_history
     },
     pairFireDays(state)  {
@@ -64,7 +64,7 @@ export default {
     },
     CHANGE_PAIR_HISTORY: ( state, data ) => {
       if (!data.error) {
-        state.pair_history = data.pair
+        state.pair_history = data
       }
     }
   },

@@ -43,10 +43,10 @@ class MalesController < ApplicationController
 
   def pair_history
     pairs = []
-    current_male.pairs.each do |pair|
+    current_male.pairs.order(:id).each do |pair|
       pairs << {
-        pair_username: pair.female.username,
-        pair_nickname: pair.female.username
+        username: pair.female.username,
+        nickname: pair.female.nickname
       }
     end
     render :json => pairs
