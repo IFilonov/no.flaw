@@ -16,8 +16,18 @@ class MalesController < ApplicationController
   def create
     begin
       Female.transaction do
-        render :json => create_update_female
+        render :json => create_female
       end
+    rescue => error
+      render :json => helpers.log_details(error)
+    end
+  end
+
+  def update
+    begin
+      female = current_male.female
+      female.update!(pair_params) if(female)
+      render :json => names(female)
     rescue => error
       render :json => helpers.log_details(error)
     end
@@ -54,7 +64,7 @@ class MalesController < ApplicationController
 
   private
   def pair_params
-    params.require(:pair).permit(:username, :password, :nickname)
+    params.require(:pair).permit(:username, :password, :nickname, :recover)
   end
 
   def names(female = nil)
@@ -63,15 +73,14 @@ class MalesController < ApplicationController
       pair: { username: female&.username, nickname: female&.nickname }}
   end
 
-  def create_update_female
-    female = current_male.female
-    if(female)
-      female.update!(pair_params)
+  def create_female
+    if(pair_params["recover"])
+      female = Female.find_by!(username: pair_params["username"])
     else
       female = Female.create!(pair_params)
-      current_male.update!(female: female)
       female.pairs.create!(male: current_male)
     end
+    current_male.update!(female: female)
     names(female)
   end
 
