@@ -8,11 +8,6 @@ Vue.use(Vuex)
 export default new Vuex.Store(  {
   state: {
   },
-  mutations: {
-    CHANGE_TABOO_DATES: (state, taboo_dates) => {
-      state.taboo_dates  = taboo_dates;
-    }
-  },
   actions: {
     getDates: (context) => {
       return Vue.prototype.$api.female.dates()
@@ -29,9 +24,6 @@ export default new Vuex.Store(  {
           return data
         });
     },
-    setTabooDates: (context, taboo_dates) => {
-      context.commit('CHANGE_TABOO_DATES', taboo_dates);
-    }
   },
   modules: {
     modulePair: modulePair

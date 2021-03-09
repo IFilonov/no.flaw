@@ -20,7 +20,7 @@ export default {
       return pair
     },
     pairHistory(state) {
-      return state.pair_history.filter(pair => pair.username != state.pair.username)
+      return state.pair_history.filter(pair => pair.username !== state.pair.username)
     },
     pairFireDays(state)  {
       return Object.keys(state.pair_fire_dates)
@@ -48,6 +48,9 @@ export default {
     }
   },
   mutations: {
+    CHANGE_TABOO_DATES: (state, taboo_dates) => {
+      state.taboo_dates = taboo_dates;
+    },
     CHANGE_NAMES: ( state, data ) => {
       if (!data.error) {
         state.pair = data.pair
@@ -87,6 +90,9 @@ export default {
     },
     setRecoverPairId: (context, recover_pair_id) => {
       context.commit('RECOVER_PAIR_ID', recover_pair_id);
+    },
+    setTabooDates: (context, taboo_dates) => {
+      context.commit('CHANGE_TABOO_DATES', taboo_dates);
     }
   }
 }
