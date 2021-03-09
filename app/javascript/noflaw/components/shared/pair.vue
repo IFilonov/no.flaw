@@ -1,6 +1,6 @@
 <template lang="pug">
   div(class="q-pa-md q-gutter-sm")
-    q-dialog(v-model="pairDlg"
+    q-dialog(v-model="newPairDlg"
       persistent
       @hide="onHide")
       q-card
@@ -34,6 +34,28 @@
             div
               q-btn(label="Update" type="submit" color="primary")
               q-btn(flat label="Cancel" color="primary" v-close-popup)
+    q-dialog(v-model="delPairDlg"
+      persistent
+      @hide="onHide")
+      q-card
+        q-card-section(class="row items-center")
+          q-avatar
+            img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+          span(class="q-ml-sm") You are sure delete {{ getPair.username }}?
+        q-card-actions(align="right")
+          q-btn(flat label="Cancel" color="primary" v-close-popup)
+          q-btn(flat label="Delete" @click="deletePair" color="primary" v-close-popup)
+    q-dialog(v-model="recoverPairDlg"
+      persistent
+      @hide="onHide")
+      q-card
+        q-card-section(class="row items-center")
+          q-avatar
+            img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+          span(class="q-ml-sm") You are sure change {{ getPair.username }}
+        q-card-actions(align="right")
+          q-btn(flat label="Cancel" color="primary" v-close-popup)
+          q-btn(flat label="Change" @click="changePair" color="primary" v-close-popup)
 </template>
 
 <script>
@@ -46,55 +68,101 @@ export default {
   data:function() {
     return {
       pair: {},
-      pairDlg: false,
-      editPairDlg: false
+      newPairDlg: false,
+      editPairDlg: false,
+      delPairDlg: false,
+      recoverPairDlg: false
     }
   },
   methods: {
-    ...mapActions(['addPair','setRecoverPairId','updatePair']),
+    ...mapActions(['addPair','setNames','setRecoverPairId','updatePair','getPairHistory']),
     onHide() {
       this.$router.push({ name: 'Settings' })
-      this.setRecoverPairId( null )
     },
     setPair() {
-     this.pairDlg = false;
+     this.newPairDlg = false;
      let pair = this.pair
-     if(this.getRecoverPairId) {
-       pair.recover = true
-     }
-     this.setRecoverPairId( null )
      this.addPair({ pair }).then((data) =>{
-       data.error ?
-         this.showErrNotif(data) : this.showNotif(`${ data.pair.nickname } created`);
+       data.error
+           ? this.showErrNotif(data)
+           : this.showNotif(`${ data.pair.nickname } created`);
      })
     },
     updPair() {
       this.editPairDlg = false;
       let pair = this.pair
       this.updatePair({ pair }).then((data) =>{
-        data.error ?
-            this.showErrNotif(data) : this.showNotif(`${ data.pair.nickname } updated`);
+        data.error
+            ? this.showErrNotif(data)
+            : this.showNotif(`${ data.pair.nickname } updated`);
       })
-    }
-  },
-  computed: {
-    ...mapGetters(['getPair','pairHistory','getRecoverPairId'])
-  },
-  created() {
-    this.$route.name === 'PairEdit' ? this.editPairDlg = true : this.pairDlg = true
-    this.pair = { ...this.getPair }
+    },
+    changePair(){
 
-    //!!!!temporary!!!
-    if(!this.pair.username && !this.getRecoverPairId) {
+    },
+    processState(state) {
+      switch(state) {
+        case 'PairEdit':
+          this.editPairDlg = true;
+          break;
+        case 'PairNew':
+          this.fillPairRandom();
+          this.newPairDlg = true;
+          break;
+        case 'PairDelete':
+          this.delPairDlg = true;
+          break;
+        case 'PairReverse':
+          this.fillPairRecovered();
+          this.recoverPairDlg = true;
+          break;
+        case 'PairSetOld':
+          this.restorePair({username: this.getRecoveredPair.username });
+          break;
+        default:
+      }
+    },
+    restorePair() {
+      const response = await this.$api.male.restorePair(this.getRecoveredPair);
+      if(response.data.error) {
+        this.showErrNotif(response.data);
+      }
+      else {
+        this.showNotif(`${this.getPair.nickname} restored`);
+        this.setNames(response.data)
+        this.getPairHistory()
+      }
+    }
+    },
+    fillPairRandom(){
       this.pair.username = Math.random().toString(36).substring(3);
       this.pair.nickname = Math.random().toString(36).substring(3);
       this.pair.password = 'password';
-    }
-    if(this.getRecoverPairId) {
-      this.pair.username = this.pairHistory[this.getRecoverPairId].username;
-      this.pair.nickname = this.pairHistory[this.getRecoverPairId].nickname;
+    },
+    fillPairRecovered(){
+      this.pair.username = this.getRecoveredPair.username;
+      this.pair.nickname = this.getRecoveredPair.nickname;
       this.pair.password = 'password';
+    },
+    async deletePair() {
+      this.delPairDlg = false;
+      const response = await this.$api.male.delFemale();
+      if(response.data.error) {
+        this.showErrNotif(response.data);
+      }
+      else {
+        this.showNotif(`${this.getPair.nickname} deleted`);
+        this.setNames(response.data)
+        this.getPairHistory()
+      }
     }
+  },
+  computed: {
+    ...mapGetters(['getPair','pairHistory','getRecoveredPairId','getRecoveredPair'])
+  },
+  created() {
+    this.pair = { ...this.getPair }
+    this.processState(this.$route.name)
   },
   mounted() {
   }

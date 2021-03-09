@@ -32,7 +32,14 @@ export default new Vuex.Store(  {
     getPairHistory: (context) => {
       return Vue.prototype.$api.male.pairHistory()
           .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
-    }
+    },
+    restorePair: (context, pair) => {
+      return Vue.prototype.$api.male.restorePair(pair)
+          .then(({ data }) => {
+            context.commit('CHANGE_NAMES', data)
+            return data
+          });
+    },
   },
   modules: {
     modulePair: modulePair

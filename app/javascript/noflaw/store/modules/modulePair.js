@@ -43,8 +43,11 @@ export default {
     tabooDatesSer(state) {
       return state.taboo_dates ? JSON.stringify(state.taboo_dates) : [];
     },
-    getRecoverPairId(state) {
+    getRecoveredPairId(state) {
       return state.recover_pair_id
+    },
+    getRecoveredPair(state){
+      return state.pair_history[state.recover_pair_id]
     }
   },
   mutations: {
