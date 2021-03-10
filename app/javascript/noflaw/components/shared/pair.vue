@@ -97,7 +97,7 @@ export default {
       })
     },
     async changePair(){
-      const response = await this.$api.male.delFemale();
+      const response = await this.$api.male.delPair();
       if(response.data.error) {
         this.showErrNotif(response.data);
       }
@@ -153,7 +153,7 @@ export default {
     },
     async deletePair() {
       this.delPairDlg = false;
-      const response = await this.$api.male.delFemale();
+      const response = await this.$api.male.delPair();
       if(response.data.error) {
         this.showErrNotif(response.data);
       }
