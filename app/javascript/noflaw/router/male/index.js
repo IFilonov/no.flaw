@@ -17,8 +17,8 @@ export default new VueRouter( {
         { path: 'new', component: Pair, name: 'PairNew'},
         { path: 'edit', component: Pair, name: 'PairEdit'},
         { path: 'delete', component: Pair, name: 'PairDelete'},
-        { path: 'change', component: Pair, name: 'PairReverse'},
-        { path: 'setOld', component: Pair, name: 'PairSetOld'},
+        { path: 'change', component: Pair, name: 'PairChange'},
+        { path: 'revert', component: Pair, name: 'PairRevert'}
       ]},
     { path: '/males/dates', component: Dates, name: 'Dates'}
   ]

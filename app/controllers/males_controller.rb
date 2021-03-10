@@ -14,13 +14,11 @@ class MalesController < ApplicationController
   end
 
   def create
-    begin
-      Female.transaction do
-        render :json => create_female
-      end
+    current_male.transaction do
+      render :json => create_female
+    end
     rescue => error
       render :json => helpers.log_details(error)
-    end
   end
 
   def update
@@ -34,12 +32,13 @@ class MalesController < ApplicationController
   end
 
   def delete
-    begin
+    current_male.transaction do
+      current_male.pairs.create!(female: current_male.female)
       current_male.update!(female: nil)
       render :json => names
+    end
     rescue => error
       render :json => helpers.log_details(error)
-    end
   end
 
   def dates
@@ -62,6 +61,16 @@ class MalesController < ApplicationController
     render :json => pairs
   end
 
+  def restore
+    current_male.transaction do
+      female = Female.find_by!(username: params[:username])
+      current_male.update!(female: female)
+      render :json => names(female)
+    end
+    rescue => error
+      render :json => helpers.log_details(error)
+  end
+
   private
   def pair_params
     params.require(:pair).permit(:username, :password, :nickname, :recover)
@@ -74,12 +83,7 @@ class MalesController < ApplicationController
   end
 
   def create_female
-    if(pair_params["recover"])
-      female = Female.find_by!(username: pair_params["username"])
-    else
-      female = Female.create!(pair_params)
-      female.pairs.create!(male: current_male)
-    end
+    female = Female.create!(pair_params)
     current_male.update!(female: female)
     names(female)
   end

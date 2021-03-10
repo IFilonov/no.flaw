@@ -23,14 +23,13 @@
         span {{ getPair.nickname }}
     q-card(class="q-pa-sm q-gutter-sm" v-if="pairHistory.length > 0")
       q-intersection(v-for="(pair, index) in pairHistory"
-        :key="pair.username"
+        :key="index"
         transition="scale")
         q-chip(v-if="pair.username"
           title="One click to change or show"
           clickable
-          :id="index"
           draggable="true"
-          :data="index"
+          :id="index"
           @dragstart.native="dragStart"
           text-color="white"
           color="light-blue-8"
@@ -38,7 +37,7 @@
           size="lg")
           q-avatar(size="40px")
             img(src="https://cdn.quasar.dev/img/avatar2.jpg")
-          span {{ pair.nickname }}
+          span {{ pair.nickname || pair.username }}
     router-view
 </template>
 
@@ -54,16 +53,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getPairHistory','setRecoverPairId']),
+    ...mapActions(['getPairHistory','setRecoverPair']),
     dragStart(ev) {
       ev.dataTransfer.effectAllowed = "move"
       ev.dataTransfer.setData('pair_id', ev.target.id)
     },
     dropDragZone(ev) {
-      this.setRecoverPairId(ev.dataTransfer.getData('pair_id'))
-      this.getPair.username
-          ? this.$router.push({ name: 'PairChange' })
-          : this.$router.push({ name: 'PairSetOld' })
+      this.setRecoverPair(this.pairHistory[ev.dataTransfer.getData('pair_id')])
+      this.$router.push({ name: this.getPair.username ? 'PairChange' : 'PairRevert' })
     },
     overDragZone(ev) {
       ev.preventDefault()
@@ -76,7 +73,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getPair','pairHistory','getRecoveredPairId'])
+    ...mapGetters(['getPair','pairHistory'])
   },
   mounted() {
     this.skipDuplicatePageError('Settings')
@@ -84,9 +81,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-.example-item
-  height: 60px
-  width: 60px
-</style>

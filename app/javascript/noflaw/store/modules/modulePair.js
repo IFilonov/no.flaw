@@ -4,7 +4,7 @@ export default {
   state: {
     me: {},
     pair: {},
-    recover_pair_id: null,
+    recover_pair: {},
     pair_history: [],
     taboo_dates: [],
     fire_dates: {},
@@ -43,11 +43,8 @@ export default {
     tabooDatesSer(state) {
       return state.taboo_dates ? JSON.stringify(state.taboo_dates) : [];
     },
-    getRecoveredPairId(state) {
-      return state.recover_pair_id
-    },
     getRecoveredPair(state){
-      return state.pair_history[state.recover_pair_id]
+      return state.recover_pair
     }
   },
   mutations: {
@@ -77,8 +74,8 @@ export default {
         state.pair_history = data
       }
     },
-    RECOVER_PAIR_ID: (state, recover_pair_id) => {
-      state.recover_pair_id = recover_pair_id
+    CHANGE_RECOVER_PAIR: (state, recover_pair) => {
+      state.recover_pair = recover_pair
     }
   },
   actions: {
@@ -91,8 +88,8 @@ export default {
     setFireTime: (context, fire_date) => {
       context.commit('CHANGE_FIRE_TIME', fire_date);
     },
-    setRecoverPairId: (context, recover_pair_id) => {
-      context.commit('RECOVER_PAIR_ID', recover_pair_id);
+    setRecoverPair: (context, recover_pair) => {
+      context.commit('CHANGE_RECOVER_PAIR', recover_pair);
     },
     setTabooDates: (context, taboo_dates) => {
       context.commit('CHANGE_TABOO_DATES', taboo_dates);

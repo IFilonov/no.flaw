@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     post '/females/update', to: 'females#update'
     post '/males/create', to: 'males#create'
     post '/males/update', to: 'males#update'
+    post '/males/restore', to: 'males#restore'
     get '/females/delete', to: 'females#delete'
     get '/males/delete', to: 'males#delete'
     get '/females/dates', to: 'females#dates'
