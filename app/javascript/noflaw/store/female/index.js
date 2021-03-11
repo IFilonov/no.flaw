@@ -38,10 +38,6 @@ export default new Vuex.Store(  {
             return data
           });
     },
-    getPairHistory: (context) => {
-      return Vue.prototype.$api.female.pairHistory()
-          .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
-    },
     restorePair: (context, pair) => {
       return Vue.prototype.$api.female.restorePair(pair)
           .then(({ data }) => {

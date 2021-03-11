@@ -14,13 +14,17 @@ class FemalesController < ApplicationController
   end
 
   def create
-    begin
-      Male.transaction do
-        render :json => create_update_male
-      end
+    current_female.transaction do
+      render :json => create_male
+    end
+  rescue => error
+    render :json => helpers.log_details(error)
+  end
+
+  def update
+    render :json => current_female.update_pair(pair_params)
     rescue => error
       render :json => helpers.log_details(error)
-    end
   end
 
   def dates
@@ -39,31 +43,14 @@ class FemalesController < ApplicationController
     render :json => lifetime ? { created_at:  lifetime.created_at } : lifetime.errors.full_messages
   end
 
-  def pair_history
-    pairs = []
-    current_female.pairs.includes(:male).order(:id).each do |pair|
-      pairs << {
-        username: pair.male.username,
-        nickname: pair.male.nickname
-      }
-    end
-    render :json => pairs
-  end
-
   private
   def pair_params
     params.require(:pair).permit(:username, :password, :nickname)
   end
 
-  def create_update_male
-    male = current_female.male
-    if(male)
-      male.update!(pair_params)
-    else
-      male = Male.create!(pair_params.merge(female_id: current_female.id))
-      male.pairs.create!(female: current_female)
-    end
-    current_female.names(male)
+  def create_male
+    current_female.update!(male: Male.create!(pair_params))
+    current_female.names
   end
 
   def lifetime_dates

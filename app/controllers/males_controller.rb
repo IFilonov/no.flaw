@@ -22,13 +22,9 @@ class MalesController < ApplicationController
   end
 
   def update
-    begin
-      female = current_male.female
-      female.update!(pair_params) if(female)
-      render :json => current_male.names(female)
+    render :json => current_male.update_pair(pair_params)
     rescue => error
       render :json => helpers.log_details(error)
-    end
   end
 
   def dates
@@ -40,20 +36,9 @@ class MalesController < ApplicationController
     render :json => lifetime ? { created_at:  lifetime.created_at } : lifetime.errors.full_messages
   end
 
-  def pair_history
-    pairs = []
-    current_male.pairs.includes(:female).order(:id).each do |pair|
-      pairs << {
-        username: pair.female.username,
-        nickname: pair.female.nickname
-      }
-    end
-    render :json => pairs
-  end
-
   private
   def pair_params
-    params.require(:pair).permit(:username, :password, :nickname, :recover)
+    params.require(:pair).permit(:username, :password, :nickname)
   end
 
   def create_female

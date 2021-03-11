@@ -6,38 +6,42 @@
       q-btn(v-if="!getPair.username"
         class="glossy"
         no-caps
-        color="blue"
         @click="$router.push({ name: 'PairNew'})"
-        label="Add your pair")
-      q-chip(v-if="getPair.username"
+        label="Add your new pair here")
+      q-card(v-if="getPair.username"
+        class="q-pa-sm q-gutter-sm"
         title="One click to change or show"
         removable clickable
         @remove="$router.push({ name: 'PairDelete'})"
-        @click="$router.push({ name: 'PairEdit' })"
-        text-color="white"
-        color="light-blue-8"
-        class="glossy"
-        size="lg")
-        q-avatar(size="40px")
-          img(:src="image(true)")
-        span {{ getPair.nickname }}
+        @click="$router.push({ name: 'PairEdit' })")
+        q-item
+          q-item-section(avatar)
+            q-avatar(size="60px")
+              img(:src="image(true)" draggable="false")
+          q-item-section
+            q-item-label name: {{ getPair.username }}
+            q-item-label(caption) nick: {{ getPair.nickname }}
+          q-item-section(avatar class="text-light-blue-9")
+            q-btn(round icon="fas fa-user-minus"
+              @click="$router.push({ name: 'PairDelete'})"
+              title="Delete pair")
     q-card(class="q-pa-sm q-gutter-sm" v-if="pairHistory.length > 0")
       q-intersection(v-for="(pair, index) in pairHistory"
         :key="index"
         transition="scale")
-        q-chip(v-if="pair.username"
-          title="One click to change or show"
-          clickable
+        q-card(class="my-card"
           draggable="true"
-          :id="index"
-          @dragstart.native="dragStart"
-          text-color="white"
           color="light-blue-8"
-          class="glossy"
-          size="lg")
-          q-avatar(size="40px")
-            img(:src="image(true)")
-          span {{ pair.nickname || pair.username }}
+          :id="index"
+          title="Drag to upper field to change"
+          @dragstart.native="dragStart")
+          q-item
+            q-item-section(avatar)
+              q-avatar(size="60px")
+                img(:src="image(true)" draggable="false")
+            q-item-section
+              q-item-label name: {{ pair.username }}
+              q-item-label(caption) nick: {{ pair.nickname }}
     router-view
 </template>
 
@@ -72,10 +76,14 @@ export default {
     ...mapGetters(['getPair','pairHistory','image'])
   },
   mounted() {
-    console.log(this.image())
-    console.log(this.image(true))
     this.skipDuplicatePageError('Settings')
     this.getPairHistory()
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.my-card
+  width: 100%
+  max-width: 350px
+</style>

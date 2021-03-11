@@ -18,7 +18,7 @@
               q-btn(label="Submit" type="submit" color="primary")
               q-btn(label="Reset" type="reset" color="primary" flat class="q-ml-sm")
               q-btn(flat label="Cancel" color="primary" v-close-popup)
-    q-dialog(v-model="editPairDlg"
+    q-dialog(v-model="updPairDlg"
       persistent
       @hide="toSettings")
       q-card
@@ -69,7 +69,7 @@ export default {
     return {
       pair: {},
       newPairDlg: false,
-      editPairDlg: false,
+      updPairDlg: false,
       delPairDlg: false,
       recoverPairDlg: false
     }
@@ -90,10 +90,12 @@ export default {
     },
     updPair() {
       let pair = this.pair
+      this.updPairDlg = false;
       this.updatePair({ pair }).then((data) =>{
         data.error
             ? this.showErrNotif(data)
             : this.showNotif(`${ data.pair.username } updated`);
+        this.getPairHistory()
       })
     },
     async changePair(){
@@ -103,14 +105,14 @@ export default {
       }
       else {
         this.showNotif(`${this.getPair.username} deleted`);
-        this.restorePair()
+        await this.restorePair()
       }
     },
     processState(state) {
       switch(state) {
         case 'PairEdit':
           this.pair = { ...this.getPair }
-          this.editPairDlg = true;
+          this.updPairDlg = true;
           break;
         case 'PairNew':
           this.fillPairRandom();

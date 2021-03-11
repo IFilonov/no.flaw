@@ -21,8 +21,7 @@ const api = {
     addPair: (female) => adapter.post('/males/create', female),
     updatePair: (female) => adapter.post('/males/update', female),
     saveFireDate: (fire_date) => adapter.post('/males/set_fire_date', fire_date),
-    dates: () => adapter.get('/males/dates'),
-    pairHistory: () => adapter.get('/males/pair_history')
+    dates: () => adapter.get('/males/dates')
   },
   female: {
     logout: '/females/logout',
@@ -31,12 +30,12 @@ const api = {
     updatePair: (male) => adapter.post('/females/update', male),
     saveTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
     saveFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
-    dates: () => adapter.get('/females/dates'),
-    pairHistory: () => adapter.get('/females/pair_history')
+    dates: () => adapter.get('/females/dates')
   },
   pair: {
     delete: () => adapter.get('/pairs/delete'),
-    restore: (pair) => adapter.post('/pairs/restore', pair)
+    restore: (pair) => adapter.post('/pairs/restore', pair),
+    history: () => adapter.get('/pairs/history')
   }
 }
 

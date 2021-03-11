@@ -24,20 +24,19 @@ Rails.application.routes.draw do
 
     get '/males/info', to: 'males#info'
     get '/males/dates', to: 'males#dates'
-    get '/males/pair_history', to: 'males#pair_history'
     post '/males/create', to: 'males#create'
     post '/males/update', to: 'males#update'
     post '/males/set_fire_date', to: 'males#set_fire_date'
 
     get '/females/info', to: 'females#info'
     get '/females/dates', to: 'females#dates'
-    get '/females/pair_history', to: 'females#pair_history'
     post '/females/create', to: 'females#create'
     post '/females/update', to: 'females#update'
     post '/females/set_taboo_date', to: 'females#set_taboo_date'
     post '/females/set_fire_date', to: 'females#set_fire_date'
 
     get '/pairs/delete', to: 'pairs#delete'
+    get '/pairs/history', to: 'pairs#history'
     post '/pairs/restore', to: 'pairs#restore'
   end
 

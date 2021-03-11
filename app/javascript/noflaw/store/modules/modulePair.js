@@ -93,6 +93,10 @@ export default {
     },
     setTabooDates: (context, taboo_dates) => {
       context.commit('CHANGE_TABOO_DATES', taboo_dates);
+    },
+    getPairHistory: (context) => {
+      return Vue.prototype.$api.pair.history()
+          .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
     }
   }
 }

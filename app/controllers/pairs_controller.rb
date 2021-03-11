@@ -20,6 +20,10 @@ class PairsController < ApplicationController
       render :json => helpers.log_details(error)
   end
 
+  def history
+    render :json => @user.pairs_history
+  end
+
   private
   def authenticate_user!
     current_male ? :authenticate_male! : :authenticate_female!
