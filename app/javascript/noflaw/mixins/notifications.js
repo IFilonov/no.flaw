@@ -1,9 +1,4 @@
 export default {
-  data () {
-    return {
-      errors: []
-    }
-  },
   methods: {
     showNotif (message, color = 'blue') {
       this.$q.notify({

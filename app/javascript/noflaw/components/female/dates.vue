@@ -39,7 +39,7 @@
           q-badge(color="deep-orange" floating) {{ fireDays ? fireDays.length : 0 }}
         div(class="q-gutter-md row items-start")
           q-date(v-model="fireDaysModel"
-            :events="maleFireDays"
+            :events="pairFireDays"
             event-color="lime"
             :options="fireOptionsFn"
             multiple today-btn
@@ -68,7 +68,7 @@
 
 <script>
 import notifications from 'notifications';
-import {mapActions, mapState, mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import range from '../shared/range'
 
 export default {
@@ -84,7 +84,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setMaleName','setTabooDates','getDates','setFireDays']),
+    ...mapActions(['setTabooDates','getDates','setFireDays']),
     onTabooChange(taboo_days, reason, details){
       this.disableSaveTaboo = false;
       this.setTabooDates(taboo_days);
@@ -126,8 +126,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['male_name']),
-    ...mapGetters(['maleFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
+    ...mapGetters(['pairFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
       set: function(newValue) {}

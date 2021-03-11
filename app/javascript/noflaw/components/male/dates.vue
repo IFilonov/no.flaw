@@ -23,7 +23,7 @@
           q-badge(color="deep-orange" floating) {{ fire_days ? fire_days.length : 0 }}
         div
           q-date(v-model="fireDaysModel"
-            :events="femaleFireDays"
+            :events="pairFireDays"
             event-color="lime"
             :options="fireOptionsFn"
             multiple today-btn
@@ -53,7 +53,7 @@
 <script>
 const C_DEEP_ORANGE = 'deep-orange';
 import notifications from 'notifications';
-import {mapActions, mapState, mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import range from '../shared/range'
 
 export default {
@@ -72,7 +72,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setMaleName','setTabooDates','getDates','setFireDays']),
+    ...mapActions(['getDates','setFireDays']),
     onTabooClick(){
       this.showNotif('Only female can change taboo date. You need observe this days','purple')
     },
@@ -99,8 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['male_name']),
-    ...mapGetters(['femaleFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
+    ...mapGetters(['pairFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
     fireDaysModel: {
       get: function() { return this.fireDays },
       set: function(newValue) {}

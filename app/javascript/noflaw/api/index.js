@@ -18,19 +18,24 @@ const api = {
   male: {
     logout: '/males/logout',
     names: () => adapter.get('/males/info'),
-    addFemale: (female) => adapter.post('/males/create', female),
-    delFemale: () => adapter.get('/males/delete'),
+    addPair: (female) => adapter.post('/males/create', female),
+    updatePair: (female) => adapter.post('/males/update', female),
     saveFireDate: (fire_date) => adapter.post('/males/set_fire_date', fire_date),
     dates: () => adapter.get('/males/dates')
   },
   female: {
     logout: '/females/logout',
     names: () => adapter.get('/females/info'),
-    addMale: (male) => adapter.post('/females/create', male),
-    delMale: () => adapter.get('/females/delete'),
+    addPair: (male) => adapter.post('/females/create', male),
+    updatePair: (male) => adapter.post('/females/update', male),
     saveTabooDate: (taboo_date) => adapter.post('/females/set_taboo_date', taboo_date),
     saveFireDate: (fire_date) => adapter.post('/females/set_fire_date', fire_date),
     dates: () => adapter.get('/females/dates')
+  },
+  pair: {
+    delete: () => adapter.get('/pairs/delete'),
+    restore: (pair) => adapter.post('/pairs/restore', pair),
+    history: () => adapter.get('/pairs/history')
   }
 }
 

@@ -3,7 +3,7 @@
     q-toolbar(class="glossy")
       q-toolbar-title
         q-avatar(size="48px")
-          img(:src="img")
+          img(:src="image()")
         span {{ name }}
       div(class="q-pa-md")
         q-btn-dropdown(class="glossy" color="purple" label="Account Settings")
@@ -13,17 +13,21 @@
             q-separator(vertical inset class="q-mx-lg")
             div(class="column items-center")
               q-avatar(size="72px")
-                img(:src="img")
+                img(:src="image()")
               div(class="text-subtitle1 q-mt-md q-mb-xs") {{ name }}
               q-btn(:href="logout_path" type="a" color="primary" label="Logout" push size="sm" v-close-popup)
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   data: function () {
     return {
     }
   },
-  props: ['name', 'logout_path', 'img']
+  computed: {
+    ...mapGetters(['image'])
+  },
+  props: ['name', 'logout_path']
 }
 </script>

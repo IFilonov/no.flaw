@@ -27,7 +27,7 @@
           q-item-section(avatar)
             q-icon(name="fas fa-cubes")
           q-item-section
-            q-item-label Male
+            q-item-label Pair
     q-page-container
       router-view
 </template>

@@ -5,7 +5,7 @@ class FemalesController < ApplicationController
   end
 
   def info
-    render :json => names
+    render :json => current_female.names
   end
 
   def logout
@@ -14,24 +14,17 @@ class FemalesController < ApplicationController
   end
 
   def create
-    begin
-      Male.transaction do
-        male = Male.create!(female_params.merge(female_id: current_female.id))
-        male.pairs.create!(female: current_female)
-        render :json => names
-      end
-    rescue => error
-      render :json => helpers.log_details(error)
+    current_female.transaction do
+      render :json => create_male
     end
+  rescue => error
+    render :json => helpers.log_details(error)
   end
 
-  def delete
-    begin
-      current_female.male.update!(female: nil)
-      render :json => names
+  def update
+    render :json => current_female.update_pair(pair_params)
     rescue => error
       render :json => helpers.log_details(error)
-    end
   end
 
   def dates
@@ -51,21 +44,20 @@ class FemalesController < ApplicationController
   end
 
   private
-  def female_params
-    params.require(:male).permit(:username, :password)
+  def pair_params
+    params.require(:pair).permit(:username, :password, :nickname)
   end
 
-  def names
-    male_name = current_female.reload.male&.username
-    { name: current_female.username, male_name: male_name }
+  def create_male
+    current_female.update!(male: Male.create!(pair_params))
+    current_female.names
   end
 
   def lifetime_dates
     lifetime = current_female.lifetimes&.last
     { taboo_dates: lifetime&.taboo_date,
       fire_dates: lifetime&.fire_date,
-      male_fire_dates: current_female.male&.lifetimes&.last&.fire_date
+      pair_fire_dates: current_female.male&.lifetimes&.last&.fire_date
     }
   end
-
 end

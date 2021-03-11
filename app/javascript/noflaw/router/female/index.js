@@ -3,15 +3,23 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import Settings from '../../components/female/settings';
+import Settings from '../../components/shared/settings';
 import Dates from '../../components/female/dates';
+import Pair from '../../components/shared/pair';
 
 export default new VueRouter( {
   mode: 'history',
   hashbang: false,
   routes: [
     { path: '/', redirect: '/females/settings'},
-    { path: '/females/settings', component: Settings, name: 'Settings'},
+    { path: '/females/settings', component: Settings, name: 'Settings',
+      children: [
+        { path: 'new', component: Pair, name: 'PairNew'},
+        { path: 'edit', component: Pair, name: 'PairEdit'},
+        { path: 'delete', component: Pair, name: 'PairDelete'},
+        { path: 'change', component: Pair, name: 'PairChange'},
+        { path: 'revert', component: Pair, name: 'PairRevert'}
+      ]},
     { path: '/females/dates', component: Dates, name: 'Dates'}
   ]
 })

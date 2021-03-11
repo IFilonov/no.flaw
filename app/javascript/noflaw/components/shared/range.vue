@@ -23,7 +23,7 @@
 <script>
 const C_DEEP_ORANGE = '#FF5722';
 const C_LIME = 'orange';
-import {mapActions, mapGetters, mapState} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   props: ['fire_day'],
   data: function () {
@@ -56,6 +56,17 @@ export default {
     onCheckbox(checked) {
       this.onRangeChange(checked ? this.time : {} )
       this.$emit('onRangeChange')
+    },
+    fillData(){
+      let time = this.fireDayTime(this.fire_day)
+      this.pair_time = this.pairFireDayTime(this.fire_day)
+      if(this.pair_time) {
+        this.zones[0].max = this.zones[1].min = this.pair_time.min
+        this.zones[1].max = this.zones[2].min = this.pair_time.max
+        this.zones[1].color = C_LIME
+      }
+      this.checkTime = Object.keys(time).length > 0
+      this.time = this.checkTime ? time : this.time
     }
   },
   computed: {
@@ -92,17 +103,7 @@ export default {
     }
   },
   mounted() {
-    let time = this.fireDayTime(this.fire_day)
-    this.pair_time = this.pairFireDayTime(this.fire_day)
-    if(this.pair_time) {
-      this.zones[0].max = this.pair_time.min
-      this.zones[1].min = this.pair_time.min
-      this.zones[1].max = this.pair_time.max
-      this.zones[2].min = this.pair_time.max
-      this.zones[1].color = C_LIME
-    }
-    this.checkTime = Object.keys(time).length > 0
-    this.time = this.checkTime ? time : this.time
+    this.fillData();
   }
 }
 </script>
@@ -116,6 +117,7 @@ export default {
   .q-slider__track-container--h
     background-image: var(--track-bg)
     height: 10px
+    box-shadow: 4px 4px 3px #BBBBBB
 .custom-colored-range--inside
   .q-slider__track--h
     top: 4px

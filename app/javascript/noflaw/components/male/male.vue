@@ -1,33 +1,28 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:name = "name" :logout_path="$api.male.logout" :img="img")
+      navbar(:name = "getMe.username" :logout_path="$api.male.logout")
       dashboard
 </template>
 
 <script>
 import navbar from '../shared/navbar';
-import dashboard from './dashboard';
-import {mapActions, mapState} from 'vuex'
+import dashboard from '../shared/dashboard';
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   components: {
     'navbar': navbar,
     'dashboard': dashboard
   },
-  data: function () {
-    return {
-      img: "https://cdn.quasar.dev/img/avatar4.jpg"
-    }
-  },
   methods: {
-    ...mapActions(['getNames'])
+    ...mapActions(['loadNames'])
   },
   computed: {
-    ...mapState(['name','female_name']),
+    ...mapGetters(['getMe'])
   },
   mounted() {
-    this.getNames();
+    this.loadNames();
   }
 }
 </script>
