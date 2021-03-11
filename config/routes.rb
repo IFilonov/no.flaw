@@ -21,20 +21,24 @@ Rails.application.routes.draw do
 
   constraints ->(req) { req.format == :json } do
     get '/staffs/info', to: 'staffs#info'
+
     get '/males/info', to: 'males#info'
-    get '/females/info', to: 'females#info'
-    post '/females/create', to: 'females#create'
-    post '/females/update', to: 'females#update'
+    get '/males/dates', to: 'males#dates'
+    get '/males/pair_history', to: 'males#pair_history'
     post '/males/create', to: 'males#create'
     post '/males/update', to: 'males#update'
-    post '/males/restore', to: 'males#restore'
-    get '/pairs/delete', to: 'pairs#delete'
+    post '/males/set_fire_date', to: 'males#set_fire_date'
+
+    get '/females/info', to: 'females#info'
     get '/females/dates', to: 'females#dates'
-    get '/males/dates', to: 'males#dates'
+    get '/females/pair_history', to: 'females#pair_history'
+    post '/females/create', to: 'females#create'
+    post '/females/update', to: 'females#update'
     post '/females/set_taboo_date', to: 'females#set_taboo_date'
     post '/females/set_fire_date', to: 'females#set_fire_date'
-    post '/males/set_fire_date', to: 'males#set_fire_date'
-    get '/males/pair_history', to: 'males#pair_history'
+
+    get '/pairs/delete', to: 'pairs#delete'
+    post '/pairs/restore', to: 'pairs#restore'
   end
 
   get '/males/*slug', to: 'males#index'

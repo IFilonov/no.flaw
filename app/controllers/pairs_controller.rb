@@ -11,6 +11,15 @@ class PairsController < ApplicationController
     render :json => helpers.log_details(error)
   end
 
+  def restore
+    @user.transaction do
+      @user.restore!(params[:username])
+      render :json => @user.names
+    end
+    rescue => error
+      render :json => helpers.log_details(error)
+  end
+
   private
   def authenticate_user!
     current_male ? :authenticate_male! : :authenticate_female!

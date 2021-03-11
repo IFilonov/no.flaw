@@ -7,7 +7,7 @@
 
 <script>
 import navbar from '../shared/navbar';
-import dashboard from './dashboard';
+import dashboard from '../shared/dashboard';
 import {mapActions, mapGetters} from 'vuex'
 
 export default {

@@ -6,23 +6,28 @@ import modulePair from '../modules/modulePair'
 Vue.use(Vuex)
 
 export default new Vuex.Store(  {
-  state: {
-  },
   actions: {
     getDates: (context) => {
       return Vue.prototype.$api.female.dates()
-        .then(({data}) => (context.commit('CHANGE_DATES_SER', data)));
+        .then(({ data }) => (context.commit('CHANGE_DATES_SER', data)));
     },
     loadNames: (context) => {
       return Vue.prototype.$api.female.names()
-          .then(({data}) => (context.commit('CHANGE_NAMES', data)));
+          .then(({ data }) => (context.commit('CHANGE_NAMES', data)));
     },
     addPair: (context, pair) => {
       return Vue.prototype.$api.female.addPair(pair)
-        .then(({data}) => {
+        .then(({ data }) => {
           context.commit('CHANGE_NAMES', data)
           return data
         });
+    },
+    updatePair: (context, pair) => {
+      return Vue.prototype.$api.female.updatePair(pair)
+          .then(({ data }) => {
+            context.commit('CHANGE_NAMES', data)
+            return data
+          });
     },
     getPairHistory: (context) => {
       return Vue.prototype.$api.female.pairHistory()
@@ -30,7 +35,7 @@ export default new Vuex.Store(  {
     },
     restorePair: (context, pair) => {
       return Vue.prototype.$api.female.restorePair(pair)
-          .then(({data}) => {
+          .then(({ data }) => {
             context.commit('CHANGE_NAMES', data)
             return data
           });

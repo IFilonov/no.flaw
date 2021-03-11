@@ -13,6 +13,10 @@ class Male < ApplicationRecord
     update!(female: nil)
   end
 
+  def restore!(username)
+    update!(female: Female.find_by!(username: username))
+  end
+
   def names(female = nil)
     female ||= reload.female
     { me: { username: username },

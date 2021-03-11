@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import Settings from '../../components/female/settings';
+import Settings from '../../components/shared/settings';
 import Dates from '../../components/female/dates';
 import Pair from '../../components/shared/pair';
 

@@ -132,7 +132,7 @@ export default {
     },
     async restorePair() {
       let pair = { ...this.getRecoveredPair }
-      const response = await this.$api.male.restorePair(pair);
+      const response = await this.$api.pair.restore(pair);
       if(response.data.error) {
         this.showErrNotif(response.data);
       }

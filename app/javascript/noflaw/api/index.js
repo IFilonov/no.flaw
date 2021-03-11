@@ -20,7 +20,6 @@ const api = {
     names: () => adapter.get('/males/info'),
     addPair: (female) => adapter.post('/males/create', female),
     updatePair: (female) => adapter.post('/males/update', female),
-    restorePair: (female) => adapter.post('/males/restore', female),
     saveFireDate: (fire_date) => adapter.post('/males/set_fire_date', fire_date),
     dates: () => adapter.get('/males/dates'),
     pairHistory: () => adapter.get('/males/pair_history')
@@ -36,7 +35,8 @@ const api = {
     pairHistory: () => adapter.get('/females/pair_history')
   },
   pair: {
-    delete: () => adapter.get('/pairs/delete')
+    delete: () => adapter.get('/pairs/delete'),
+    restore: (pair) => adapter.post('/pairs/restore', pair)
   }
 }
 

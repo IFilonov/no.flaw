@@ -42,23 +42,13 @@ class MalesController < ApplicationController
 
   def pair_history
     pairs = []
-    current_male.pairs.order(:id).each do |pair|
+    current_male.pairs.includes(:female).order(:id).each do |pair|
       pairs << {
         username: pair.female.username,
         nickname: pair.female.nickname
       }
     end
     render :json => pairs
-  end
-
-  def restore
-    current_male.transaction do
-      female = Female.find_by!(username: params[:username])
-      current_male.update!(female: female)
-      render :json => current_male.names(female)
-    end
-    rescue => error
-      render :json => helpers.log_details(error)
   end
 
   private

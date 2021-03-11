@@ -7,19 +7,19 @@
         class="glossy"
         no-caps
         color="blue"
-        @click="onAddPair"
-        label="Add male")
+        @click="$router.push({ name: 'PairNew'})"
+        label="Add your pair")
       q-chip(v-if="getPair.username"
         title="One click to change or show"
         removable clickable
-        @remove="showRemoveMaleDlg"
+        @remove="$router.push({ name: 'PairDelete'})"
         @click="$router.push({ name: 'PairEdit' })"
         text-color="white"
         color="light-blue-8"
         class="glossy"
         size="lg")
         q-avatar(size="40px")
-          img(src="https://cdn.quasar.dev/img/avatar4.jpg")
+          img(src="https://cdn.quasar.dev/img/avatar2.jpg")
         span {{ getPair.nickname }}
     q-card(class="q-pa-sm q-gutter-sm" v-if="pairHistory.length > 0")
       q-intersection(v-for="(pair, index) in pairHistory"
@@ -48,10 +48,6 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   mixins: [notifications],
   name: "settings",
-  data:function() {
-    return {
-    }
-  },
   methods: {
     ...mapActions(['getPairHistory','setRecoverPair']),
     dragStart(ev) {

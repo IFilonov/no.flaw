@@ -24,10 +24,10 @@ export default new Vuex.Store(  {
     },
     updatePair: (context, pair) => {
       return Vue.prototype.$api.male.updatePair(pair)
-          .then(({ data }) => {
-            context.commit('CHANGE_NAMES', data)
-            return data
-          });
+        .then(({ data }) => {
+          context.commit('CHANGE_NAMES', data)
+          return data
+        });
     },
     getPairHistory: (context) => {
       return Vue.prototype.$api.male.pairHistory()
@@ -35,10 +35,10 @@ export default new Vuex.Store(  {
     },
     restorePair: (context, pair) => {
       return Vue.prototype.$api.male.restorePair(pair)
-          .then(({ data }) => {
-            context.commit('CHANGE_NAMES', data)
-            return data
-          });
+        .then(({ data }) => {
+          context.commit('CHANGE_NAMES', data)
+          return data
+        });
     },
   },
   modules: {
