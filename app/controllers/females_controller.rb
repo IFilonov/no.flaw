@@ -5,7 +5,7 @@ class FemalesController < ApplicationController
   end
 
   def info
-    render :json => names
+    render :json => current_female.names
   end
 
   def logout
@@ -18,15 +18,6 @@ class FemalesController < ApplicationController
       Male.transaction do
         render :json => create_update_male
       end
-    rescue => error
-      render :json => helpers.log_details(error)
-    end
-  end
-
-  def delete
-    begin
-      current_female.male&.update!(female: nil)
-      render :json => names
     rescue => error
       render :json => helpers.log_details(error)
     end
@@ -53,12 +44,6 @@ class FemalesController < ApplicationController
     params.require(:pair).permit(:username, :password, :nickname)
   end
 
-  def names(male = nil)
-    male ||= current_female.reload.male
-    { me: { username: current_female.username },
-      pair: { username: male&.username, nickname: male&.nickname }}
-  end
-
   def create_update_male
     male = current_female.male
     if(male)
@@ -67,7 +52,7 @@ class FemalesController < ApplicationController
       male = Male.create!(pair_params.merge(female_id: current_female.id))
       male.pairs.create!(female: current_female)
     end
-    names(male)
+    current_female.names(male)
   end
 
   def lifetime_dates
