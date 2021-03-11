@@ -1,11 +1,10 @@
 class MalesController < ApplicationController
   before_action :authenticate_male!
 
-  def index
-  end
+  def index; end
 
   def info
-    render :json => current_male.names
+    render json: current_male.names
   end
 
   def logout
@@ -15,28 +14,29 @@ class MalesController < ApplicationController
 
   def create
     current_male.transaction do
-      render :json => create_female
+      render json: create_female
     end
-    rescue => error
-      render :json => helpers.log_details(error)
+  rescue StandardError => e
+    render json: helpers.log_details(e)
   end
 
   def update
-    render :json => current_male.update_pair(pair_params)
-    rescue => error
-      render :json => helpers.log_details(error)
+    render json: current_male.update_pair(pair_params)
+  rescue StandardError => e
+    render json: helpers.log_details(e)
   end
 
   def dates
-    render :json => lifetime_dates
+    render json: lifetime_dates
   end
 
   def set_fire_date
-    lifetime = current_male.lifetimes.create( fire_date: params[:fire_dates])
-    render :json => lifetime ? { created_at:  lifetime.created_at } : lifetime.errors.full_messages
+    lifetime = current_male.lifetimes.create(fire_date: params[:fire_dates])
+    render json: lifetime ? { created_at: lifetime.created_at } : lifetime.errors.full_messages
   end
 
   private
+
   def pair_params
     params.require(:pair).permit(:username, :password, :nickname)
   end
