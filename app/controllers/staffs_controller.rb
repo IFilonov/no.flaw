@@ -1,11 +1,10 @@
 class StaffsController < ApplicationController
   before_action :authenticate_staff!
 
-  def index
-  end
+  def index; end
 
   def info
-    render :json => {:user => current_staff.email }
+    render json: { user: current_staff.email }
   end
 
   def logout

@@ -14,7 +14,7 @@ class Male < ApplicationRecord
   end
 
   def update_pair(pair_params)
-    female.update!(pair_params) if(female)
+    female.update!(pair_params) if female
     names
   end
 
@@ -25,14 +25,13 @@ class Male < ApplicationRecord
   def names(female = nil)
     female ||= reload.female
     { me: { username: username },
-      pair: { username: female&.username, nickname: female&.nickname }}
+      pair: { username: female&.username, nickname: female&.nickname } }
   end
 
   def pairs_history
     pairs.includes(:female).order(:id).map do |pair|
       { username: pair.female.username,
-        nickname: pair.female.nickname
-      }
-      end
+        nickname: pair.female.nickname }
+    end
   end
 end
