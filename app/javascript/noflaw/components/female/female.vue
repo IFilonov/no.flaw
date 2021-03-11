@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     q-layout
-      navbar(:name = "getMe.username" :logout_path="$api.female.logout" :img="img")
+      navbar(:name = "getMe.username" :logout_path="$api.female.logout")
       dashboard
 </template>
 
@@ -14,11 +14,6 @@ export default {
   components: {
     'navbar': navbar,
     'dashboard': dashboard
-  },
-  data: function () {
-    return {
-      img: "https://cdn.quasar.dev/img/avatar2.jpg"
-    }
   },
   methods: {
     ...mapActions(['loadNames'])

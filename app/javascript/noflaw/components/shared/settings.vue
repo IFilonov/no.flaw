@@ -19,7 +19,7 @@
         class="glossy"
         size="lg")
         q-avatar(size="40px")
-          img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+          img(:src="image(true)")
         span {{ getPair.nickname }}
     q-card(class="q-pa-sm q-gutter-sm" v-if="pairHistory.length > 0")
       q-intersection(v-for="(pair, index) in pairHistory"
@@ -36,7 +36,7 @@
           class="glossy"
           size="lg")
           q-avatar(size="40px")
-            img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+            img(:src="image(true)")
           span {{ pair.nickname || pair.username }}
     router-view
 </template>
@@ -69,9 +69,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getPair','pairHistory'])
+    ...mapGetters(['getPair','pairHistory','image'])
   },
   mounted() {
+    console.log(this.image())
+    console.log(this.image(true))
     this.skipDuplicatePageError('Settings')
     this.getPairHistory()
   }

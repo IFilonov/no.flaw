@@ -6,6 +6,15 @@ import modulePair from '../modules/modulePair'
 Vue.use(Vuex)
 
 export default new Vuex.Store(  {
+  state: {
+    male_pair_image: "/female.jpg",
+    male_image: "/male.jpg"
+  },
+  getters: {
+    image: (state) => (pair) => {
+      return pair ? state.male_pair_image : state.male_image
+    }
+  },
   actions: {
     getDates: (context) => {
       return Vue.prototype.$api.male.dates()

@@ -40,7 +40,7 @@
       q-card
         q-card-section(class="row items-center")
           q-avatar
-            img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+            img(:src="image(true)")
           span(class="q-ml-sm") You are sure delete {{ getPair.username }}?
         q-card-actions(align="right")
           q-btn(flat label="Cancel" color="primary" v-close-popup)
@@ -51,7 +51,7 @@
       q-card
         q-card-section(class="row items-center")
           q-avatar
-            img(src="https://cdn.quasar.dev/img/avatar2.jpg")
+            img(:src="image(true)")
           span(class="q-ml-sm") You are sure change {{ getPair.username }} to {{ pair.username }}?
         q-card-actions(align="right")
           q-btn(flat label="Cancel" color="primary" v-close-popup)
@@ -165,7 +165,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getPair','pairHistory','getRecoveredPair'])
+    ...mapGetters(['getPair','pairHistory','getRecoveredPair','image'])
   },
   created() {
     this.processState(this.$route.name)
