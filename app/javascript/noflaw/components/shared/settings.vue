@@ -8,7 +8,7 @@
         no-caps
         icon="fas fa-user-plus"
         @click="$router.push({ name: 'PairNew'})"
-        label="add new pair")
+        label="add pair")
       q-card(v-if="getPair.username"
         class="q-pa-sm q-gutter-sm"
         title="One click to change or show"
@@ -27,22 +27,23 @@
               @click="$router.push({ name: 'PairDelete'})"
               title="Delete pair")
     q-card(class="q-pa-sm q-gutter-sm" v-if="pairHistory.length > 0")
-      q-intersection(v-for="(pair, index) in pairHistory"
-        :key="index"
-        transition="scale")
-        q-card(class="my-card"
-          draggable="true"
-          color="light-blue-8"
-          :id="index"
-          title="Drag to upper field to change"
-          @dragstart.native="dragStart")
-          q-item
-            q-item-section(avatar)
-              q-avatar(size="60px")
-                img(:src="image(true)" draggable="false")
-            q-item-section
-              q-item-label name: {{ pair.username }}
-              q-item-label(caption) nick: {{ pair.nickname }}
+      div(class="row")
+        q-intersection(v-for="(pair, index) in pairHistory"
+          :key="index"
+          class="my-card q-pa-sm"
+          transition="scale")
+          q-card(draggable="true"
+            color="light-blue-8"
+            :id="index"
+            title="Drag to upper field to change"
+            @dragstart.native="dragStart")
+            q-item
+              q-item-section(avatar)
+                q-avatar(size="60px")
+                  img(:src="image(true)" draggable="false")
+              q-item-section
+                q-item-label name: {{ pair.username }}
+                q-item-label(caption) nick: {{ pair.nickname }}
     router-view
 </template>
 
