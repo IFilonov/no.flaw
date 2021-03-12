@@ -1,9 +1,14 @@
 class Female < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
   has_many :pairs
   has_many :males, through: :pairs
   has_many :lifetimes, as: :dateable
   has_one :male
   include DeviseDefs
+
+  validates :username, presence: true
 
   def create_pair_history!
     pairs.create!(male: male)

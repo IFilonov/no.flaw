@@ -1,13 +1,14 @@
 <template lang="pug">
   div(class="q-pa-sm q-gutter-sm")
-    q-card(class="q-pa-sm q-gutter-sm"
+    q-card(class="q-pa-md q-gutter-sm"
       @dragover.native="overDragZone"
       @drop.native="dropDragZone")
       q-btn(v-if="!getPair.username"
-        class="glossy"
+        class="glossy text-light-blue-9 text-bold"
         no-caps
+        icon="fas fa-user-plus"
         @click="$router.push({ name: 'PairNew'})"
-        label="Add your new pair here")
+        label="add new pair")
       q-card(v-if="getPair.username"
         class="q-pa-sm q-gutter-sm"
         title="One click to change or show"
@@ -85,5 +86,5 @@ export default {
 <style lang="stylus" scoped>
 .my-card
   width: 100%
-  max-width: 350px
+  max-width: 250px
 </style>
