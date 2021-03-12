@@ -39,11 +39,12 @@
             @dragstart.native="dragStart")
             q-item
               q-item-section(avatar)
-                q-avatar(size="60px")
+                q-avatar(size="40px")
                   img(:src="image(true)" draggable="false")
               q-item-section
                 q-item-label name: {{ pair.username }}
                 q-item-label(caption) nick: {{ pair.nickname }}
+                q-item-label(caption) from: {{ pair.start_time }}
     router-view
 </template>
 

@@ -25,7 +25,7 @@ class Male < ApplicationRecord
     names
   end
 
-  def restore!(username)
+  def restore_pair!(username)
     update!(female: Female.find_by!(username: username))
   end
 
@@ -38,7 +38,8 @@ class Male < ApplicationRecord
   def pairs_history
     pairs.includes(:female).order(:id).map do |pair|
       { username: pair.female.username,
-        nickname: pair.female.nickname }
+        nickname: pair.female.nickname,
+        start_time: pair.created_at }
     end
   end
 
