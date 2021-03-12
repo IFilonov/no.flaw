@@ -1,4 +1,6 @@
 export default {
+  DEEP_ORANGE: 'deep-orange',
+  PURPLE: 'purple',
   methods: {
     showNotif (message, color = 'blue') {
       this.$q.notify({

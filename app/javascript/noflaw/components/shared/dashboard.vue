@@ -8,7 +8,7 @@
           q-item-section
             q-item-label Dates
         q-separator(inset)
-        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings2'}")
+        q-item(clickable v-ripple active-class="my-menu-link")
           q-item-section(avatar)
             q-icon(name="fas fa-globe")
           q-item-section
@@ -17,7 +17,7 @@
             q-item-label(caption) >5 min ago
               q-icon(name="star" color="green")
         q-separator(inset)
-        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings3'}")
+        q-item(clickable v-ripple active-class="my-menu-link")
           q-item-section(avatar)
             q-icon(name="fas fa-cubes")
           q-item-section

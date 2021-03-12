@@ -51,13 +51,11 @@
 </template>
 
 <script>
-const C_DEEP_ORANGE = 'deep-orange';
 import notifications from 'notifications';
 import {mapActions, mapGetters} from 'vuex'
 import range from '../shared/range'
 
 export default {
-
   C_MAX_FIRE_DATES: 6,
   mixins: [notifications],
   name: "dates",
@@ -86,8 +84,8 @@ export default {
     async sendFireDate() {
       const response = await this.$api.male.saveFireDate({ fire_dates: this.fireDatesSer } );
       this.disableSaveFire = true;
-      response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, C_DEEP_ORANGE)
-          : this.showErrNotif(response.data.join());
+      response.data.error ? this.showErrNotif(response.data) :
+          this.showNotif(`Firedates saved at ${response.data.created_at}`, this.DEEP_ORANGE)
     },
     clearFireDate() {
       this.setFireDays([]);

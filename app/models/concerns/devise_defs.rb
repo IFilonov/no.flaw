@@ -6,7 +6,8 @@ module DeviseDefs
     # :registerable, :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
     devise :database_authenticatable, :registerable, :lockable,
            :recoverable, :rememberable, :validatable, authentication_keys: [:username]
-    validates :username, uniqueness: true
+
+    validates :username, presence: true, uniqueness: true
 
     def email_required?
       false

@@ -1,14 +1,9 @@
 class Male < ApplicationRecord
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
   has_many :pairs
   has_many :females, through: :pairs
   has_many :lifetimes, as: :dateable
   belongs_to :female, optional: true
   include DeviseDefs
-
-  validates :username, presence: true
 
   def create_pair_history!
     pairs.create!(female: female)
@@ -18,8 +13,15 @@ class Male < ApplicationRecord
     update!(female: nil)
   end
 
-  def update_pair(pair_params)
-    female.update!(pair_params) if female
+  def create_pair!(pair)
+    @female = Female.create!(pair)
+    update!(female: @female)
+    names
+  end
+
+  def update_pair!(pair)
+    @female = female
+    @female&.update!(pair)
     names
   end
 
@@ -27,10 +29,10 @@ class Male < ApplicationRecord
     update!(female: Female.find_by!(username: username))
   end
 
-  def names(female = nil)
-    female ||= reload.female
+  def names
+    @female ||= reload.female
     { me: { username: username },
-      pair: { username: female&.username, nickname: female&.nickname } }
+      pair: { username: @female&.username, nickname: @female&.nickname } }
   end
 
   def pairs_history
@@ -38,5 +40,10 @@ class Male < ApplicationRecord
       { username: pair.female.username,
         nickname: pair.female.nickname }
     end
+  end
+
+  def set_fire_date(fire_dates)
+    lifetime = lifetimes.create!(fire_date: fire_dates)
+    { created_at: lifetime.created_at }
   end
 end
