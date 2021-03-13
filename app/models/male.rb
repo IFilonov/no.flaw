@@ -47,4 +47,11 @@ class Male < ApplicationRecord
     lifetime = lifetimes.create!(fire_date: fire_dates)
     { created_at: lifetime.created_at }
   end
+
+  def lifetime_dates
+    female_lifetime = female&.lifetimes&.last
+    { taboo_dates: female_lifetime&.taboo_date,
+      fire_dates: lifetimes&.last&.fire_date,
+      pair_fire_dates: female_lifetime&.fire_date }
+  end
 end

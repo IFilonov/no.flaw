@@ -1,6 +1,7 @@
 class MalesController < ApplicationController
+  include ApplicationHelper
   before_action :authenticate_male!
-  around_action :wrap_in_transaction, only: %i[create update set_fire_date]
+  around_action :ApplicationHelper::wrap_in_transaction, only: %i[create update set_fire_date]
 
   def index; end
 
@@ -33,18 +34,5 @@ class MalesController < ApplicationController
 
   def pair_params
     params.require(:pair).permit(:username, :password, :nickname)
-  end
-
-  def lifetime_dates
-    female_lifetime = current_male.female&.lifetimes&.last
-    { taboo_dates: female_lifetime&.taboo_date,
-      pair_fire_dates: female_lifetime&.fire_date,
-      fire_dates: current_male.lifetimes&.last&.fire_date }
-  end
-
-  def wrap_in_transaction(&block)
-    ActiveRecord::Base.transaction(&block)
-  rescue StandardError => e
-    render json: helpers.log_details(e)
   end
 end

@@ -1,4 +1,5 @@
 class PairsController < ApplicationController
+  include ApplicationHelper
   before_action :authenticate_user!
   around_action :wrap_in_transaction, only: %i[delete restore]
 
@@ -22,11 +23,5 @@ class PairsController < ApplicationController
   def authenticate_user!
     current_male ? :authenticate_male! : :authenticate_female!
     @user = current_male || current_female
-  end
-
-  def wrap_in_transaction(&block)
-    ActiveRecord::Base.transaction(&block)
-  rescue StandardError => e
-    render json: helpers.log_details(e)
   end
 end
