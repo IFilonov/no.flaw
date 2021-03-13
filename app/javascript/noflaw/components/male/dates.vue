@@ -9,11 +9,13 @@
           label="Female taboo dates")
           q-badge(color="purple" floating) {{ tabooDaysModel ? tabooDaysModel.length : 0 }}
         div
-          q-date(v-model="tabooDaysModel"
-            multiple today-btn
-            first-day-of-week="1"
-            @input="onTabooClick"
-            color="purple")
+          q-intersection(class="q-pa-sm my_trans"
+            transition="scale")
+            q-date(v-model="tabooDaysModel"
+              multiple today-btn
+              first-day-of-week="1"
+              @input="onTabooClick"
+              color="purple")
       div(class="q-pa-sm q-gutter-sm")
         q-btn(color="white"
           text-color="deep-orange"
@@ -22,14 +24,16 @@
           label="Fire dates")
           q-badge(color="deep-orange" floating) {{ fire_days ? fire_days.length : 0 }}
         div
-          q-date(v-model="fireDaysModel"
-            :events="pairFireDays"
-            event-color="lime"
-            :options="fireOptionsFn"
-            multiple today-btn
-            first-day-of-week="1"
-            color="deep-orange"
-            @input="onFireChange")
+          q-intersection(class="q-pa-sm"
+            transition="scale")
+            q-date(v-model="fireDaysModel"
+              :events="pairFireDays"
+              event-color="lime"
+              :options="fireOptionsFn"
+              multiple today-btn
+              first-day-of-week="1"
+              color="deep-orange"
+              @input="onFireChange")
           div(class="q-pa-md q-gutter-sm")
             q-btn(class="glossy"
               label="Save"

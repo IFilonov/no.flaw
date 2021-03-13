@@ -4,7 +4,6 @@ class PairsController < ApplicationController
   around_action :wrap_in_transaction, only: %i[delete restore]
 
   def delete
-    @user.create_pair_history!
     @user.delete_pair!
     render json: @user.names
   end

@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-header(elevated class="bg-light-blue-8 text-white")
+  q-header(elevated class="bg-grey-6 text-white")
     q-toolbar(class="glossy")
       q-toolbar-title
         q-avatar(size="48px")

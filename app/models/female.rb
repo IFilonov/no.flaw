@@ -5,18 +5,16 @@ class Female < ApplicationRecord
   has_one :male
   include DeviseDefs
 
-  def create_pair_history!
-    pairs.create!(male: male)
-  end
-
   def create_pair!(pair)
     @male = Male.create!(pair)
     update!(male: @male)
+    create_pair_history!
     names
   end
 
   def delete_pair!
     update!(male: nil)
+    pairs.find_by(divorced_at: nil)&.update!(divorced_at: Time.zone.now)
   end
 
   def update_pair!(pair)
@@ -37,9 +35,10 @@ class Female < ApplicationRecord
 
   def pairs_history
     pairs.includes(:male).order(:id).map do |pair|
+      pair_created = pair.created_at.strftime("%H:%M %d.%m.%Y")
       { username: pair.male.username,
         nickname: pair.male.nickname,
-        start_time: pair.created_at }
+        start_time: pair_created }
     end
   end
 
@@ -60,5 +59,11 @@ class Female < ApplicationRecord
     { taboo_dates: lifetime&.taboo_date,
       fire_dates: lifetime&.fire_date,
       pair_fire_dates: male&.lifetimes&.last&.fire_date }
+  end
+
+  private
+
+  def create_pair_history!
+    pairs.create!(male: male)
   end
 end
