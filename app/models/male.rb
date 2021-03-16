@@ -5,41 +5,44 @@ class Male < ApplicationRecord
   belongs_to :female, optional: true
   include DeviseDefs
 
+  scope :pair, -> { pairs.find_by(female: self, male: male, divorced_at: nil) }
+
   def create_pair!(pair)
     @female = Female.create!(pair)
     update!(female: @female)
     create_pair_history!
-    names
+    info
   end
 
   def delete_pair!
+    pairs.active.first.update!(divorced_at: Time.zone.now)
     update!(female: nil)
-    pairs.find_by(divorced_at: nil).update(divorced_at: Time.zone.now)
   end
 
   def update_pair!(pair)
     @female = female
     @female&.update!(pair)
-    names
+    info
   end
 
   def restore_pair!(username)
     update!(female: Female.find_by!(username: username))
+    create_pair_history!
   end
 
-  def names
+  def info
     @female ||= reload.female
     { me: { username: username },
-      pair: { username: @female&.username, nickname: @female&.nickname } }
+      pair: { username: @female&.username, nickname: @female&.nickname,
+              pair_created_at: pairs.active_created } }
   end
 
   def pairs_history
-    pairs.includes(:female).order(:id).map do |pair|
-      pair_created = pair.created_at.strftime("%H:%M %d.%m.%Y")
-        #"#{date.hour}:#{date.min} #{date.day}.#{date.month}.#{date.year}"
+    pairs.history.includes(:female).order(:id).map do |pair|
       { username: pair.female.username,
         nickname: pair.female.nickname,
-        start_time: pair_created }
+        created_at: pair.created_at,
+        divorced_at: pair.divorced_at }
     end
   end
 

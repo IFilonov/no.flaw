@@ -9,36 +9,38 @@ class Female < ApplicationRecord
     @male = Male.create!(pair)
     update!(male: @male)
     create_pair_history!
-    names
+    info
   end
 
   def delete_pair!
+    pairs.active.first.update!(divorced_at: Time.zone.now)
     update!(male: nil)
-    pairs.find_by(divorced_at: nil)&.update!(divorced_at: Time.zone.now)
   end
 
   def update_pair!(pair)
     @male = male
     @male&.update!(pair)
-    names
+    info
   end
 
   def restore_pair!(username)
     update!(male: Male.find_by!(username: username))
+    create_pair_history!
   end
 
-  def names
+  def info
     @male ||= reload.male
     { me: { username: username },
-      pair: { username: @male&.username, nickname: @male&.nickname } }
+      pair: { username: @male&.username, nickname: @male&.nickname,
+              pair_created_at: pairs.active_created } }
   end
 
   def pairs_history
-    pairs.includes(:male).order(:id).map do |pair|
-      pair_created = pair.created_at.strftime("%H:%M %d.%m.%Y")
+    pairs.history.includes(:male).order(:id).map do |pair|
       { username: pair.male.username,
         nickname: pair.male.nickname,
-        start_time: pair_created }
+        created_at: pair.created_at,
+        divorced_at: pair.divorced_at }
     end
   end
 

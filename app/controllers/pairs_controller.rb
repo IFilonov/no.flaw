@@ -5,12 +5,12 @@ class PairsController < ApplicationController
 
   def delete
     @user.delete_pair!
-    render json: @user.names
+    render json: @user.info
   end
 
   def restore
     @user.restore_pair!(params[:username])
-    render json: @user.names
+    render json: @user.info
   end
 
   def history

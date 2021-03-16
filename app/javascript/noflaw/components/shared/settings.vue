@@ -22,6 +22,7 @@
           q-item-section
             q-item-label name: {{ getPair.username }}
             q-item-label(caption) nick: {{ getPair.nickname }}
+            q-item-label joined: {{ getPair.pair_created_at }}
           q-item-section(avatar class="text-light-blue-9")
             q-btn(round icon="fas fa-user-minus"
               @click="$router.push({ name: 'PairDelete'})"
@@ -42,9 +43,10 @@
                 q-avatar(size="40px")
                   img(:src="image(true)" draggable="false")
               q-item-section
-                q-item-label name: {{ pair.username }}
+                q-item-label {{ pair.username }}
                 q-item-label(caption) nick: {{ pair.nickname }}
-                q-item-label(caption) from: {{ pair.start_time }}
+                q-item-label(caption) from: {{ pair.created_at }}
+                q-item-label(caption) upto: {{ pair.divorced_at }}
     router-view
 </template>
 

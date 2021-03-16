@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2021_03_13_201700) do
     t.bigint "female_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.date "divorced_at"
+    t.datetime "divorced_at"
     t.index ["female_id"], name: "index_pairs_on_female_id"
     t.index ["male_id"], name: "index_pairs_on_male_id"
   end

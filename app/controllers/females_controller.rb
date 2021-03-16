@@ -6,7 +6,7 @@ class FemalesController < ApplicationController
   def index; end
 
   def info
-    render json: current_female.names
+    render json: current_female.info
   end
 
   def logout
