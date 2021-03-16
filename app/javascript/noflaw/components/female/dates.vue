@@ -9,12 +9,14 @@
           label="Taboo dates")
           q-badge(color="purple" floating) {{ tabooDays ? tabooDays.length : 0 }}
         div(class="q-gutter-md row items-start")
-          q-date(v-model="tabooDaysModel"
-            :options="tabooOptionsFn"
-            multiple today-btn
-            first-day-of-week="1"
-            color="purple"
-            @input="onTabooChange")
+          q-intersection(class="q-pa-sm my_trans"
+            transition="scale")
+            q-date(v-model="tabooDaysModel"
+              :options="tabooOptionsFn"
+              multiple today-btn
+              first-day-of-week="1"
+              color="purple"
+              @input="onTabooChange")
         br
         q-btn(class="glossy"
           label="Save"
@@ -38,14 +40,16 @@
           label="Fire dates")
           q-badge(color="deep-orange" floating) {{ fireDays ? fireDays.length : 0 }}
         div(class="q-gutter-md row items-start")
-          q-date(v-model="fireDaysModel"
-            :events="pairFireDays"
-            event-color="lime"
-            :options="fireOptionsFn"
-            multiple today-btn
-            first-day-of-week="1"
-            color="deep-orange"
-            @input="onFireChange")
+          q-intersection(class="q-pa-sm"
+            transition="scale")
+            q-date(v-model="fireDaysModel"
+              :events="pairFireDays"
+              event-color="lime"
+              :options="fireOptionsFn"
+              multiple today-btn
+              first-day-of-week="1"
+              color="deep-orange"
+              @input="onFireChange")
         br
         q-btn(class="glossy"
           label="Save"
@@ -97,16 +101,16 @@ export default {
       this.disableSaveFire = false;
     },
     async sendTabooDate() {
-      const response = await this.$api.female.saveTabooDate({ taboo_dates: this.tabooDatesSer } );
+      const response = await this.$api.female.saveTabooDate({ taboo_dates: this.tabooDatesSer } )
       this.disableSaveTaboo = true;
-      response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, 'purple')
+      response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, this.PURPLE)
           : this.showErrNotif(response.data.join());
     },
     async sendFireDate() {
-      const response = await this.$api.female.saveFireDate({ fire_dates: this.fireDatesSer } );
+      const response = await this.$api.female.saveFireDate({ fire_dates: this.fireDatesSer } )
       this.disableSaveFire = true;
-      response.data.created_at ? this.showNotif(`Firedates saved at ${response.data.created_at}`, 'deep-orange')
-          : this.showErrNotif(response.data.join());
+      response.data.error ? this.showErrNotif(response.data) :
+        this.showNotif(`Firedates saved at ${response.data.created_at}`, this.DEEP_ORANGE)
     },
     clearFireDate() {
       this.setFireDays([]);
@@ -141,3 +145,4 @@ export default {
   }
 }
 </script>
+

@@ -20,7 +20,7 @@ export default {
       return pair
     },
     pairHistory(state) {
-      return state.pair_history.filter(pair => pair.username !== state.pair.username)
+      return state.pair_history
     },
     pairFireDays(state)  {
       return Object.keys(state.pair_fire_dates)

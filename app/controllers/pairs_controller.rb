@@ -1,23 +1,16 @@
 class PairsController < ApplicationController
+  include ApplicationHelper
   before_action :authenticate_user!
+  around_action :wrap_in_transaction, only: %i[delete restore]
 
   def delete
-    @user.transaction do
-      @user.create_pair_history!
-      @user.delete_pair!
-      render json: @user.names
-    end
-  rescue StandardError => e
-    render json: helpers.log_details(e)
+    @user.delete_pair!
+    render json: @user.info
   end
 
   def restore
-    @user.transaction do
-      @user.restore!(params[:username])
-      render json: @user.names
-    end
-  rescue StandardError => e
-    render json: helpers.log_details(e)
+    @user.restore_pair!(params[:username])
+    render json: @user.info
   end
 
   def history

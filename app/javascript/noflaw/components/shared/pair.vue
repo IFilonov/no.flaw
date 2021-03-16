@@ -6,6 +6,8 @@
       q-card
         q-card-section(class="row items-center")
           q-form(class="q-gutter-md" @submit="setPair" @reset="pair={}")
+            q-avatar
+              img(:src="image(true)")
             q-input(filled label="Your pair login *" hint="Login"
               v-model="pair.username"
               lazy-rules :rules="[ val => val && val.length > 0 || 'Please type your pair login']")
@@ -24,6 +26,8 @@
       q-card
         q-card-section(class="row items-center")
           q-form(class="q-gutter-md" @submit="updPair")
+            q-avatar
+              img(:src="image(true)")
             q-input(filled label="Pair login *" hint="Login"
               v-model="pair.username")
             q-input(filled label="Pair nickname *" hint="Nickname"
