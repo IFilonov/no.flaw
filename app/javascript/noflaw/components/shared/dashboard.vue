@@ -6,28 +6,21 @@
           q-item-section(avatar)
             q-icon(name="fas fa-users-cog")
           q-item-section
-            q-item-label(class="text_custom") Dates
+            q-item-label(class="text_custom") DATES
         q-separator(inset)
         q-item(clickable v-ripple active-class="my-menu-link")
           q-item-section(avatar)
             q-icon(name="fas fa-globe")
           q-item-section
-            q-item-label(class="text_custom") Events
+            q-item-label(class="text_custom") TASKS
           q-item-section(side top)
             q-item-label(caption) >5 min ago
               q-icon(name="star" color="green")
-        q-separator(inset)
-        q-item(clickable v-ripple active-class="my-menu-link")
-          q-item-section(avatar)
-            q-icon(name="fas fa-cubes")
-          q-item-section
-            q-item-label(class="text_custom") Wishes
-        q-separator(inset)
         q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Settings'}")
           q-item-section(avatar)
             q-icon(name="fas fa-cubes")
           q-item-section
-            q-item-label(class="text_custom") Pair
+            q-item-label(class="text_custom") PAIR
     q-page-container
       router-view
 </template>
