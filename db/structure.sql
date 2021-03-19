@@ -65,7 +65,8 @@ CREATE TABLE public.females (
     locked_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    nickname character varying
+    nickname character varying,
+    level public.task_level
 );
 
 
@@ -140,7 +141,8 @@ CREATE TABLE public.males (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     female_id bigint,
-    nickname character varying
+    nickname character varying,
+    level public.task_level
 );
 
 
