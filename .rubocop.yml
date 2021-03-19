@@ -6,7 +6,7 @@ require:
 AllCops:
   NewCops: enable
   Exclude:
-    - 'db/**/*'
+    - 'db/migrate/*'
     - 'config/**/*'
     - 'script/**/*'
     - 'bin/**/*'
