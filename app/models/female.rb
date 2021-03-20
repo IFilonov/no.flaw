@@ -6,8 +6,8 @@ class Female < ApplicationRecord
   include DeviseDefs
 
   def create_pair!(pair)
-    @male = Male.create!(pair)
-    update!(male: @male)
+    male = Male.create!(pair)
+    update!(male: male)
     create_pair_history!
     info
   end
@@ -18,8 +18,7 @@ class Female < ApplicationRecord
   end
 
   def update_pair!(pair)
-    @male = male
-    @male&.update!(pair)
+    male&.update!(pair)
     info
   end
 
@@ -29,19 +28,11 @@ class Female < ApplicationRecord
   end
 
   def info
-    @male ||= reload.male
-    { me: { username: username },
-      pair: { username: @male&.username, nickname: @male&.nickname,
-              pair_created_at: pairs.active_created } }
+    UserInfoPresentor.new(self, male).info
   end
 
   def pairs_history
-    pairs.history.includes(:male).order(:id).map do |pair|
-      { username: pair.male.username,
-        nickname: pair.male.nickname,
-        created_at: pair.created_at,
-        divorced_at: pair.divorced_at }
-    end
+    pairs.history.includes(:male).order(:id).map(&:male_info)
   end
 
   def set_fire_date(fire_dates)
@@ -57,7 +48,7 @@ class Female < ApplicationRecord
   end
 
   def lifetime_dates
-    LifetimePresentor.new(lifetimes, male).dates
+    LifetimePresentor.new(lifetimes, male.lifetimes).female_dates
   end
 
   private

@@ -16,6 +16,20 @@ class Pair < ApplicationRecord
   end
 
   def divorced_at
-    self[:divorced_at].strftime('%H:%M %d.%m.%Y')
+    self[:divorced_at]&.strftime('%H:%M %d.%m.%Y')
+  end
+
+  def male_info
+    { username: male.username,
+      nickname: male.nickname,
+      created_at: created_at,
+      divorced_at: divorced_at }
+  end
+
+  def female_info
+    { username: female.username,
+      nickname: female.nickname,
+      created_at: created_at,
+      divorced_at: divorced_at }
   end
 end
