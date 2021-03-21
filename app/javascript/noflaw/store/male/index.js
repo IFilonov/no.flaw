@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
-    male_pair_image: "/female.jpg",
-    male_image: "/male.jpg"
+    male_pair_image: '/female.jpg',
+    male_image: '/male.jpg'
   },
   getters: {
     image: (state) => (pair) => {
@@ -22,7 +22,7 @@ export default new Vuex.Store(  {
     },
     loadNames: (context) => {
       return Vue.prototype.$api.male.names()
-          .then(({ data }) => (context.commit('CHANGE_NAMES', data)));
+        .then(({ data }) => (context.commit('CHANGE_NAMES', data)));
     },
     addPair: (context, pair) => {
       return Vue.prototype.$api.male.addPair(pair)

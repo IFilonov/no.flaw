@@ -18,14 +18,14 @@ export default {
       name: null
     }
   },
+  mounted() {
+    this.getUser();
+  },
   methods: {
     async getUser() {
       const response = await this.$api.staff.info();
       this.name = response.data.name;
     }
-  },
-  mounted() {
-    this.getUser();
   }
 }
 </script>

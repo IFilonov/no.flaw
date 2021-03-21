@@ -15,19 +15,30 @@
               q-avatar(size="72px")
                 img(:src="image()")
               div(class="text-subtitle1 q-mt-md q-mb-xs") {{ name }}
-              q-btn(:href="logout_path" type="a" color="primary" label="Logout" push size="sm" v-close-popup)
+              q-btn(:href="logoutPath" type="a" color="primary" label="Logout" push size="sm" v-close-popup)
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
 export default {
+  props: {
+    name: {
+      type: String,
+      required: true,
+      default: null
+    },
+    logoutPath: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
   data: function () {
     return {
     }
   },
   computed: {
     ...mapGetters(['image'])
-  },
-  props: ['name', 'logout_path']
+  }
 }
 </script>

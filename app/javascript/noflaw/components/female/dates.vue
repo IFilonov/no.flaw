@@ -67,7 +67,7 @@
           icon="card_giftcard")
       div(class="q-pa-sm")
         div(v-for="(fire_day) in fireDays")
-          range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
+          range(:fireDay = "fire_day" @onRangeChange="onRangeChange")
 </template>
 
 <script>
@@ -77,9 +77,9 @@ import range from '../shared/range'
 
 export default {
   C_MAX_FIRE_DATES: 6,
-  mixins: [notifications],
-  name: "dates",
+  name: 'Dates',
   components: {'range': range},
+  mixins: [notifications],
   data: function () {
     return {
       currentDate: new Date(new Date().valueOf() - 86400000),
@@ -87,13 +87,27 @@ export default {
       disableSaveFire: true
     }
   },
+  computed: {
+    ...mapGetters(['pairFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
+    fireDaysModel: {
+      get: function() { return this.fireDays },
+      set: function() {}
+    },
+    tabooDaysModel: {
+      get: function() { return this.tabooDays },
+      set: function() {}
+    }
+  },
+  mounted() {
+    this.getDates()
+  },
   methods: {
     ...mapActions(['setTabooDates','getDates','setFireDays']),
-    onTabooChange(taboo_days, reason, details){
+    onTabooChange(taboo_days){
       this.disableSaveTaboo = false;
       this.setTabooDates(taboo_days);
     },
-    onFireChange(fire_days, reason, details){
+    onFireChange(fire_days){
       this.disableSaveFire = false;
       this.setFireDays(fire_days);
     },
@@ -104,7 +118,7 @@ export default {
       const response = await this.$api.female.saveTabooDate({ taboo_dates: this.tabooDatesSer } )
       this.disableSaveTaboo = true;
       response.data.created_at ? this.showNotif(`Taboodates saved at ${response.data.created_at}`, this.PURPLE)
-          : this.showErrNotif(response.data.join());
+        : this.showErrNotif(response.data.join());
     },
     async sendFireDate() {
       const response = await this.$api.female.saveFireDate({ fire_dates: this.fireDatesSer } )
@@ -126,22 +140,8 @@ export default {
     },
     tabooOptionsFn(taboo_date) {
       return ((new Date(taboo_date) < this.currentDate) && !this.tabooDays?.includes(taboo_date))
-          ? false : !this.fireDays?.includes(taboo_date);
+        ? false : !this.fireDays?.includes(taboo_date);
     }
-  },
-  computed: {
-    ...mapGetters(['pairFireDays','fireDays','tabooDays','fireDatesSer','tabooDatesSer']),
-    fireDaysModel: {
-      get: function() { return this.fireDays },
-      set: function(newValue) {}
-    },
-    tabooDaysModel: {
-      get: function() { return this.tabooDays },
-      set: function(newValue) {}
-    }
-  },
-  mounted() {
-    this.getDates()
   }
 }
 </script>

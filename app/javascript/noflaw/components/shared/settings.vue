@@ -55,12 +55,19 @@ import notifications from 'notifications';
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
+  name: 'Settings',
   mixins: [notifications],
-  name: "settings",
+  computed: {
+    ...mapGetters(['getPair','pairHistory','image'])
+  },
+  mounted() {
+    this.skipDuplicatePageError('Settings')
+    this.getPairHistory()
+  },
   methods: {
     ...mapActions(['getPairHistory','setRecoverPair']),
     dragStart(ev) {
-      ev.dataTransfer.effectAllowed = "move"
+      ev.dataTransfer.effectAllowed = 'move'
       ev.dataTransfer.setData('pair_id', ev.target.id)
     },
     dropDragZone(ev) {
@@ -69,20 +76,13 @@ export default {
     },
     overDragZone(ev) {
       ev.preventDefault()
-      ev.dataTransfer.dropEffect = "move"
+      ev.dataTransfer.dropEffect = 'move'
     },
     skipDuplicatePageError(route) {
       if(this.$route.name !== route) {
         this.$router.replace({ name: route })
       }
     }
-  },
-  computed: {
-    ...mapGetters(['getPair','pairHistory','image'])
-  },
-  mounted() {
-    this.skipDuplicatePageError('Settings')
-    this.getPairHistory()
   }
 }
 </script>

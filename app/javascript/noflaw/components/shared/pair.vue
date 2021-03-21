@@ -67,8 +67,8 @@ import notifications from 'notifications';
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
+  name: 'Settings',
   mixins: [notifications],
-  name: "settings",
   data:function() {
     return {
       pair: {},
@@ -78,27 +78,35 @@ export default {
       recoverPairDlg: false
     }
   },
+  computed: {
+    ...mapGetters(['getPair','pairHistory','getRecoveredPair','image'])
+  },
+  created() {
+    this.processState(this.$route.name)
+  },
+  mounted() {
+  },
   methods: {
     ...mapActions(['addPair','setNames','updatePair','getPairHistory']),
     toSettings() {
       this.$router.push({ name: 'Settings' })
     },
     setPair() {
-     this.newPairDlg = false;
-     let pair = this.pair
-     this.addPair({ pair }).then((data) =>{
-       data.error
-           ? this.showErrNotif(data)
-           : this.showNotif(`${ data.pair.username } created`);
-     })
+      this.newPairDlg = false;
+      let pair = this.pair
+      this.addPair({ pair }).then((data) =>{
+        data.error
+          ? this.showErrNotif(data)
+          : this.showNotif(`${ data.pair.username } created`);
+      })
     },
     updPair() {
       let pair = this.pair
       this.updPairDlg = false;
       this.updatePair({ pair }).then((data) =>{
         data.error
-            ? this.showErrNotif(data)
-            : this.showNotif(`${ data.pair.username } updated`);
+          ? this.showErrNotif(data)
+          : this.showNotif(`${ data.pair.username } updated`);
         this.getPairHistory()
       })
     },
@@ -114,26 +122,26 @@ export default {
     },
     processState(state) {
       switch(state) {
-        case 'PairEdit':
-          this.pair = { ...this.getPair }
-          this.updPairDlg = true;
-          break;
-        case 'PairNew':
-          this.fillPairRandom();
-          this.newPairDlg = true;
-          break;
-        case 'PairDelete':
-          this.delPairDlg = true;
-          break;
-        case 'PairChange':
-          this.fillPairRecovered();
-          this.recoverPairDlg = true;
-          break;
-        case 'PairRevert':
-          this.restorePair()
-          this.toSettings()
-          break;
-        default:
+      case 'PairEdit':
+        this.pair = { ...this.getPair }
+        this.updPairDlg = true;
+        break;
+      case 'PairNew':
+        this.fillPairRandom();
+        this.newPairDlg = true;
+        break;
+      case 'PairDelete':
+        this.delPairDlg = true;
+        break;
+      case 'PairChange':
+        this.fillPairRecovered();
+        this.recoverPairDlg = true;
+        break;
+      case 'PairRevert':
+        this.restorePair()
+        this.toSettings()
+        break;
+      default:
       }
     },
     async restorePair() {
@@ -169,14 +177,6 @@ export default {
         this.getPairHistory()
       }
     }
-  },
-  computed: {
-    ...mapGetters(['getPair','pairHistory','getRecoveredPair','image'])
-  },
-  created() {
-    this.processState(this.$route.name)
-  },
-  mounted() {
   }
 }
 </script>

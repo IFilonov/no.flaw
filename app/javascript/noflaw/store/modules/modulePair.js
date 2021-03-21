@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue';
 
 export default {
   state: {
@@ -64,7 +64,7 @@ export default {
     },
     CHANGE_FIRE_DAYS: (state, fire_days) => {
       state.fire_dates = fire_days
-          ?  Object.fromEntries(fire_days?.map(fire_day => ([ fire_day, state.fire_dates[fire_day] || {} ] ))) : {}
+        ?  Object.fromEntries(fire_days?.map(fire_day => ([ fire_day, state.fire_dates[fire_day] || {} ] ))) : {}
     },
     CHANGE_FIRE_TIME: (state, fire_date) => {
       state.fire_dates[fire_date.day] = fire_date.time
@@ -96,7 +96,7 @@ export default {
     },
     getPairHistory: (context) => {
       return Vue.prototype.$api.pair.history()
-          .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
+        .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
     }
   }
 }
