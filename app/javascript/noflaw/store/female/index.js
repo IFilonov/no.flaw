@@ -7,8 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store(  {
   state: {
-    female_pair_image: "/male.jpg",
-    female_image: "/female.jpg"
+    female_pair_image: '/male.jpg',
+    female_image: '/female.jpg'
   },
   getters: {
     image: (state) => (pair) => {
@@ -22,7 +22,7 @@ export default new Vuex.Store(  {
     },
     loadNames: (context) => {
       return Vue.prototype.$api.female.names()
-          .then(({ data }) => (context.commit('CHANGE_NAMES', data)));
+        .then(({ data }) => (context.commit('CHANGE_NAMES', data)));
     },
     addPair: (context, pair) => {
       return Vue.prototype.$api.female.addPair(pair)
@@ -33,17 +33,17 @@ export default new Vuex.Store(  {
     },
     updatePair: (context, pair) => {
       return Vue.prototype.$api.female.updatePair(pair)
-          .then(({ data }) => {
-            context.commit('CHANGE_NAMES', data)
-            return data
-          });
+        .then(({ data }) => {
+          context.commit('CHANGE_NAMES', data)
+          return data
+        });
     },
     restorePair: (context, pair) => {
       return Vue.prototype.$api.female.restorePair(pair)
-          .then(({ data }) => {
-            context.commit('CHANGE_NAMES', data)
-            return data
-          });
+        .then(({ data }) => {
+          context.commit('CHANGE_NAMES', data)
+          return data
+        });
     }
   },
   modules: {

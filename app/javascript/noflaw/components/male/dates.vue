@@ -51,7 +51,7 @@
               icon="card_giftcard")
       div(class="q-pa-sm")
         div(v-for="(fire_day) in fireDays")
-          range(:fire_day = "fire_day" @onRangeChange="onRangeChange")
+          range(:fireDay = "fire_day" @onRangeChange="onRangeChange")
 </template>
 
 <script>
@@ -61,9 +61,9 @@ import range from '../shared/range'
 
 export default {
   C_MAX_FIRE_DATES: 6,
-  mixins: [notifications],
-  name: "dates",
+  name: 'Dates',
   components: {'range': range},
+  mixins: [notifications],
   data: function () {
     return {
       fire_days: [],
@@ -73,12 +73,26 @@ export default {
       disableSaveFire: true
     }
   },
+  computed: {
+    ...mapGetters(['pairFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
+    fireDaysModel: {
+      get: function() { return this.fireDays },
+      set: function() {}
+    },
+    tabooDaysModel: {
+      get: function() { return this.tabooDays },
+      set: function() {}
+    }
+  },
+  mounted() {
+    this.getDates()
+  },
   methods: {
     ...mapActions(['getDates','setFireDays']),
     onTabooClick(){
       this.showNotif('Only female can change taboo date. You need observe this days','purple')
     },
-    onFireChange(fire_days, reason, details){
+    onFireChange(fire_days){
       this.disableSaveFire = false;
       this.setFireDays(fire_days);
     },
@@ -89,7 +103,7 @@ export default {
       const response = await this.$api.male.saveFireDate({ fire_dates: this.fireDatesSer } );
       this.disableSaveFire = true;
       response.data.error ? this.showErrNotif(response.data) :
-          this.showNotif(`Firedates saved at ${response.data.created_at}`, this.DEEP_ORANGE)
+        this.showNotif(`Firedates saved at ${response.data.created_at}`, this.DEEP_ORANGE)
     },
     clearFireDate() {
       this.setFireDays([]);
@@ -99,20 +113,6 @@ export default {
       return ((this.fire_days?.length > 5  || new Date(fire_date) < this.currentDate)
           && !this.fire_days?.includes(fire_date)) ? false : !this.tabooDays?.includes(fire_date);
     }
-  },
-  computed: {
-    ...mapGetters(['pairFireDays','tabooDays','fireDays','fireDatesSer','tabooDatesSer']),
-    fireDaysModel: {
-      get: function() { return this.fireDays },
-      set: function(newValue) {}
-    },
-    tabooDaysModel: {
-      get: function() { return this.tabooDays },
-      set: function(newValue) {}
-    }
-  },
-  mounted() {
-    this.getDates()
   }
 }
 </script>

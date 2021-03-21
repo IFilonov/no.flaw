@@ -8,8 +8,8 @@ class Male < ApplicationRecord
   scope :pair, -> { pairs.find_by(female: self, male: male, divorced_at: nil) }
 
   def create_pair!(pair)
-    @female = Female.create!(pair)
-    update!(female: @female)
+    female = Female.create!(pair)
+    update!(female: female)
     create_pair_history!
     info
   end
@@ -20,8 +20,7 @@ class Male < ApplicationRecord
   end
 
   def update_pair!(pair)
-    @female = female
-    @female&.update!(pair)
+    female&.update!(pair)
     info
   end
 
@@ -31,19 +30,11 @@ class Male < ApplicationRecord
   end
 
   def info
-    @female ||= reload.female
-    { me: { username: username },
-      pair: { username: @female&.username, nickname: @female&.nickname,
-              pair_created_at: pairs.active_created } }
+    UserInfoPresentor.new(self, female).info
   end
 
   def pairs_history
-    pairs.history.includes(:female).order(:id).map do |pair|
-      { username: pair.female.username,
-        nickname: pair.female.nickname,
-        created_at: pair.created_at,
-        divorced_at: pair.divorced_at }
-    end
+    pairs.history.includes(:female).order(:id).map(&:female_info)
   end
 
   def set_fire_date(fire_dates)
@@ -52,10 +43,7 @@ class Male < ApplicationRecord
   end
 
   def lifetime_dates
-    female_lifetime = female&.lifetimes&.last
-    { taboo_dates: female_lifetime&.taboo_date,
-      fire_dates: lifetimes&.last&.fire_date,
-      pair_fire_dates: female_lifetime&.fire_date }
+    LifetimePresentor.new(lifetimes, female.lifetimes).male_dates
   end
 
   private
