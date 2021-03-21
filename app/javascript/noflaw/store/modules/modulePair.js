@@ -58,9 +58,15 @@ export default {
       }
     },
     CHANGE_DATES_SER: (state, data) => {
-      state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
-      state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {}
-      state.pair_fire_dates = data.pair_fire_dates ? JSON.parse(data.pair_fire_dates) : {}
+      try { state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : [] } catch (e) {
+        state.taboo_dates = []
+      }
+      try { state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {} } catch (e) {
+        state.fire_dates = {}
+      }
+      try { state.pair_fire_dates = data.pair_fire_dates ? JSON.parse(data.pair_fire_dates) : {} }  catch (e) {
+        state.pair_fire_dates = {}
+      }
     },
     CHANGE_FIRE_DAYS: (state, fire_days) => {
       state.fire_dates = fire_days

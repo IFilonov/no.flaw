@@ -1,5 +1,5 @@
 class PairsController < ApplicationController
-  include ApplicationHelper
+  include TransactionHelper
   before_action :authenticate_user!
   around_action :wrap_in_transaction, only: %i[delete restore]
 

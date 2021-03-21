@@ -1,5 +1,5 @@
 class FemalesController < ApplicationController
-  include ApplicationHelper
+  include TransactionHelper
   before_action :authenticate_female!
   around_action :wrap_in_transaction, only: %i[create update set_taboo_date set_fire_date]
 
@@ -24,14 +24,6 @@ class FemalesController < ApplicationController
 
   def dates
     render json: current_female.lifetime_dates
-  end
-
-  def set_taboo_date
-    render json: current_female.set_taboo_date(params[:taboo_dates])
-  end
-
-  def set_fire_date
-    render json: current_female.set_fire_date(params[:fire_dates])
   end
 
   private

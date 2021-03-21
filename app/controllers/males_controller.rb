@@ -1,5 +1,5 @@
 class MalesController < ApplicationController
-  include ApplicationHelper
+  include TransactionHelper
   before_action :authenticate_male!
   around_action :wrap_in_transaction, only: %i[create update set_fire_date]
 
@@ -24,10 +24,6 @@ class MalesController < ApplicationController
 
   def dates
     render json: current_male.lifetime_dates
-  end
-
-  def set_fire_date
-    render json: current_male.set_fire_date(params[:fire_dates])
   end
 
   private

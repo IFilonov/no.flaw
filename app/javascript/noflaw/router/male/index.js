@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 import Settings from '../../components/shared/settings';
 import Dates from '../../components/male/dates';
 import Pair from '../../components/shared/pair';
+import Tasks from '../../components/shared/tasks';
 
 export default new VueRouter( {
   mode: 'history',
@@ -20,6 +21,7 @@ export default new VueRouter( {
         { path: 'change', component: Pair, name: 'PairChange'},
         { path: 'revert', component: Pair, name: 'PairRevert'}
       ]},
-    { path: '/males/dates', component: Dates, name: 'Dates'}
+    { path: '/males/dates', component: Dates, name: 'Dates'},
+    { path: '/males/tasks', component: Tasks, name: 'Tasks'}
   ]
 })

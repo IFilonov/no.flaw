@@ -6,8 +6,7 @@ class AddGenderToTasks < ActiveRecord::Migration[6.1]
     SQL
     add_column :tasks, :gender, :task_gender
     add_column :tasks, :level, :task_level
-    add_column :females, :level, :task_level
-    add_column :males, :level, :task_level
+    add_column :pairs, :level, :task_level
     add_index :tasks, :gender
     add_index :tasks, :level
   end
@@ -15,8 +14,7 @@ class AddGenderToTasks < ActiveRecord::Migration[6.1]
   def down
     remove_column :tasks, :gender
     remove_column :tasks, :level
-    remove_column :females, :level
-    remove_column :males, :level
+    remove_column :pairs, :level
     execute <<-SQL
       DROP TYPE task_gender;
       DROP TYPE task_level;

@@ -5,8 +5,6 @@ class Male < ApplicationRecord
   belongs_to :female, optional: true
   include DeviseDefs
 
-  scope :pair, -> { pairs.find_by(female: self, male: male, divorced_at: nil) }
-
   def create_pair!(pair)
     female = Female.create!(pair)
     update!(female: female)
@@ -37,9 +35,8 @@ class Male < ApplicationRecord
     pairs.history.includes(:female).order(:id).map(&:female_info)
   end
 
-  def set_fire_date(fire_dates)
-    lifetime = lifetimes.create!(fire_date: fire_dates)
-    { created_at: lifetime.created_at }
+  def fire_date=(fire_date)
+    lifetimes.create!(fire_date: fire_date).created_at
   end
 
   def lifetime_dates

@@ -1,6 +1,7 @@
 class Pair < ApplicationRecord
   belongs_to :male
   belongs_to :female
+  include LevelEnum
 
   validates :female, :male, presence: true
 

@@ -35,16 +35,13 @@ class Female < ApplicationRecord
     pairs.history.includes(:male).order(:id).map(&:male_info)
   end
 
-  def set_fire_date(fire_dates)
-    lifetime = lifetimes.create!(taboo_date: lifetimes.last&.taboo_date,
-                                 fire_date: fire_dates)
-    { created_at: lifetime.created_at }
+  def set_fire_date(fire_date)
+    lifetimes.create!(taboo_date: lifetimes.last&.taboo_date,
+                      fire_date: fire_date).created_at
   end
 
-  def set_taboo_date(taboo_dates)
-    lifetime = lifetimes.create!(fire_date: lifetimes.last&.fire_date,
-                                 taboo_date: taboo_dates)
-    { created_at: lifetime.created_at }
+  def set_taboo_date(taboo_date)
+    lifetimes.create!(taboo_date: taboo_date).created_at
   end
 
   def lifetime_dates
