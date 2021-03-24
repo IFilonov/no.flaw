@@ -1,6 +1,6 @@
 <template lang="pug">
   div(class="q-pa-sm q-gutter-sm")
-    q-card(class="q-pa-md q-gutter-sm"
+    q-card(class="q-pa-md"
       @dragover.native="overDragZone"
       @drop.native="dropDragZone")
       q-btn(v-if="!getPair.username"
@@ -10,7 +10,6 @@
         @click="$router.push({ name: 'PairNew'})"
         label="add pair")
       q-card(v-if="getPair.username"
-        class="q-pa-sm q-gutter-sm"
         title="One click to change or show"
         removable clickable
         @remove="$router.push({ name: 'PairDelete'})"
@@ -27,11 +26,11 @@
             q-btn(round icon="fas fa-user-minus"
               @click="$router.push({ name: 'PairDelete'})"
               title="Delete pair")
-    q-card(class="q-pa-sm q-gutter-sm" v-if="pairHistory.length > 0")
+    q-card(class="history-card" v-if="pairHistory.length > 0")
       div(class="row")
         q-intersection(v-for="(pair, index) in pairHistory"
           :key="index"
-          class="my-card q-pa-sm"
+          class="q-pa-sm"
           transition="scale")
           q-card(draggable="true"
             color="light-blue-8"
@@ -88,7 +87,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.my-card
+.pair-card
   width: 100%
   max-width: 250px
+.history-card
+  height: 100%
 </style>

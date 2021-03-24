@@ -7,13 +7,14 @@
             q-icon(name="fas fa-cubes")
           q-item-section
             q-item-label PAIR
+        q-separator(inset)
         q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Dates'}")
           q-item-section(avatar)
             q-icon(name="fas fa-users-cog")
           q-item-section
             q-item-label DATES
         q-separator(inset)
-        q-item(clickable v-ripple active-class="my-menu-link")
+        q-item(clickable v-ripple active-class="my-menu-link" :to="{ name: 'Tasks'}")
           q-item-section(avatar)
             q-icon(name="fas fa-globe")
           q-item-section

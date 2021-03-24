@@ -8,7 +8,8 @@ export default {
     pair_history: [],
     taboo_dates: [],
     fire_dates: {},
-    pair_fire_dates: {}
+    pair_fire_dates: {},
+    tasks: {}
   },
   getters: {
     getMe(state) {
@@ -45,6 +46,9 @@ export default {
     },
     getRecoveredPair(state){
       return state.recover_pair
+    },
+    tasks(state){
+      return state.tasks
     }
   },
   mutations: {
@@ -82,6 +86,9 @@ export default {
     },
     CHANGE_RECOVER_PAIR: (state, recover_pair) => {
       state.recover_pair = recover_pair
+    },
+    CHANGE_TASKS: (state, tasks) => {
+      state.tasks = tasks
     }
   },
   actions: {
@@ -103,6 +110,10 @@ export default {
     getPairHistory: (context) => {
       return Vue.prototype.$api.pair.history()
         .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
+    },
+    getTasks: (context) => {
+      return Vue.prototype.$api.pair.tasks()
+        .then(({ data }) => (context.commit('CHANGE_TASKS', data)));
     }
   }
 }

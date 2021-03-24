@@ -1,5 +1,4 @@
 class LifetimesController < ApplicationController
-  include TransactionHelper
   before_action :authenticate_user!
   around_action :wrap_in_transaction, only: %i[set_taboo_date set_fire_date]
 

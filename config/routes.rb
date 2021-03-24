@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     get '/pairs/delete', to: 'pairs#delete'
     get '/pairs/history', to: 'pairs#history'
     post '/pairs/restore', to: 'pairs#restore'
+
+    get '/tasks', to: 'tasks#index'
   end
 
   get '/males/*slug', to: 'males#index'

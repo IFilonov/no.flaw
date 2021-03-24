@@ -1,5 +1,4 @@
 class MalesController < ApplicationController
-  include TransactionHelper
   before_action :authenticate_male!
   around_action :wrap_in_transaction, only: %i[create update set_fire_date]
 

@@ -1,5 +1,4 @@
 class FemalesController < ApplicationController
-  include TransactionHelper
   before_action :authenticate_female!
   around_action :wrap_in_transaction, only: %i[create update set_taboo_date set_fire_date]
 

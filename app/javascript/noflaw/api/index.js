@@ -35,7 +35,8 @@ const api = {
   pair: {
     delete: () => adapter.get('/pairs/delete'),
     restore: (pair) => adapter.post('/pairs/restore', pair),
-    history: () => adapter.get('/pairs/history')
+    history: () => adapter.get('/pairs/history'),
+    tasks: () => adapter.get('/tasks')
   }
 }
 
