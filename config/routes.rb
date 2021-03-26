@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get '/females/logout', to: 'females#logout'
 
   constraints ->(req) { req.format == :json } do
+    resources :pairs, only: [:index, :destroy]
+    resource :pair, only: [:update]
+
     get '/staffs/info', to: 'staffs#info'
 
     get '/males/info', to: 'males#info'
@@ -36,7 +39,6 @@ Rails.application.routes.draw do
     post '/lifetimes/set_fire_date', to: 'lifetimes#set_fire_date'
 
     get '/pairs/delete', to: 'pairs#delete'
-    get '/pairs/history', to: 'pairs#history'
     post '/pairs/restore', to: 'pairs#restore'
 
     get '/tasks', to: 'tasks#index'

@@ -50,3 +50,4 @@ end
 
 gem 'bootstrap', '~> 5.0.0.alpha3'
 gem 'devise'
+gem 'discard', '~> 1.2'

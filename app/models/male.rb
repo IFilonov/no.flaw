@@ -13,7 +13,6 @@ class Male < ApplicationRecord
   end
 
   def delete_pair!
-    pairs.active.first.update!(divorced_at: Time.zone.now)
     update!(female: nil)
   end
 
@@ -28,11 +27,11 @@ class Male < ApplicationRecord
   end
 
   def info
-    UserInfoPresentor.new(self, female).info
+    PairInfoPresentor.new(self, female).info
   end
 
   def pairs_history
-    pairs.history.includes(:female).order(:id).map(&:female_info)
+    pairs.discarded.includes(:female).order(:id).map(&:female_info)
   end
 
   def fire_date=(fire_date)
@@ -40,7 +39,7 @@ class Male < ApplicationRecord
   end
 
   def lifetime_dates
-    LifetimePresentor.new(lifetimes, female.lifetimes).male_dates
+    LifetimePresentor.new(lifetimes, female&.lifetimes).male_dates
   end
 
   private

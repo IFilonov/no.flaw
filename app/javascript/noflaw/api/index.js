@@ -33,9 +33,9 @@ const api = {
     dates: () => adapter.get('/females/dates')
   },
   pair: {
-    delete: () => adapter.get('/pairs/delete'),
-    restore: (pair) => adapter.post('/pairs/restore', pair),
-    history: () => adapter.get('/pairs/history'),
+    delete: (id) => adapter.delete(`/pairs/${id}`),
+    restore: (id) => adapter.patch('/pair', id),
+    history: () => adapter.get('/pairs'),
     tasks: () => adapter.get('/tasks')
   }
 }
