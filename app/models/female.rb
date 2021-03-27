@@ -21,9 +21,9 @@ class Female < ApplicationRecord
     info
   end
 
-  def restore_pair!(username)
-    update!(male: Male.find_by!(username: username))
-    create_pair_history!
+  def restore_pair!(id)
+    update!(male: Male.find(id))
+    pairs.create!(male: male)
   end
 
   def info
@@ -45,11 +45,5 @@ class Female < ApplicationRecord
 
   def lifetime_dates
     LifetimePresentor.new(lifetimes, male&.lifetimes).female_dates
-  end
-
-  private
-
-  def create_pair_history!
-    pairs.create!(male: male)
   end
 end

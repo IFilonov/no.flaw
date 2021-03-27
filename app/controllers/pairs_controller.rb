@@ -7,7 +7,7 @@ class PairsController < ApplicationController
   end
 
   def update
-    @user.restore_pair!(params[:username])
+    @user.restore_pair!(params[:id])
     render json: @user.info
   end
 

@@ -5,13 +5,6 @@ class Male < ApplicationRecord
   belongs_to :female, optional: true
   include DeviseDefs
 
-  def create_pair!(pair)
-    female = Female.create!(pair)
-    update!(female: female)
-    create_pair_history!
-    info
-  end
-
   def delete_pair!
     update!(female: nil)
   end
@@ -21,9 +14,9 @@ class Male < ApplicationRecord
     info
   end
 
-  def restore_pair!(username)
-    update!(female: Female.find_by!(username: username))
-    create_pair_history!
+  def restore_pair!(id)
+    update!(female_id: id)
+    pairs.create!(female: female)
   end
 
   def info
@@ -40,11 +33,5 @@ class Male < ApplicationRecord
 
   def lifetime_dates
     LifetimePresentor.new(lifetimes, female&.lifetimes).male_dates
-  end
-
-  private
-
-  def create_pair_history!
-    pairs.create!(female: female)
   end
 end

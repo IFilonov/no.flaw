@@ -144,13 +144,12 @@ export default {
       }
     },
     async revertPair() {
-      let pair = { ...this.getRecoveredPair }
-      const response = await this.$api.pair.restore(pair);
+      const response = await this.$api.pair.restore(this.getRecoveredPair.id);
       if(response.data.error) {
         this.showErrNotif(response.data);
       }
       else {
-        this.showNotif(`${pair.username} restored`);
+        this.showNotif(`${this.getRecoveredPair.username} restored`);
         this.setNames(response.data)
         this.getPairHistory()
       }

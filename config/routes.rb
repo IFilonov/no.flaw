@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :staffs, controllers: { sessions: 'staffs/sessions' }
-  devise_for :females, controllers: { sessions: 'females/sessions' }
-  devise_for :males, controllers: { sessions: 'males/sessions' }
+  constraints ->(req) { req.format == :html } do
+    devise_for :staffs, controllers: { sessions: 'staffs/sessions' }
+    devise_for :females, controllers: { sessions: 'females/sessions' }
+    devise_for :males, controllers: { sessions: 'males/sessions' }
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   authenticated :male do
     root 'males#index', as: :authenticated_male
@@ -20,20 +22,20 @@ Rails.application.routes.draw do
   get '/females/logout', to: 'females#logout'
 
   constraints ->(req) { req.format == :json } do
-    resources :pairs, only: [:index, :destroy]
-    resource :pair, only: [:update]
+    resources :pairs, only: [:index, :update, :destroy]
+
+    resources :males, only: [:create]
+    resources :females, only: [:create]
 
     get '/staffs/info', to: 'staffs#info'
 
     get '/males/info', to: 'males#info'
     get '/males/dates', to: 'males#dates'
-    post '/males/create', to: 'males#create'
     post '/males/update', to: 'males#update'
     post '/lifetimes/set_fire_date', to: 'lifetimes#set_fire_date'
 
     get '/females/info', to: 'females#info'
     get '/females/dates', to: 'females#dates'
-    post '/females/create', to: 'females#create'
     post '/females/update', to: 'females#update'
     post '/lifetimes/set_taboo_date', to: 'lifetimes#set_taboo_date'
     post '/lifetimes/set_fire_date', to: 'lifetimes#set_fire_date'
