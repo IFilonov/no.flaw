@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     resources :males, only: [:create]
     resources :females, only: [:create]
 
+    resources :tasks, only: [:index]
+
     get '/staffs/info', to: 'staffs#info'
 
     get '/males/info', to: 'males#info'
@@ -42,8 +44,6 @@ Rails.application.routes.draw do
 
     get '/pairs/delete', to: 'pairs#delete'
     post '/pairs/restore', to: 'pairs#restore'
-
-    get '/tasks', to: 'tasks#index'
   end
 
   get '/males/*slug', to: 'males#index'

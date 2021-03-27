@@ -1,14 +1,27 @@
 <template lang="pug">
   div(class="q-pa-sm q-gutter-sm")
-    fieldset(class="fieldset_class")
+    fieldset(class="fieldset")
       legend issued:
       q-card(class="q-pa-md")
-    fieldset(class="fieldset_class")
+    fieldset(class="fieldset")
       legend available:
-      q-card(class="q-pa-md"
-        @dragover.native="overDragZone"
-        @drop.native="dropDragZone")
-    fieldset(class="fieldset_class")
+      q-card(class="q-pa-md")
+        div(class="row")
+          q-intersection(v-for="(task, index) in tasks.available"
+            :key="index"
+            class="q-pa-sm"
+            transition="scale")
+            q-chip(removable
+              class="glossy text-red text-bold"
+              @remove=""
+              color="blue"
+              text-color="white"
+              icon="cake"
+              @dragstart.native="dragStart"
+              draggable="true"
+              :id="index"
+              title="Drag to upper field to change") {{ task.name }}
+    fieldset(class="fieldset")
       legend executed:
       q-card(class="q-pa-md")
 </template>
@@ -24,7 +37,6 @@ export default {
   },
   mounted() {
     this.getTasks()
-    console.log(this.tasks)
   },
   methods: {
     ...mapActions(['getTasks']),
@@ -45,6 +57,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.fieldset_class
+.fieldset
   border-style hidden
 </style>

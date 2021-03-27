@@ -112,7 +112,7 @@ export default {
         .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
     },
     getTasks: (context) => {
-      return Vue.prototype.$api.pair.tasks()
+      return Vue.prototype.$api.tasks()
         .then(({ data }) => (context.commit('CHANGE_TASKS', data)));
     }
   }

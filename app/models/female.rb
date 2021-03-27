@@ -46,4 +46,8 @@ class Female < ApplicationRecord
   def lifetime_dates
     LifetimePresentor.new(lifetimes, male&.lifetimes).female_dates
   end
+
+  def active_pair
+    pairs.active
+  end
 end
