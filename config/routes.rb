@@ -17,9 +17,9 @@ Rails.application.routes.draw do
 
   root to: "application#index"
 
-  get '/staffs/logout', to: 'staffs#logout'
-  get '/males/logout', to: 'males#logout'
-  get '/females/logout', to: 'females#logout'
+  %w[staffs females males].each do |user|
+    get "/#{user}/logout", to: "#{user}#logout"
+  end
 
   constraints ->(req) { req.format == :json } do
     resources :pairs, only: [:index, :update, :destroy]
