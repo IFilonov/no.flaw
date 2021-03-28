@@ -45,6 +45,13 @@ export default new Vuex.Store(  {
           return data
         });
     },
+    setIssuedTask: (context, task) => {
+      return Vue.prototype.$api.male.addIssuedTask(task)
+        .then(({ data }) => {
+          context.commit('CHANGE_TASKS', data)
+          return data
+        });
+    }
   },
   modules: {
     modulePair: modulePair

@@ -2,7 +2,24 @@
   div(class="q-pa-sm q-gutter-sm")
     fieldset(class="fieldset")
       legend issued:
-      q-card(class="q-pa-md")
+      q-card(class="q-pa-md"
+        @dragover.native="issuedOverDragZone"
+        @drop.native="issuedDropDragZone")
+        div(class="row")
+          q-intersection(v-for="(task, index) in tasks.issued"
+            :key="index"
+            class="q-pa-sm"
+            transition="scale")
+            q-chip(removable
+            class="glossy text-red text-bold"
+              @remove=""
+              color="light-grey"
+              text-color="blue"
+              icon="cake"
+              @dragstart.native="dragStart"
+              draggable="true"
+              :id="index"
+              title="Drag to upper field to change") {{ task.name }}
     fieldset(class="fieldset")
       legend available:
       q-card(class="q-pa-md")
@@ -14,15 +31,18 @@
             q-chip(removable
               class="glossy text-red text-bold"
               @remove=""
-              color="blue"
-              text-color="white"
+              color="light-grey"
+              text-color="blue"
               icon="cake"
-              @dragstart.native="dragStart"
+              @dragstart.native="availableDragStart"
               draggable="true"
               :id="index"
               title="Drag to upper field to change") {{ task.name }}
     fieldset(class="fieldset")
       legend executed:
+      q-card(class="q-pa-md")
+    fieldset(class="fieldset")
+      legend added by me:
       q-card(class="q-pa-md")
 </template>
 
@@ -39,16 +59,15 @@ export default {
     this.getTasks()
   },
   methods: {
-    ...mapActions(['getTasks']),
-    dragStart(ev) {
+    ...mapActions(['getTasks','setIssuedTask']),
+    availableDragStart(ev) {
       ev.dataTransfer.effectAllowed = 'move'
-      ev.dataTransfer.setData('pair_id', ev.target.id)
+      ev.dataTransfer.setData('available_id', ev.target.id)
     },
-    dropDragZone(ev) {
-      this.setRecoverPair(this.pairHistory[ev.dataTransfer.getData('pair_id')])
-      this.$router.push({ name: this.getPair.username ? 'PairChange' : 'PairRevert' })
+    issuedDropDragZone(ev) {
+      this.setIssuedTask(this.tasks[ev.dataTransfer.getData('available_id')])
     },
-    overDragZone(ev) {
+    issuedOverDragZone(ev) {
       ev.preventDefault()
       ev.dataTransfer.dropEffect = 'move'
     }
