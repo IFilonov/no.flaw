@@ -28,9 +28,9 @@
               q-btn(round icon="fas fa-user-minus"
                 @click="$router.push({ name: 'PairDelete'})"
                 title="Delete pair")
-    fieldset(class="fieldset")
+    fieldset(class="fieldset" v-if="pairHistory.length > 0")
       legend pair history:
-      q-card(class="history-card" v-if="pairHistory.length > 0")
+      q-card(class="history-card")
         div(class="row")
           q-intersection(v-for="(pair, index) in pairHistory"
             :key="index"

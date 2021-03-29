@@ -1,4 +1,5 @@
 class Task < ApplicationRecord
+  belongs_to :category
   include LevelEnum
   include GenderEnum
 

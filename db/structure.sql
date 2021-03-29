@@ -10,21 +10,21 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: task_gender; Type: TYPE; Schema: public; Owner: -
+-- Name: gender; Type: TYPE; Schema: public; Owner: -
 --
 
-CREATE TYPE public.task_gender AS ENUM (
+CREATE TYPE public.gender AS ENUM (
     'female',
     'male',
-    'none'
+    'both'
 );
 
 
 --
--- Name: task_level; Type: TYPE; Schema: public; Owner: -
+-- Name: level; Type: TYPE; Schema: public; Owner: -
 --
 
-CREATE TYPE public.task_level AS ENUM (
+CREATE TYPE public.level AS ENUM (
     'low',
     'middle',
     'high',
@@ -46,6 +46,37 @@ CREATE TABLE public.ar_internal_metadata (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
+
+
+--
+-- Name: categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.categories (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 
 --
@@ -174,7 +205,7 @@ CREATE TABLE public.pairs (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     divorced_at timestamp without time zone,
-    level public.task_level
+    level public.level
 );
 
 
@@ -254,8 +285,9 @@ CREATE TABLE public.tasks (
     description character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    gender public.task_gender,
-    level public.task_level
+    gender public.gender,
+    level public.level,
+    category_id bigint NOT NULL
 );
 
 
@@ -276,6 +308,13 @@ CREATE SEQUENCE public.tasks_id_seq
 --
 
 ALTER SEQUENCE public.tasks_id_seq OWNED BY public.tasks.id;
+
+
+--
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
 
 
 --
@@ -326,6 +365,14 @@ ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_pkey PRIMARY KEY (id);
 
 
 --
@@ -455,6 +502,13 @@ CREATE UNIQUE INDEX index_staffs_on_reset_password_token ON public.staffs USING 
 
 
 --
+-- Name: index_tasks_on_category_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tasks_on_category_id ON public.tasks USING btree (category_id);
+
+
+--
 -- Name: index_tasks_on_gender; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -485,6 +539,14 @@ ALTER TABLE ONLY public.pairs
 
 
 --
+-- Name: tasks fk_rails_acbc5a096e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT fk_rails_acbc5a096e FOREIGN KEY (category_id) REFERENCES public.categories(id);
+
+
+--
 -- Name: males fk_rails_b1a34f6a13; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -508,6 +570,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210226194640'),
 ('20210313201700'),
 ('20210318180914'),
-('20210318181153');
+('20210318181153'),
+('20210329183529');
 
 
