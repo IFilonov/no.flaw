@@ -37,7 +37,8 @@ const api = {
     restore: (id) => adapter.patch(`/pairs/${id}`),
     history: () => adapter.get('/pairs')
   },
-  tasks: () => adapter.get('/tasks')
+  tasks: () => adapter.get('/tasks'),
+  categories: () => adapter.get('/categories')
 }
 
 Vue.prototype.$api = api

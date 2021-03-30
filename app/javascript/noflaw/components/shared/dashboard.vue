@@ -25,3 +25,17 @@
     q-page-container
       router-view
 </template>
+<script>
+import {mapActions} from 'vuex'
+
+export default {
+  mounted() {
+    this.loadNames();
+    this.categories();
+  },
+  methods: {
+    ...mapActions(['loadNames','categories'])
+  }
+}
+</script>
+

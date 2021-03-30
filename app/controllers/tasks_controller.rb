@@ -3,12 +3,9 @@ class TasksController < ApplicationController
   around_action :wrap_in_transaction, only: %i[delete restore]
 
   def index
-    tasks = Task.where(level: @user.active_pair.level, gender: [@user.class.to_s.downcase,Task.genders['both']])
-    tasks_arr = []
-    tasks.map do |task|
-      tasks_arr << task.info
-    end
-    render json: { available: tasks_arr }
+    tasks = Task.level(@user.active_pair.level).gender([@user.class.to_s.downcase,
+                                                        Task.genders['both']])
+    render json: { available: tasks.map(&:info) }
   end
 
   private

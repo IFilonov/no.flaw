@@ -34,10 +34,6 @@ export default {
       default: null
     }
   },
-  data: function () {
-    return {
-    }
-  },
   computed: {
     ...mapGetters(['image'])
   }

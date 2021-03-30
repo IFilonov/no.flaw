@@ -23,6 +23,11 @@
     fieldset(class="fieldset")
       legend available:
       q-card(class="q-pa-md")
+        q-option-group(v-model="group"
+          :options="options"
+          color="purple"
+          inline
+          type="toggle")
         div(class="row")
           q-intersection(v-for="(task, index) in tasks.available"
             :key="index"
@@ -32,7 +37,7 @@
               class="glossy text-red text-bold"
               @remove=""
               color="light-grey"
-              text-color="blue"
+              text-color="purple"
               icon="cake"
               @dragstart.native="availableDragStart"
               draggable="true"
@@ -52,6 +57,25 @@ import {mapActions, mapGetters} from 'vuex'
 
 export default {
   mixins: [notifications],
+  data: function () {
+    return {
+      group: ['op1'],
+      options: [
+        {
+          label: 'Option 1',
+          value: 'op1'
+        },
+        {
+          label: 'Option 2',
+          value: 'op2'
+        },
+        {
+          label: 'Option 3',
+          value: 'op3'
+        }
+      ]
+    }
+  },
   computed: {
     ...mapGetters(['tasks'])
   },
