@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :females, only: [:create]
 
     resources :tasks, only: [:index]
+    resources :categories, only: [:index]
 
     get '/staffs/info', to: 'staffs#info'
 

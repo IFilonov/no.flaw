@@ -6,7 +6,7 @@
         @dragover.native="issuedOverDragZone"
         @drop.native="issuedDropDragZone")
         div(class="row")
-          q-intersection(v-for="(task, index) in tasks.issued"
+          q-intersection(v-for="(task, index) in local_tasks.issued"
             :key="index"
             class="q-pa-sm"
             transition="scale")
@@ -23,18 +23,18 @@
     fieldset(class="fieldset")
       legend available:
       q-card(class="q-pa-md")
-        q-option-group(v-model="group"
-          :options="options"
+        q-option-group(v-model="category"
+          :options="categories"
           color="purple"
           inline
+          @input="onChangeCategory"
           type="toggle")
         div(class="row")
-          q-intersection(v-for="(task, index) in tasks.available"
+          q-intersection(v-for="(task, index) in local_tasks.available"
             :key="index"
             class="q-pa-sm"
             transition="scale")
-            q-chip(removable
-              class="glossy text-red text-bold"
+            q-chip(class="glossy text-red text-bold"
               @remove=""
               color="light-grey"
               text-color="purple"
@@ -59,31 +59,23 @@ export default {
   mixins: [notifications],
   data: function () {
     return {
-      group: ['op1'],
-      options: [
-        {
-          label: 'Option 1',
-          value: 'op1'
-        },
-        {
-          label: 'Option 2',
-          value: 'op2'
-        },
-        {
-          label: 'Option 3',
-          value: 'op3'
-        }
-      ]
+      category: [],
+      local_tasks: []
     }
   },
   computed: {
-    ...mapGetters(['tasks'])
+    ...mapGetters(['tasks','categories'])
   },
   mounted() {
     this.getTasks()
+    this.local_tasks = this.tasks
+    this.category = this.categories.map(category => category.value)
   },
   methods: {
     ...mapActions(['getTasks','setIssuedTask']),
+    onChangeCategory(value){
+      this.local_tasks.available = this.tasks.available.filter(task => value.includes(task.category) )
+    },
     availableDragStart(ev) {
       ev.dataTransfer.effectAllowed = 'move'
       ev.dataTransfer.setData('available_id', ev.target.id)

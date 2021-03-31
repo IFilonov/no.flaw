@@ -31,10 +31,10 @@ import {mapActions} from 'vuex'
 export default {
   mounted() {
     this.loadNames();
-    this.categories();
+    this.getCategories();
   },
   methods: {
-    ...mapActions(['loadNames','categories'])
+    ...mapActions(['loadNames','getCategories'])
   }
 }
 </script>

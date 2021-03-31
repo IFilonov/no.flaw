@@ -9,7 +9,8 @@ export default {
     taboo_dates: [],
     fire_dates: {},
     pair_fire_dates: {},
-    tasks: {}
+    tasks: {},
+    categories: []
   },
   getters: {
     getMe(state) {
@@ -49,6 +50,9 @@ export default {
     },
     tasks(state){
       return state.tasks
+    },
+    categories(state){
+      return state.categories
     }
   },
   mutations: {
@@ -89,6 +93,9 @@ export default {
     },
     CHANGE_TASKS: (state, tasks) => {
       state.tasks = tasks
+    },
+    CHANGE_CATEGORIES: (state, categories) => {
+      state.categories = categories
     }
   },
   actions: {
@@ -114,6 +121,10 @@ export default {
     getTasks: (context) => {
       return Vue.prototype.$api.tasks()
         .then(({ data }) => (context.commit('CHANGE_TASKS', data)));
+    },
+    getCategories: (context) => {
+      return Vue.prototype.$api.categories()
+        .then(({ data }) => (context.commit('CHANGE_CATEGORIES', data)));
     }
   }
 }
