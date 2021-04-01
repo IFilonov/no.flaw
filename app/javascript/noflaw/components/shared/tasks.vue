@@ -11,15 +11,13 @@
             class="q-pa-sm"
             transition="scale")
             q-chip(removable
-            class="glossy text-red text-bold"
+              class="glossy text-red text-bold"
               @remove=""
               color="light-grey"
               text-color="blue"
               icon="cake"
-              @dragstart.native="dragStart"
-              draggable="true"
               :id="index"
-              title="Drag to upper field to change") {{ task.name }}
+              title="Issue task") {{ task.name }}
     fieldset(class="fieldset")
       legend available:
       q-card(class="q-pa-md")
@@ -52,7 +50,7 @@
 </template>
 
 <script>
-import notifications from 'notifications';
+import notifications from 'notifications'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -74,14 +72,15 @@ export default {
   methods: {
     ...mapActions(['getTasks','setIssuedTask']),
     onChangeCategory(value){
-      this.local_tasks.available = this.tasks.available.filter(task => value.includes(task.category) )
+      this.local_tasks.available = this.tasks.available.filter(task => value.includes(task.category_id) )
     },
     availableDragStart(ev) {
       ev.dataTransfer.effectAllowed = 'move'
       ev.dataTransfer.setData('available_id', ev.target.id)
     },
     issuedDropDragZone(ev) {
-      this.setIssuedTask(this.tasks[ev.dataTransfer.getData('available_id')])
+      console.log(this.tasks.available[ev.dataTransfer.getData('available_id')])
+      //this.setIssuedTask(this.tasks[ev.dataTransfer.getData('available_id')])
     },
     issuedOverDragZone(ev) {
       ev.preventDefault()

@@ -14,7 +14,7 @@ class PairsController < ApplicationController
   def destroy
     Pair.find(params[:id]).discard
     @user.delete_pair!
-    render json: @user.info
+    head :no_content
   end
 
   private

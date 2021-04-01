@@ -63,7 +63,8 @@
 </template>
 
 <script>
-import notifications from 'notifications';
+import notifications from 'notifications'
+import StatusCodes from 'http-status-codes'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -85,7 +86,7 @@ export default {
     this.processState(this.$route.name)
   },
   methods: {
-    ...mapActions(['addPair','setNames','updatePair','getPairHistory']),
+    ...mapActions(['addPair','setNames','updatePair','getPairHistory','loadNames']),
     toSettings() {
       this.$router.push({ name: 'Settings' })
     },
@@ -162,13 +163,14 @@ export default {
     async deletePair() {
       this.delPairDlg = false;
       const response = await this.$api.pair.delete(this.pair.id);
-      if(response.data.error) {
-        this.showErrNotif(response.data);
+      console.log(response)
+      if(response.status === StatusCodes.NO_CONTENT) {
+        this.showNotif(`${this.getPair.username} deleted`);
+        this.getPairHistory()
+        this.loadNames()
       }
       else {
-        this.showNotif(`${this.getPair.username} deleted`);
-        this.setNames(response.data)
-        this.getPairHistory()
+        this.showErrNotif(response.data);
       }
     }
   }

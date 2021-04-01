@@ -21,7 +21,8 @@ const api = {
     addPair: (female) => adapter.post('/females', female),
     updatePair: (female) => adapter.post('/males/update', female),
     saveFireDate: (fire_date) => adapter.post('/lifetimes/set_fire_date', fire_date),
-    dates: () => adapter.get('/males/dates')
+    dates: () => adapter.get('/males/dates'),
+    addIssuedTask: (task) => adapter.post('/males/tasks', task)
   },
   female: {
     logout: '/females/logout',
@@ -30,7 +31,8 @@ const api = {
     updatePair: (male) => adapter.post('/females/update', male),
     saveTabooDate: (taboo_date) => adapter.post('/lifetimes/set_taboo_date', taboo_date),
     saveFireDate: (fire_date) => adapter.post('/lifetimes/set_fire_date', fire_date),
-    dates: () => adapter.get('/females/dates')
+    dates: () => adapter.get('/females/dates'),
+    addIssuedTask: (task) => adapter.post('/females/tasks', task)
   },
   pair: {
     delete: (id) => adapter.delete(`/pairs/${id}`),

@@ -7,6 +7,6 @@ class Task < ApplicationRecord
   scope :gender, ->(gender) { where(gender: gender) }
 
   def info
-    { name: name, description: description, category: category_id }
+    { id: id, name: name, description: description, category_id: category_id }
   end
 end

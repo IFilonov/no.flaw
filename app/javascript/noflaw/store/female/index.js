@@ -44,6 +44,13 @@ export default new Vuex.Store(  {
           context.commit('CHANGE_NAMES', data)
           return data
         });
+    },
+    setIssuedTask: (context, task) => {
+      return Vue.prototype.$api.female.addIssuedTask(task)
+        .then(({ data }) => {
+          context.commit('CHANGE_TASKS', data)
+          return data
+        });
     }
   },
   modules: {
