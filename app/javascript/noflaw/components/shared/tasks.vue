@@ -80,7 +80,7 @@ export default {
     },
     issuedDropDragZone(ev) {
       console.log(this.tasks.available[ev.dataTransfer.getData('available_id')])
-      //this.setIssuedTask(this.tasks[ev.dataTransfer.getData('available_id')])
+      this.setIssuedTask(this.tasks.available[ev.dataTransfer.getData('available_id')])
     },
     issuedOverDragZone(ev) {
       ev.preventDefault()

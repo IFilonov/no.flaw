@@ -48,7 +48,7 @@ export default new Vuex.Store(  {
     setIssuedTask: (context, task) => {
       return Vue.prototype.$api.female.addIssuedTask(task)
         .then(({ data }) => {
-          context.commit('CHANGE_TASKS', data)
+          context.commit('CHANGE_ISSUIED_TASKS', data)
           return data
         });
     }

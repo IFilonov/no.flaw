@@ -9,11 +9,4 @@ class LifetimesController < ApplicationController
   def set_fire_date
     render json: @user.set_fire_date(params[:fire_date])
   end
-
-  private
-
-  def authenticate_user!
-    current_male ? :authenticate_male! : :authenticate_female!
-    @user = current_male || current_female
-  end
 end

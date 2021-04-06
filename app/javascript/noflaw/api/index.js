@@ -39,7 +39,7 @@ const api = {
     restore: (id) => adapter.patch(`/pairs/${id}`),
     history: () => adapter.get('/pairs')
   },
-  tasks: () => adapter.get('/tasks'),
+  tasks: () => adapter.get('/gender_tasks'),
   categories: () => adapter.get('/categories')
 }
 

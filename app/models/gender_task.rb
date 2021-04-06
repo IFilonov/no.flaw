@@ -1,4 +1,4 @@
-class Task < ApplicationRecord
+class GenderTask < ApplicationRecord
   belongs_to :category
   include LevelEnum
   include GenderEnum

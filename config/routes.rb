@@ -25,11 +25,9 @@ Rails.application.routes.draw do
     resources :pairs, only: [:index, :update, :destroy]
 
     resources :males, only: [:create]
-    resources :females, only: [:create] do
-      resources :tasks, only: [:index, :create, :destroy]
-    end
+    resources :females, only: [:create]
 
-    resources :tasks, only: [:index]
+    resources :gender_tasks, only: [:index, :create, :destroy]
     resources :categories, only: [:index]
 
     get '/staffs/info', to: 'staffs#info'

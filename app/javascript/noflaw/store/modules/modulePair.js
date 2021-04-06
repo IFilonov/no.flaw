@@ -94,6 +94,9 @@ export default {
     CHANGE_TASKS: (state, tasks) => {
       state.tasks = tasks
     },
+    CHANGE_ISSUIED_TASKS: (state, tasks) => {
+      state.tasks.issuied = tasks.issuied
+    },
     CHANGE_CATEGORIES: (state, categories) => {
       state.categories = categories
     }
