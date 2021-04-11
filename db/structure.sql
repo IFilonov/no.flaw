@@ -311,6 +311,42 @@ ALTER SEQUENCE public.staffs_id_seq OWNED BY public.staffs.id;
 
 
 --
+-- Name: tasks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tasks (
+    id bigint NOT NULL,
+    planned_time date,
+    started_time date,
+    finished_time date,
+    gender_task_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    userable_type character varying,
+    userable_id bigint
+);
+
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tasks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tasks_id_seq OWNED BY public.tasks.id;
+
+
+--
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -357,6 +393,13 @@ ALTER TABLE ONLY public.pairs ALTER COLUMN id SET DEFAULT nextval('public.pairs_
 --
 
 ALTER TABLE ONLY public.staffs ALTER COLUMN id SET DEFAULT nextval('public.staffs_id_seq'::regclass);
+
+
+--
+-- Name: tasks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_id_seq'::regclass);
 
 
 --
@@ -429,6 +472,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.staffs
     ADD CONSTRAINT staffs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tasks tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT tasks_pkey PRIMARY KEY (id);
 
 
 --
@@ -523,6 +574,28 @@ CREATE UNIQUE INDEX index_staffs_on_reset_password_token ON public.staffs USING 
 
 
 --
+-- Name: index_tasks_on_gender_task_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tasks_on_gender_task_id ON public.tasks USING btree (gender_task_id);
+
+
+--
+-- Name: index_tasks_on_userable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tasks_on_userable ON public.tasks USING btree (userable_type, userable_id);
+
+
+--
+-- Name: tasks fk_rails_03151ebf5f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tasks
+    ADD CONSTRAINT fk_rails_03151ebf5f FOREIGN KEY (gender_task_id) REFERENCES public.gender_tasks(id);
+
+
+--
 -- Name: pairs fk_rails_418edd08a3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -572,6 +645,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210318180914'),
 ('20210318181153'),
 ('20210329183529'),
-('20210406193917');
+('20210406193917'),
+('20210410193517');
 
 

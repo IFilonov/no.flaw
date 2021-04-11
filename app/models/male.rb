@@ -2,6 +2,7 @@ class Male < ApplicationRecord
   has_many :pairs
   has_many :females, through: :pairs
   has_many :lifetimes, as: :dateable
+  has_many :tasks, as: :userable
   belongs_to :female, optional: true
   include DeviseDefs
 
@@ -37,5 +38,9 @@ class Male < ApplicationRecord
 
   def active_pair
     pairs.active
+  end
+
+  def planned_tasks
+    tasks.includes(:gender_task).map(&:planned)
   end
 end

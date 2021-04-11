@@ -92,10 +92,10 @@ export default {
       state.recover_pair = recover_pair
     },
     CHANGE_TASKS: (state, tasks) => {
-      state.tasks = tasks
+      state.tasks.available = tasks.available
     },
     CHANGE_ISSUIED_TASKS: (state, tasks) => {
-      state.tasks.issuied = tasks.issuied
+      state.tasks.issued = tasks
     },
     CHANGE_CATEGORIES: (state, categories) => {
       state.categories = categories
