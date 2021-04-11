@@ -8,7 +8,7 @@
 <script>
 import navbar from '../shared/navbar';
 import dashboard from '../shared/dashboard';
-import {mapActions, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -17,12 +17,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getMe'])
-  },
-  mounted() {
-    this.loadNames();
-  },
-  methods: {
-    ...mapActions(['loadNames'])
   }
 }
 </script>

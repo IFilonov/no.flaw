@@ -8,7 +8,9 @@ export default {
     pair_history: [],
     taboo_dates: [],
     fire_dates: {},
-    pair_fire_dates: {}
+    pair_fire_dates: {},
+    tasks: {},
+    categories: []
   },
   getters: {
     getMe(state) {
@@ -45,6 +47,12 @@ export default {
     },
     getRecoveredPair(state){
       return state.recover_pair
+    },
+    tasks(state){
+      return state.tasks
+    },
+    categories(state){
+      return state.categories
     }
   },
   mutations: {
@@ -58,9 +66,15 @@ export default {
       }
     },
     CHANGE_DATES_SER: (state, data) => {
-      state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : []
-      state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {}
-      state.pair_fire_dates = data.pair_fire_dates ? JSON.parse(data.pair_fire_dates) : {}
+      try { state.taboo_dates = data.taboo_dates ? JSON.parse(data.taboo_dates) : [] } catch (e) {
+        state.taboo_dates = []
+      }
+      try { state.fire_dates = data.fire_dates ? JSON.parse(data.fire_dates) : {} } catch (e) {
+        state.fire_dates = {}
+      }
+      try { state.pair_fire_dates = data.pair_fire_dates ? JSON.parse(data.pair_fire_dates) : {} }  catch (e) {
+        state.pair_fire_dates = {}
+      }
     },
     CHANGE_FIRE_DAYS: (state, fire_days) => {
       state.fire_dates = fire_days
@@ -76,6 +90,16 @@ export default {
     },
     CHANGE_RECOVER_PAIR: (state, recover_pair) => {
       state.recover_pair = recover_pair
+    },
+    CHANGE_TASKS: (state, tasks) => {
+      state.tasks.available = tasks.available
+      state.tasks.issued = tasks.issued
+    },
+    CHANGE_ISSUIED_TASKS: (state, tasks) => {
+      state.tasks.issued = tasks
+    },
+    CHANGE_CATEGORIES: (state, categories) => {
+      state.categories = categories
     }
   },
   actions: {
@@ -97,6 +121,14 @@ export default {
     getPairHistory: (context) => {
       return Vue.prototype.$api.pair.history()
         .then(({ data }) => (context.commit('CHANGE_PAIR_HISTORY', data)));
+    },
+    getTasks: (context) => {
+      return Vue.prototype.$api.tasks()
+        .then(({ data }) => (context.commit('CHANGE_TASKS', data)));
+    },
+    getCategories: (context) => {
+      return Vue.prototype.$api.categories()
+        .then(({ data }) => (context.commit('CHANGE_CATEGORIES', data)));
     }
   }
 }

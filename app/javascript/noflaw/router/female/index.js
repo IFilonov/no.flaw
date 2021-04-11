@@ -6,6 +6,9 @@ Vue.use(VueRouter)
 import Settings from '../../components/shared/settings';
 import Dates from '../../components/female/dates';
 import Pair from '../../components/shared/pair';
+import Tasks from '../../components/shared/tasks';
+import Tasks_manage from '../../components/shared/tasks_manage';
+import Tasks_execute from '../../components/shared/tasks_execute';
 
 export default new VueRouter( {
   mode: 'history',
@@ -20,6 +23,11 @@ export default new VueRouter( {
         { path: 'change', component: Pair, name: 'PairChange'},
         { path: 'revert', component: Pair, name: 'PairRevert'}
       ]},
-    { path: '/females/dates', component: Dates, name: 'Dates'}
+    { path: '/females/dates', component: Dates, name: 'Dates'},
+    { path: '/females/tasks', component: Tasks, name: 'Tasks',
+      children: [
+        { path: 'manage', component: Tasks_manage, name: 'Tasks_manage'},
+        { path: 'execute', component: Tasks_execute, name: 'Tasks_execute'}
+      ]}
   ]
 })

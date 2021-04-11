@@ -5,6 +5,7 @@
         q-avatar(size="48px")
           img(:src="image()")
         span {{ name }}
+      q-space
       div(class="q-pa-md")
         q-btn-dropdown(class="glossy" color="purple" label="Account Settings")
           div(class="row no-wrap q-pa-md")
@@ -31,10 +32,6 @@ export default {
       type: String,
       required: false,
       default: null
-    }
-  },
-  data: function () {
-    return {
     }
   },
   computed: {

@@ -56,14 +56,15 @@
         q-card-section(class="row items-center")
           q-avatar
             img(:src="image(true)")
-          span(class="q-ml-sm") You are sure change {{ getPair.username }} to {{ pair.username }}?
+          span(class="q-ml-sm") You are sure change {{ getPair.username }} to {{ getRecoveredPair.username }}?
         q-card-actions(align="right")
           q-btn(flat label="Cancel" color="primary" v-close-popup)
           q-btn(flat label="Change" @click="changePair" color="primary" v-close-popup)
 </template>
 
 <script>
-import notifications from 'notifications';
+import notifications from 'notifications'
+import StatusCodes from 'http-status-codes'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -84,10 +85,8 @@ export default {
   created() {
     this.processState(this.$route.name)
   },
-  mounted() {
-  },
   methods: {
-    ...mapActions(['addPair','setNames','updatePair','getPairHistory']),
+    ...mapActions(['addPair','setNames','updatePair','getPairHistory','loadNames']),
     toSettings() {
       this.$router.push({ name: 'Settings' })
     },
@@ -110,48 +109,48 @@ export default {
         this.getPairHistory()
       })
     },
-    async changePair(){
-      const response = await this.$api.pair.delete();
-      if(response.data.error) {
-        this.showErrNotif(response.data);
-      }
-      else {
-        this.showNotif(`${this.getPair.username} deleted`);
-        await this.restorePair()
-      }
-    },
     processState(state) {
+      this.pair = { ...this.getPair }
       switch(state) {
       case 'PairEdit':
-        this.pair = { ...this.getPair }
         this.updPairDlg = true;
         break;
       case 'PairNew':
-        this.fillPairRandom();
+        if(process.env.NODE_ENV === 'development') {
+          this.fillPairRandom();
+        }
         this.newPairDlg = true;
         break;
       case 'PairDelete':
         this.delPairDlg = true;
         break;
       case 'PairChange':
-        this.fillPairRecovered();
         this.recoverPairDlg = true;
         break;
       case 'PairRevert':
-        this.restorePair()
+        this.revertPair()
         this.toSettings()
         break;
       default:
       }
     },
-    async restorePair() {
-      let pair = { ...this.getRecoveredPair }
-      const response = await this.$api.pair.restore(pair);
+    async changePair(){
+      const response = await this.$api.pair.delete(this.pair.id);
       if(response.data.error) {
         this.showErrNotif(response.data);
       }
       else {
-        this.showNotif(`${pair.username} restored`);
+        this.showNotif(`${this.getPair.username} deleted`);
+        await this.revertPair()
+      }
+    },
+    async revertPair() {
+      const response = await this.$api.pair.restore(this.getRecoveredPair.id);
+      if(response.data.error) {
+        this.showErrNotif(response.data);
+      }
+      else {
+        this.showNotif(`${this.getRecoveredPair.username} restored`);
         this.setNames(response.data)
         this.getPairHistory()
       }
@@ -161,20 +160,17 @@ export default {
       this.pair.nickname = Math.random().toString(36).substring(3);
       this.pair.password = 'password';
     },
-    fillPairRecovered(){
-      this.pair = { ...this.getRecoveredPair }
-      this.pair.password = 'password';
-    },
     async deletePair() {
       this.delPairDlg = false;
-      const response = await this.$api.pair.delete();
-      if(response.data.error) {
-        this.showErrNotif(response.data);
+      const response = await this.$api.pair.delete(this.pair.id);
+      console.log(response)
+      if(response.status === StatusCodes.NO_CONTENT) {
+        this.showNotif(`${this.getPair.username} deleted`);
+        this.getPairHistory()
+        this.loadNames()
       }
       else {
-        this.showNotif(`${this.getPair.username} deleted`);
-        this.setNames(response.data)
-        this.getPairHistory()
+        this.showErrNotif(response.data);
       }
     }
   }

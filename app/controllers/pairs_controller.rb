@@ -1,26 +1,19 @@
 class PairsController < ApplicationController
-  include ApplicationHelper
   before_action :authenticate_user!
-  around_action :wrap_in_transaction, only: %i[delete restore]
+  around_action :wrap_in_transaction, only: %i[destroy update]
 
-  def delete
-    @user.delete_pair!
-    render json: @user.info
-  end
-
-  def restore
-    @user.restore_pair!(params[:username])
-    render json: @user.info
-  end
-
-  def history
+  def index
     render json: @user.pairs_history
   end
 
-  private
+  def update
+    @user.restore_pair!(params[:id])
+    render json: @user.info
+  end
 
-  def authenticate_user!
-    current_male ? :authenticate_male! : :authenticate_female!
-    @user = current_male || current_female
+  def destroy
+    Pair.find(params[:id]).discard
+    @user.delete_pair!
+    head :no_content
   end
 end

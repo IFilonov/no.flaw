@@ -1,6 +1,6 @@
 class MalesController < ApplicationController
-  include ApplicationHelper
-  before_action :authenticate_male!
+  before_action :authenticate_male!, except: [:create]
+  before_action :authenticate_female!, only: [:create]
   around_action :wrap_in_transaction, only: %i[create update set_fire_date]
 
   def index; end
@@ -15,24 +15,23 @@ class MalesController < ApplicationController
   end
 
   def create
-    render json: current_male.create_pair!(pair_params)
+    male = Male.create!(male_params)
+    current_female.update!(male: male)
+    current_female.pairs.create!(male: male)
+    render json: current_female.info
   end
 
   def update
-    render json: current_male.update_pair!(pair_params)
+    render json: current_male.update_pair!(male_params)
   end
 
   def dates
     render json: current_male.lifetime_dates
   end
 
-  def set_fire_date
-    render json: current_male.set_fire_date(params[:fire_dates])
-  end
-
   private
 
-  def pair_params
+  def male_params
     params.require(:pair).permit(:username, :password, :nickname)
   end
 end
