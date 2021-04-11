@@ -1,4 +1,4 @@
-module DeviseDefs
+module GenderCommon
   extend ActiveSupport::Concern
 
   included do
@@ -20,6 +20,14 @@ module DeviseDefs
     # use this instead of email_changed? for Rails = 5.1.x
     def will_save_change_to_email?
       false
+    end
+
+    def active_pair
+      pairs.active
+    end
+
+    def planned_tasks
+      tasks.includes(:gender_task).map(&:planned)
     end
   end
 end

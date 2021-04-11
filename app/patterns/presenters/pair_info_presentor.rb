@@ -5,11 +5,9 @@ class PairInfoPresentor
   end
 
   def info
-    pair = @user.pairs.active
-    { me: { username: @user.username,
-            id: @user.id },
+    { me: @user.as_json(only: %i[id username]),
       pair: { username: @pair&.username, nickname: @pair&.nickname,
-              pair_created_at: pair&.created_at,
-              id: pair&.id } }
+              pair_created_at: @pair&.created_at,
+              id: @pair&.id } }
   end
 end

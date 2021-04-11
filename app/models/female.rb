@@ -4,7 +4,7 @@ class Female < ApplicationRecord
   has_many :lifetimes, as: :dateable
   has_many :tasks, as: :userable
   has_one :male
-  include DeviseDefs
+  include GenderCommon
 
   def create_pair!(pair)
     male = Male.create!(pair)
@@ -46,13 +46,5 @@ class Female < ApplicationRecord
 
   def lifetime_dates
     LifetimePresentor.new(lifetimes, male&.lifetimes).female_dates
-  end
-
-  def active_pair
-    pairs.active
-  end
-
-  def planned_tasks
-    tasks.includes(:gender_task).map(&:planned)
   end
 end
