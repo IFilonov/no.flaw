@@ -93,6 +93,7 @@ export default {
     },
     CHANGE_TASKS: (state, tasks) => {
       state.tasks.available = tasks.available
+      state.tasks.issued = tasks.issued
     },
     CHANGE_ISSUIED_TASKS: (state, tasks) => {
       state.tasks.issued = tasks

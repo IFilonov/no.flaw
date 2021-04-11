@@ -51,4 +51,8 @@ class Female < ApplicationRecord
   def active_pair
     pairs.active
   end
+
+  def planned_tasks
+    tasks.includes(:gender_task).map(&:planned)
+  end
 end
