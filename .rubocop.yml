@@ -92,9 +92,15 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Performance/AncestorsInclude: # (new in 1.7)
   Enabled: true
+Performance/ArraySemiInfiniteRangeSlice:
+  Enabled: true
 Performance/BigDecimalWithNumericArgument: # (new in 1.7)
   Enabled: true
 Performance/BlockGivenWithExplicitBlock: # (new in 1.9)
+  Enabled: true
+Performance/Caller:
+  Enabled: true
+Performance/CaseWhenSplat:
   Enabled: true
 Performance/CollectionLiteralInLoop: # (new in 1.8)
   Enabled: true

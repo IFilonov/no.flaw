@@ -18,7 +18,7 @@ class MalesController < ApplicationController
     male = Male.create!(male_params)
     current_female.update!(male: male)
     current_female.pairs.create!(male: male)
-    render json: current_female.info
+    render json: current_female.info, status: :created
   end
 
   def update

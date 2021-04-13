@@ -94,20 +94,21 @@ export default {
       this.newPairDlg = false;
       let pair = this.pair
       this.addPair({ pair }).then((data) =>{
-        data.error
-          ? this.showErrNotif(data)
-          : this.showNotif(`${ data.pair.username } created`);
+        this.showNotif(`${ data.pair.username } created`);
+      }).catch((error) => {
+        this.showErrNotif(error.response.data);
       })
     },
     updPair() {
       let pair = this.pair
       this.updPairDlg = false;
       this.updatePair({ pair }).then((data) =>{
-        data.error
-          ? this.showErrNotif(data)
-          : this.showNotif(`${ data.pair.username } updated`);
+        this.showNotif(`${ data.pair.username } updated`);
         this.getPairHistory()
+      }).catch((error) => {
+        this.showErrNotif(error.response.data);
       })
+
     },
     processState(state) {
       this.pair = { ...this.getPair }
