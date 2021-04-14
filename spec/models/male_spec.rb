@@ -34,5 +34,14 @@ RSpec.describe Male, type: :model do
       expect(male.female.username).to eq female.username
       expect(male.pairs.last.female.id).to eq female.id
     end
+
+    it 'show info' do
+      info = male.info
+      expect(info[:me][:username]).to eq male.username
+      expect(info[:me][:nickname]).to eq male.nickname
+
+      expect(info[:pair][:username]).to eq female.username
+      expect(info[:pair][:nickname]).to eq female.nickname
+    end
   end
 end
