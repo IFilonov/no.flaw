@@ -100,7 +100,7 @@ export default {
       this.disableSaveFire = false;
     },
     async sendFireDate() {
-      const response = await this.$api.male.saveFireDate({ fire_date: this.fireDatesSer } );
+      const response = await this.$api.male.saveDate({ fire_date: this.fireDatesSer } );
       this.disableSaveFire = true;
       response.data.error ? this.showErrNotif(response.data) :
         this.showNotif(`Firedates saved at ${response.data.created_at}`, this.DEEP_ORANGE)

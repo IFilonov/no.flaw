@@ -28,10 +28,6 @@ class Male < ApplicationRecord
     pairs.discarded.includes(:female).order(:id).map(&:female_info)
   end
 
-  def fire_date=(fire_date)
-    lifetimes.create!(fire_date: fire_date).created_at
-  end
-
   def lifetime_dates
     LifetimePresentor.new(lifetimes, female&.lifetimes).male_dates
   end

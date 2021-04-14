@@ -1,12 +1,18 @@
 class LifetimesController < ApplicationController
   before_action :authenticate_user!
-  around_action :wrap_in_transaction, only: %i[set_taboo_date set_fire_date]
+  around_action :wrap_in_transaction, only: %i[create]
 
-  def set_taboo_date
-    render json: @user.set_taboo_date(params[:taboo_date])
+  def create
+    lifetimes = @user.lifetimes
+    lifetime_as_hash = lifetimes.last.as_json(only: %i[taboo_date
+                                                       fire_date])&.with_indifferent_access.to_h
+    lifetime = lifetimes.create!(lifetime_as_hash.merge(life_time_params))
+    render json: lifetime.created_at, status: :created
   end
 
-  def set_fire_date
-    render json: @user.set_fire_date(params[:fire_date])
+  private
+
+  def life_time_params
+    params.permit(:fire_date, :taboo_date)
   end
 end

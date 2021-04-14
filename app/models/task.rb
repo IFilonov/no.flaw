@@ -1,7 +1,7 @@
 class Task < ApplicationRecord
   belongs_to :userable, polymorphic: true
   belongs_to :gender_task
-  attribute :planned_time, :date, default: Date.today + 3
+  attribute :planned_time, :date, default: Time.zone.today + 3
 
   validates :planned_time, :gender_task, :userable, presence: true
 

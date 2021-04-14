@@ -1,7 +1,7 @@
 class FemalesController < ApplicationController
   before_action :authenticate_female!, except: [:create]
   before_action :authenticate_male!, only: [:create]
-  around_action :wrap_in_transaction, only: %i[create update set_taboo_date set_fire_date]
+  around_action :wrap_in_transaction, only: %i[create update]
 
   def index; end
 
