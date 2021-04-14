@@ -31,18 +31,17 @@ Rails.application.routes.draw do
     resources :categories, only: [:index]
     resources :tasks, only: [:create]
 
+    resources :lifetimes, only: [:create]
+
     get '/staffs/info', to: 'staffs#info'
 
     get '/males/info', to: 'males#info'
     get '/males/dates', to: 'males#dates'
     post '/males/update', to: 'males#update'
-    post '/lifetimes/set_fire_date', to: 'lifetimes#set_fire_date'
 
     get '/females/info', to: 'females#info'
     get '/females/dates', to: 'females#dates'
     post '/females/update', to: 'females#update'
-    post '/lifetimes/set_taboo_date', to: 'lifetimes#set_taboo_date'
-    post '/lifetimes/set_fire_date', to: 'lifetimes#set_fire_date'
 
     get '/pairs/delete', to: 'pairs#delete'
     post '/pairs/restore', to: 'pairs#restore'

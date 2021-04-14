@@ -1,7 +1,7 @@
 class FemalesController < ApplicationController
   before_action :authenticate_female!, except: [:create]
   before_action :authenticate_male!, only: [:create]
-  around_action :wrap_in_transaction, only: %i[create update set_taboo_date set_fire_date]
+  around_action :wrap_in_transaction, only: %i[create update]
 
   def index; end
 
@@ -18,7 +18,7 @@ class FemalesController < ApplicationController
     female = Female.create!(female_params)
     current_male.update!(female: female)
     current_male.pairs.create!(female: female)
-    render json: current_male.info
+    render json: current_male.info, status: :created
   end
 
   def update

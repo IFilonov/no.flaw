@@ -35,15 +35,6 @@ class Female < ApplicationRecord
     pairs.discarded.includes(:male).order(:id).map(&:male_info)
   end
 
-  def set_fire_date(fire_date)
-    lifetimes.create!(taboo_date: lifetimes.last&.taboo_date,
-                      fire_date: fire_date).created_at
-  end
-
-  def set_taboo_date(taboo_date)
-    lifetimes.create!(taboo_date: taboo_date).created_at
-  end
-
   def lifetime_dates
     LifetimePresentor.new(lifetimes, male&.lifetimes).female_dates
   end

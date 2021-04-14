@@ -20,7 +20,7 @@ const api = {
     names: () => adapter.get('/males/info'),
     addPair: (female) => adapter.post('/females', female),
     updatePair: (female) => adapter.post('/males/update', female),
-    saveFireDate: (fire_date) => adapter.post('/lifetimes/set_fire_date', fire_date),
+    saveDate: (date) => adapter.post('/lifetimes', date),
     dates: () => adapter.get('/males/dates'),
     addIssuedTask: (task) => adapter.post('/tasks', task)
   },
@@ -29,8 +29,7 @@ const api = {
     names: () => adapter.get('/females/info'),
     addPair: (male) => adapter.post('/males', male),
     updatePair: (male) => adapter.post('/females/update', male),
-    saveTabooDate: (taboo_date) => adapter.post('/lifetimes/set_taboo_date', taboo_date),
-    saveFireDate: (fire_date) => adapter.post('/lifetimes/set_fire_date', fire_date),
+    saveDate: (date) => adapter.post('/lifetimes', date),
     dates: () => adapter.get('/females/dates'),
     addIssuedTask: (task) => adapter.post('/tasks', task)
   },

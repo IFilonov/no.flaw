@@ -115,14 +115,14 @@ export default {
       this.disableSaveFire = false;
     },
     async sendTabooDate() {
-      const response = await this.$api.female.saveTabooDate({ taboo_date: this.tabooDatesSer } )
+      const response = await this.$api.female.saveDate({ taboo_date: this.tabooDatesSer } )
       this.disableSaveTaboo = true;
       console.log(response.data)
       response.data.error ? this.showErrNotif(response.data) :
         this.showNotif(`Taboodates saved at ${response.data.created_at}`, this.PURPLE)
     },
     async sendFireDate() {
-      const response = await this.$api.female.saveFireDate({ fire_date: this.fireDatesSer } )
+      const response = await this.$api.female.saveDate({ fire_date: this.fireDatesSer } )
       this.disableSaveFire = true;
       response.data.error ? this.showErrNotif(response.data) :
         this.showNotif(`Firedates saved at ${response.data.created_at}`, this.DEEP_ORANGE)
