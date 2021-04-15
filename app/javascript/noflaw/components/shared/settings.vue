@@ -1,7 +1,7 @@
 <template lang="pug">
   div(class="q-pa-sm q-gutter-sm")
     fieldset(class="fieldset")
-      legend current pair:
+      legend(class="text-grey-7 text-bold") current pair:
       q-card(class="q-pa-md"
         @dragover.native="overDragZone"
         @drop.native="dropDragZone")
@@ -29,7 +29,7 @@
                 @click="$router.push({ name: 'PairDelete'})"
                 title="Delete pair")
     fieldset(class="fieldset" v-if="pairHistory.length > 0")
-      legend pair history:
+      legend(class="text-grey-7 text-bold") pair history:
       q-card(class="history-card")
         div(class="row")
           q-intersection(v-for="(pair, index) in pairHistory"

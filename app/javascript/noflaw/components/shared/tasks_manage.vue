@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     fieldset(class="fieldset")
-      legend(class="text-grey-7 text-bold") issued:
+      legend(class="text-grey-7 text-bold") in the {{  getPair.username }} execution queue:
       q-card(class="q-pa-md"
         @dragover.native="issuedOverDragZone"
         @drop.native="issuedDropDragZone")
@@ -19,15 +19,14 @@
               :id="index"
               title="Issue task") {{ task.gender_task.name }} up to {{ task.planned_time }}
     fieldset(class="fieldset")
-      legend(class="text-grey-7 text-bold") available:
+      legend(class="text-grey-7 text-bold") available for {{  getPair.username }}. Throw it up
       q-card(class="q-pa-md")
         q-option-group(v-model="category"
           :options="categories"
           color="purple"
-          inline
-          type="toggle")
+          inline)
         div(class="row")
-          q-intersection(v-for="(task, index) in tasks.available.filter(task => category.includes(task.category_id))"
+          q-intersection(v-for="(task, index) in tasks.available.filter(task => category == task.category_id)"
             :key="index"
             class="q-pa-sm"
             transition="scale")
@@ -50,16 +49,16 @@ export default {
   mixins: [notifications],
   data: function () {
     return {
-      category: [],
+      category: '',
       tab: ''
     }
   },
   computed: {
-    ...mapGetters(['tasks','categories'])
+    ...mapGetters(['tasks','categories','getPair'])
   },
   mounted() {
     this.getTasks()
-    this.category = this.categories.map(category => category.value)
+    this.category = this.categories[0].value
   },
   methods: {
     ...mapActions(['getTasks','setIssuedTask']),

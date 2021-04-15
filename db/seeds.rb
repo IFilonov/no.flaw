@@ -9,7 +9,7 @@ GenderTask.genders.keys.size.times do |gender|
   Category.all.each do |category|
     GenderTask.levels.keys.size.times do |level|
       20.times do |index|
-        GenderTask.create!(name: "Task#{index}", description: "about task#{index}",
+        GenderTask.create!(name: "Task#{category.id}_#{index}", description: "about task#{category.id}_#{index}",
                            level: GenderTask.levels.values[level], gender: GenderTask.genders.values[gender],
                            category: category)
       end

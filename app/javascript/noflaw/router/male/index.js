@@ -24,9 +24,9 @@ export default new VueRouter( {
         { path: 'revert', component: Pair, name: 'PairRevert'}
       ]},
     { path: '/males/dates', component: Dates, name: 'Dates'},
-    { path: '/males/tasks', component: Tasks, name: 'Tasks',
+    { path: '/males/tasks', redirect: {name: 'Tasks_manage'}, component: Tasks, name: 'Tasks',
       children: [
-        { path: 'manage', component: Tasks_manage, name: 'Tasks_manage'},
+        { path: '', component: Tasks_manage, name: 'Tasks_manage'},
         { path: 'execute', component: Tasks_execute, name: 'Tasks_execute'}
       ]}
   ]

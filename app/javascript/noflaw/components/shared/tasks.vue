@@ -21,9 +21,6 @@ export default {
   computed: {
     ...mapGetters(['tasks','categories','getPair'])
   },
-  mounted() {
-    this.getTasks()
-  },
   methods: {
     ...mapActions(['getTasks','setIssuedTask'])
   }
